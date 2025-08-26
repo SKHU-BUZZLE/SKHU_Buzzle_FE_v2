@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+/* === Tailwind v4 테마 설정 === */
+@theme {
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --spacing: 0.0625rem;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Pretendard';
+    src: url('./assets/fonts/PretendardVariable.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  html {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    word-break: keep-all;
+    color: black;
+    background-color: white;
+  }
+}
