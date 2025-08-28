@@ -4,7 +4,6 @@ about: 작업 전 이슈를 생성합니다.
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ### ⛳️ 목표

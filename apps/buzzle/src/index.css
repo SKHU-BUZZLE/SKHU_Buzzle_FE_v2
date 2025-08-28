@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source "../node_modules/@buzzle/design";
 
 /* === Tailwind v4 테마 설정 === */
 @theme {

@@ -6,6 +6,10 @@ import { defineConfig, type PluginOption } from 'vite';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), visualizer() as PluginOption],
+  build: {
+    outDir: 'dist/docs',
+    emptyOutDir: true,
+  },
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, 'src') },
