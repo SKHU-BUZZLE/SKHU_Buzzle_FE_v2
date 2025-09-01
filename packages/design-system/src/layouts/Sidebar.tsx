@@ -15,7 +15,7 @@ export default function DesignSystemLayout() {
         </nav>
       </aside>
 
-      <main className='flex-1 p-[2rem]'>
+      <main className='min-w-0 flex-1 p-[2rem]'>
         <Outlet />
       </main>
     </div>
