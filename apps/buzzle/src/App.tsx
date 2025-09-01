@@ -1,4 +1,4 @@
-import { Test1, Test2, Test3 } from '@buzzle/design';
+import { Test1, Test2, Test3, Test4 } from '@buzzle/design';
 
 export default function App() {
   return (
@@ -7,6 +7,7 @@ export default function App() {
       <Test1 />
       <Test2 />
       <Test3 />
+      <Test4 />
     </div>
   );
 }
