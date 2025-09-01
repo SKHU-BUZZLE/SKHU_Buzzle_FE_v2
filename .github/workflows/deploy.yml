@@ -1,0 +1,120 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+# 중복 실행 방지 설정
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+# 보안 권한 설정
+permissions:
+  contents: read
+
+jobs:
+  filter:
+    name: 모노레포 변경 감지 (paths-filter)
+    runs-on: ubuntu-latest
+
+    outputs:
+      service: ${{ steps.filter.outputs.service }}
+      docs: ${{ steps.filter.outputs.docs }}
+
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 변경 경로 필터링
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            service:
+              - 'apps/buzzle/**'
+              - 'packages/design-system/src/components/**'
+            docs:
+              - 'packages/design-system/**'
+
+  deploy-service:
+    name: 서비스 배포 (apps/buzzle)
+    needs: filter
+    if: ${{ needs.filter.outputs.service == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: PNPM 설치
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+
+      - name: Node.js 설치 및 PNPM 캐시 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.0'
+          cache: 'pnpm'
+
+      - name: 의존성 설치
+        run: pnpm install
+
+      - name: 서비스 앱 빌드 (환경변수 주입)
+        run: pnpm build-web
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+          VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
+
+      - name: AWS 자격 증명 구성
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: S3 동기화 (서비스)
+        run: aws s3 sync apps/buzzle/dist/ s3://${{ secrets.SERVICE_BUCKET_NAME }} --delete
+
+      - name: CloudFront 캐시 무효화 (서비스)
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.SERVICE_CLOUDFRONT_ID }} --paths "/*"
+
+  deploy-docs:
+    name: 디자인 시스템 문서 배포 (docs)
+    needs: filter
+    if: ${{ needs.filter.outputs.docs == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: PNPM 설치
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+
+      - name: Node.js 설치 및 PNPM 캐시 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.0'
+          cache: 'pnpm'
+
+      - name: 의존성 설치
+        run: pnpm install
+
+      - name: 문서 빌드
+        run: pnpm build-docs
+
+      - name: AWS 자격 증명 구성
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: S3 동기화 (문서)
+        run: aws s3 sync packages/design-system/dist/docs/ s3://${{ secrets.DOCS_BUCKET_NAME }} --delete
+
+      - name: CloudFront 캐시 무효화 (문서)
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DOCS_CLOUDFRONT_ID }} --paths "/*"
