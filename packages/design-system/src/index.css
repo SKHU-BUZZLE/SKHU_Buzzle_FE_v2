@@ -3,9 +3,51 @@
 
 /* === Tailwind v4 테마 설정 === */
 @theme {
-  --color-black: #000000;
+  --color-black: #070707;
   --color-white: #ffffff;
   --spacing: 0.0625rem;
+
+  /* Black scale */
+  --color-black-50: #f7f7f7;
+  --color-black-100: #b5b5b5;
+  --color-black-200: #919191;
+  --color-black-300: #5f5f5f;
+  --color-black-400: #404040;
+  --color-black-500: #101010;
+  --color-black-600: #0f0f0f;
+  --color-black-700: #0b0b0b;
+  --color-black-800: #090909;
+  --color-black-900: #070707;
+
+  /* Dark mode black scale (dm-black) */
+  --color-dm-black-900: #101013;
+  --color-dm-black-800: #17171c;
+  --color-dm-black-700: #202027;
+  --color-dm-black-600: #2c2c35;
+  --color-dm-black-500: #3f3f4b;
+  --color-dm-black-400: #62626d;
+
+  /* White scale */
+  --color-white-50: #fdfdfd;
+  --color-white-100: #f7f7f7;
+  --color-white-200: #f4f4f4;
+  --color-white-300: #eeeeee;
+  --color-white-400: #ebebeb;
+  --color-white-500: #e6e6e6;
+  --color-white-600: #d1d1d1;
+  --color-white-700: #a3a3a3;
+  --color-white-800: #7f7f7f;
+  --color-white-900: #616161;
+
+  /* Accent */
+  --color-primary-500: #0656d7;
+  --color-primary-alpha: rgba(45, 101, 247, 0.1);
+
+  --color-correct-green-500: #15c47e;
+  --color-correct-green-alpha: rgba(21, 201, 127, 0.7);
+
+  --color-error-red-500: #f04452;
+  --color-error-red-alpha: rgba(240, 75, 75, 0.7);
 }
 
 @layer base {
