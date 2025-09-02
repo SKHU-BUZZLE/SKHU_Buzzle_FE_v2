@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   filter:
-    name: 모노레포 변경 감지 (paths-filter)
+    name: 모노레포 변경 감지
     runs-on: ubuntu-latest
 
     outputs:
