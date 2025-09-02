@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - develop
-    types: [opened, synchronize, closed]
+    types: [opened, synchronize]
 
 # 중복 실행 방지 설정
 concurrency:
@@ -108,22 +108,3 @@ jobs:
             } else {
               await github.rest.issues.createComment({ owner, repo, issue_number: prNumber, body });
             }
-
-  cleanup-preview:
-    name: 프리뷰 리소스 정리
-    needs: filter
-    if: ${{ needs.filter.outputs.service_changed == 'true' && github.event.action == 'closed' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: AWS 자격 증명 구성
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: S3 프리뷰 폴더 삭제
-        run: aws s3 rm s3://${{ secrets.SERVICE_BUCKET_NAME }}/preview/${{ github.event.number }}/ --recursive
-
-      - name: CloudFront 캐시 무효화 (프리뷰 경로만)
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.SERVICE_CLOUDFRONT_ID }} --paths "/preview/${{ github.event.number }}/*"
