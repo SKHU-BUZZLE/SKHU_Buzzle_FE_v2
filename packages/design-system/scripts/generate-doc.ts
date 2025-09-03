@@ -61,11 +61,11 @@ rl.question(
 
     const pascalName = toPascalCase(name);
 
-    // 0. 컴포넌트 파일 생성
+    // ---- 컴포넌트 파일 생성
     const componentDir = path.resolve(__dirname, `../src/components/${pascalName}`);
     const componentPath = path.join(componentDir, 'index.tsx');
 
-    // 폴더 생성 (이미 있으면 에러 안 나게 recursive: true 옵션)
+    // 동일명의 디렉토리가 이미 있으면 에러 안 나게 recursive: true 옵션
     fs.mkdirSync(componentDir, { recursive: true });
 
     const componentTemplate = `
@@ -106,18 +106,7 @@ export default function ${pascalName}Doc() {
       <MarkdownViewer content={description} />
 
       {/* 2️⃣ Props 스펙 */}
-      <PropsSpecTable
-        specs={[
-          {
-            propName: 'example',
-            type: ['string'],
-            description: 'prop에 대한 설명을 적어주세요.',
-            required: false,
-            defaultValue: '-',
-            options: [],
-          },
-        ]}
-      />
+      <PropsSpecTable specs={propsSpecs} />
 
       {/* 3️⃣ 실제 컴포넌트 */}
       <${pascalName} />
@@ -132,6 +121,17 @@ const description = \`
 ${pascalName} 컴포넌트입니다.  
 ~~이곳에 자유롭게 설명을 작성합니다.~~
 \`;
+
+const propsSpecs = [
+  {
+    propName: 'name',
+    type: ['string', 'number', 'boolean'],
+    description: 'prop에 대한 설명을 적어주세요.',
+    required: true,
+    defaultValue: 'value',
+    options: ['1', '2', '3'],
+  },
+];
 `;
     fs.writeFileSync(filePath, template.trim());
     console.log(`✅ ${pascalName} 디자인 문서 생성 완료!`);
