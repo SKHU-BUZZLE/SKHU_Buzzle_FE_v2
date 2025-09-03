@@ -5,13 +5,10 @@ type Section = 'foundation' | 'component' | 'root';
 
 const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
   root: [{ label: 'Introduction', to: '/docs' }],
-  foundation: [
-    { label: 'Color', to: '/docs/foundation/Color' },
-    // 필요한 항목 추가...
-  ],
+  foundation: [{ label: 'Color', to: '/docs/foundation/Color' }],
   component: [
     { label: 'Button', to: '/docs/component/Button' },
-    // 필요한 항목 추가...
+    { label: 'Input', to: '/docs/component/Input' },
   ],
 };
 

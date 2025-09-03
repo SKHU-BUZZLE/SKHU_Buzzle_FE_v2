@@ -1,4 +1,4 @@
-import Button from '@/components/TestButton';
+import Button from '@/components/Button';
 import StatefulPlayground from '@/layouts/StatefulPlayground';
 
 const code = `

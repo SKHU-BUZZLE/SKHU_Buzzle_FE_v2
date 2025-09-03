@@ -1,12 +1,12 @@
+/* eslint-disable */
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import InputDoc from '@pages/components/InputDoc';
 
-import Layout from '@/layouts/Layout';
-import ButtonPlayground from '@/pages/ButtonPlayground';
 import ButtonDoc from '@/pages/components/ButtonDoc';
 import ColorDoc from '@/pages/foundations/ColorDoc';
-import ModalPlayground from '@/pages/ModalPlayground';
+
+import Layout from '@/layouts/Layout';
 import PlaygroundGuide from '@/pages/PlaygroundGuide';
-import TestPage from '@/pages/TestPage';
 
 const router = createBrowserRouter([
   {
@@ -33,23 +33,8 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <ButtonDoc /> },
           { path: 'Button', element: <ButtonDoc /> },
+          { path: 'Input', element: <InputDoc /> },
         ],
-      },
-      {
-        index: true,
-        element: <PlaygroundGuide />,
-      },
-      {
-        path: 'Test',
-        element: <TestPage />,
-      },
-      {
-        path: 'Button',
-        element: <ButtonPlayground />,
-      },
-      {
-        path: 'Modal',
-        element: <ModalPlayground />,
       },
     ],
   },

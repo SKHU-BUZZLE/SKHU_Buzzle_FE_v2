@@ -1,4 +1,4 @@
-import Button from '@/components/TestButton';
+import Button from '@/components/Button';
 import MarkdownViewer from '@/layouts/MarkdownViewer';
 import PropsSpecTable from '@/layouts/PropsSpecTable';
 import StatelessPlayground from '@/layouts/StatelessPlayground';
