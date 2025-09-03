@@ -16,7 +16,7 @@ type Spec =
   | { type: 'boolean'; propName: string; label?: string }
   | { type: 'handler'; propName: string; options: string[]; label?: string };
 
-interface PlaygroundProps<T extends object> {
+interface StatelessPlaygroundProps<T extends object> {
   /** 테스트할 실제 컴포넌트 */
   component: ComponentType<T>;
   /** 최초 미리보기할 props */
@@ -30,13 +30,13 @@ interface PlaygroundProps<T extends object> {
 }
 
 /** 어떤 컴포넌트도 받을 수 있도록 제네릭으로 선언 */
-export default function Playground<T extends object>({
+export default function StatelessPlayground<T extends object>({
   component,
   initialProps = {} as Record<string, Primitive>,
   specs,
   extraScope = {},
   mount,
-}: PlaygroundProps<T>) {
+}: StatelessPlaygroundProps<T>) {
   /** react-live에서 확인할 코드 */
   const [code, setCode] = useState<string>('');
   /** 선택된 or 초기 props */
@@ -59,9 +59,9 @@ export default function Playground<T extends object>({
     const val = componentProps[key];
 
     const wrapperClass = `flex flex-col md:flex-row gap-4`;
-    const labelClass = `text-black-300 w-96 mr-4 inline-flex items-center gap-1`;
-    const inputClass = `bg-white-200 flex-1 rounded-md px-12 py-4 text-black-600 `;
-    const optionClass = `mr-16 inline-flex items-center gap-4 cursor-pointer text-black-600`;
+    const labelClass = `text-black-300 w-1/4 mr-4 inline-flex items-center gap-1`;
+    const inputClass = `bg-white-100 flex-1 rounded-md px-12 py-4 text-black-600 font-mono focus:border-black-200 border border-white-200 focus:outline-0`;
+    const optionClass = `mr-16 inline-flex items-center gap-4 cursor-pointer text-black-600 font-mono`;
 
     switch (spec.type) {
       case 'text':
@@ -71,7 +71,7 @@ export default function Playground<T extends object>({
             <label className={labelClass}>{spec.label ?? key}</label>
             <input
               className={inputClass}
-              placeholder='이곳에 작성해주세요'
+              placeholder='테스트할 내용을 작성해주세요'
               type='text'
               value={String((val as string) ?? '')}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handlePropChange(key, e.target.value)}
@@ -195,17 +195,18 @@ export default function Playground<T extends object>({
 
   return (
     <LiveProvider code={code} language='tsx' scope={scope}>
-      <p className='text-black-300 font-bold'>👀 Preview</p>
-      <div className='bg-white-50 border-white-200 min-h-xl mb-4 flex flex-col items-center justify-center overflow-auto rounded-2xl border py-32'>
-        <LivePreview />
+      <div className='flex flex-col gap-24'>
+        <div className='bg-white-50 border-white-200 min-h-xl flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
+          <LivePreview />
+        </div>
+
+        <form className='flex w-full flex-col gap-24 md:gap-12'>{controlForm}</form>
+
+        <div className='flex flex-col gap-8'>
+          <LiveEditor className='rounded-2xl bg-[#0B1522] p-5 font-mono text-sm text-white' />
+          <LiveError className='text-error-red-500 mt-2 text-sm' />
+        </div>
       </div>
-
-      <p className='text-black-300 mt-32 mb-8 font-bold'>🕹️ Control Form</p>
-      <form className='mb-32 flex max-w-2xl flex-col gap-24 md:gap-12'>{controlForm}</form>
-
-      <p className='text-black-300 font-bold'>💻 Code</p>
-      <LiveEditor className='rounded-2xl bg-[#0B1522] p-4 font-mono text-sm text-white' />
-      <LiveError className='mt-2 text-sm text-red-500' />
     </LiveProvider>
   );
 }

@@ -1,10 +1,12 @@
-import Playground from '@layouts/Playground';
-
 import Button from '@/components/TestButton';
 import MarkdownViewer from '@/layouts/MarkdownViewer';
 import { PropsTable } from '@/layouts/PropsTable';
+import StatelessPlayground from '@/layouts/StatelessPlayground';
 
-const content = `이곳에 설명을 적습니다.`;
+const content = `
+테스트 버튼에 대한 디자인 문서입니다.  
+이렇게 적어도 됩니다.
+`;
 
 export default function ButtonDoc() {
   // handler들을 extraScope로 넘겨서 handler select로 연결할 수 있게 함
@@ -16,7 +18,7 @@ export default function ButtonDoc() {
 
   return (
     <div className='flex flex-col gap-12'>
-      <p className='text-black-600 text-3xl font-bold'>Title</p>
+      <p className='text-black-600 text-3xl font-bold'>Button</p>
 
       <p className='text-black-600 text-xl font-bold'>Description</p>
       <MarkdownViewer content={content} />
@@ -80,7 +82,7 @@ export default function ButtonDoc() {
       />
 
       <p className='text-black-600 text-xl font-bold'>Playground</p>
-      <Playground
+      <StatelessPlayground
         component={Button}
         extraScope={handlers}
         initialProps={{
@@ -98,6 +100,7 @@ export default function ButtonDoc() {
           { type: 'select', propName: 'round', options: ['rounded', 'circular', 'square'] },
           { type: 'boolean', propName: 'loading' },
           { type: 'boolean', propName: 'disabled' },
+          { type: 'text', propName: 'className', label: 'className' },
           {
             type: 'handler',
             propName: 'onClick',
