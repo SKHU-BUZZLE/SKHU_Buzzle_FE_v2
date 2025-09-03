@@ -156,7 +156,7 @@ const propsSpecs = [
       if (!routesFile.includes(importStatement)) {
         routesFile = routesFile.replace(
           /(import .*?;)(\s*import)/s, // 가장 위 import 블록 끝 직전에 삽입
-          `$1\n${importStatement}\n$2`,
+          `$1\n${importStatement}$2`,
         );
       }
 
