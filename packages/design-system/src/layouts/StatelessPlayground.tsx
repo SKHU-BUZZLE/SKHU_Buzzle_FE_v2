@@ -1,14 +1,16 @@
 import { type ChangeEvent, type ComponentType, useEffect, useMemo, useState } from 'react';
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
 
-/**
- * Stateless Playground
- * : control form에서 받은 값으로 JSX 문자열을 생성하여 react-live로 미리보기 합니다.
- */
-
 /** control form에서 입력 받은 값으로 다룰 수 있는 타입 */
 type Primitive = string | number | boolean;
-/** control form에 보여줄 props 스펙 */
+/**
+ * control form 구성 요소
+ * - `text`    : 문자열 입력
+ * - `number`  : 숫자 입력
+ * - `select`  : 옵션 선택
+ * - `boolean` : true/false 라디오
+ * - `handler` : 스코프 내 식별자(함수) 바인딩
+ */
 type Spec =
   | { type: 'text'; propName: string; label?: string }
   | { type: 'number'; propName: string; label?: string }
@@ -25,17 +27,54 @@ interface StatelessPlaygroundProps<T extends object> {
   specs: ReadonlyArray<Spec>;
   /** 핸들러 이름이 가리킬 실제 함수들 */
   extraScope?: Record<string, unknown>;
-  /** stateful 컴포넌트를 playground에서 쓰고 싶을 때 */
-  mount?: (compName: string, attrs: string) => string;
 }
 
-/** 어떤 컴포넌트도 받을 수 있도록 제네릭으로 선언 */
+/**
+ * StatelessPlayground
+ *
+ * `react-live` 기반의 **Stateless** 컴포넌트 프리뷰/편집 컴포넌트입니다.
+ * - `specs`를 기반으로 자동 생성된 **control form**을 통해 props 값을 실시간으로 편집할 수 있습니다.
+ * - `extraScope`를 통해 외부에서 정의한 **이벤트 핸들러나 유틸 함수**를 주입하여 테스트할 수 있습니다.
+ * - 간단한 props 조합 테스트나 시각적 확인에 적합하며, 상태 관리가 필요하다면 `StatefulPlayground`를 사용해야 합니다.
+ *
+ * @typeParam T - 테스트할 컴포넌트의 Props 객체 타입 (어떤 컴포넌트도 받을 수 있도록 제네릭으로 선언)
+ *
+ * @param props.component     - 미리보기 대상 실제 React 컴포넌트
+ * @param props.initialProps  - 초기 렌더 시 적용할 props 값(컨트롤 폼 기본값)
+ * @param props.specs         - 컨트롤 폼 스펙 목록 (각 prop의 입력 UI와 종류)
+ * @param props.extraScope    - `react-live` 실행 스코프에 주입할 추가 심볼 딕셔너리
+ *
+ * @example
+ * ```tsx
+ * import StatelessPlayground from '@/layouts/StatelessPlayground';
+ * import Button from '@/components/Button';
+ *
+ * const specs = [
+ *   { type: 'select',  propName: 'variant', options: ['primary', 'secondary'], label: 'Variant' },
+ *   { type: 'boolean', propName: 'disabled', label: 'Disabled' },
+ *   { type: 'text',    propName: 'children', label: 'Label' },
+ *   { type: 'handler', propName: 'onClick',  options: ['handleClick'], label: 'onClick' },
+ * ];
+ *
+ * function handleClick() { alert('clicked'); }
+ *
+ * export default function ButtonDoc() {
+ *   return (
+ *     <StatelessPlayground
+ *       component={Button}
+ *       initialProps={{ variant: 'primary', children: 'Click me' }}
+ *       specs={specs}
+ *       extraScope={{ handleClick }}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export default function StatelessPlayground<T extends object>({
   component,
   initialProps = {} as Record<string, Primitive>,
   specs,
   extraScope = {},
-  mount,
 }: StatelessPlaygroundProps<T>) {
   /** react-live에서 확인할 코드 */
   const [code, setCode] = useState<string>('');
@@ -183,8 +222,8 @@ export default function StatelessPlayground<T extends object>({
     const Comp: any = component; // component는 제네릭으로 일반 함수 타입으로 제한됨. 따라서 `.displayName`, `.name`과 같은 속성을 쓸 수 없기 때문에 any로 변환 후 사용
     const compName = (Comp as any).displayName || (Comp as any).name || 'Component'; // 컴포넌트 이름을 문자열로 추출
     const tag = attrs ? `<${compName} ${attrs} />` : `<${compName} />`;
-    setCode(mount ? mount(compName, attrs) : tag); // mount라면 최종 태그를 감싸거나 바꾸는 문자열 훅 적용
-  }, [component, componentProps, handlerKeys, mount]);
+    setCode(tag);
+  }, [component, componentProps, handlerKeys]);
 
   /** react-live 실행 환경에서 제한할 스코프 범위 설정. 스코프는 변하지 않기 때문에 useMemo로 처리 */
   const scope = useMemo(() => {
