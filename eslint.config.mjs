@@ -9,7 +9,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   // 0) 전역 무시
-  { ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.d.ts'] },
+  { ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.d.ts', 'packages/design-system/scripts/**'] },
 
   // 1) JS 권장(전역)
   js.configs.recommended,
