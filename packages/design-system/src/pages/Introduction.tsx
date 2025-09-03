@@ -141,11 +141,12 @@ export default function ButtonDoc() {
 ### 3-2) StatelessPlayground
 
 - \`specs\`를 기반으로 자동 생성된 **control form**을 통해 props 값을 실시간으로 편집할 수 있습니다. 
+  - _\`specs\`은 식별 유니온 타입이기 때문에 아래 예시처럼 별도의 상수로 사용하는 경우 \`satisfies ReadonlyArray<Spec>\`으로 리터럴 타입을 유지시켜야 합니다._
 - \`extraScope\`를 통해 외부에서 정의한 **이벤트 핸들러나 유틸 함수**를 주입하여 테스트할 수 있습니다.  
 - 간단한 props 조합 테스트나 시각적 확인에 적합하며, 상태 관리가 필요하다면 \`StatefulPlayground\`를 사용해야 합니다.
 
 \`\`\`tsx
-import StatelessPlayground from '@/layouts/StatelessPlayground';
+import StatelessPlayground, { type Spec } from '@/layouts/StatelessPlayground';
 import Button from '@/components/Button';
 
 const specs = [
@@ -153,7 +154,7 @@ const specs = [
   { type: 'boolean', propName: 'disabled', label: 'Disabled' },
   { type: 'text',    propName: 'children', label: 'Label' },
   { type: 'handler', propName: 'onClick',  options: ['handleClick'], label: 'onClick' },
-];
+] satisfies ReadonlyArray<Spec>;
 
 function handleClick() { alert('clicked'); }
 

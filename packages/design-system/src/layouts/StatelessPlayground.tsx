@@ -11,7 +11,7 @@ type Primitive = string | number | boolean;
  * - `boolean` : true/false 라디오
  * - `handler` : 스코프 내 식별자(함수) 바인딩
  */
-type Spec =
+export type Spec =
   | { type: 'text'; propName: string; label?: string }
   | { type: 'number'; propName: string; label?: string }
   | { type: 'select'; propName: string; options: string[]; label?: string }
@@ -34,6 +34,8 @@ interface StatelessPlaygroundProps<T extends object> {
  *
  * `react-live` 기반의 **Stateless** 컴포넌트 프리뷰/편집 컴포넌트입니다.
  * - `specs`를 기반으로 자동 생성된 **control form**을 통해 props 값을 실시간으로 편집할 수 있습니다.
+ *   - `specs`은 식별 유니온 타입이기 때문에 아래 예시처럼 별도의 상수로 사용하는 경우 `satisfies ReadonlyArray<Spec>`으로 리터럴 타입을 유지시켜야 합니다.
+ *   - 프로퍼티에 바로 사용하는 경우에는 `satisfies ReadonlyArray<Spec>`을 생략해도 됩니다.
  * - `extraScope`를 통해 외부에서 정의한 **이벤트 핸들러나 유틸 함수**를 주입하여 테스트할 수 있습니다.
  * - 간단한 props 조합 테스트나 시각적 확인에 적합하며, 상태 관리가 필요하다면 `StatefulPlayground`를 사용해야 합니다.
  *
@@ -46,7 +48,7 @@ interface StatelessPlaygroundProps<T extends object> {
  *
  * @example
  * ```tsx
- * import StatelessPlayground from '@/layouts/StatelessPlayground';
+ * import StatelessPlayground, { type Spec } from '@/layouts/StatelessPlayground';
  * import Button from '@/components/Button';
  *
  * const specs = [
@@ -54,7 +56,7 @@ interface StatelessPlaygroundProps<T extends object> {
  *   { type: 'boolean', propName: 'disabled', label: 'Disabled' },
  *   { type: 'text',    propName: 'children', label: 'Label' },
  *   { type: 'handler', propName: 'onClick',  options: ['handleClick'], label: 'onClick' },
- * ];
+ * ] satisfies ReadonlyArray<Spec>;
  *
  * function handleClick() { alert('clicked'); }
  *
