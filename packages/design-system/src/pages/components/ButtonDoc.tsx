@@ -1,6 +1,6 @@
 import Button from '@/components/TestButton';
 import MarkdownViewer from '@/layouts/MarkdownViewer';
-import { PropsTable } from '@/layouts/PropsTable';
+import PropsSpecTable from '@/layouts/PropsSpecTable';
 import StatelessPlayground from '@/layouts/StatelessPlayground';
 
 const content = `
@@ -24,7 +24,7 @@ export default function ButtonDoc() {
       <MarkdownViewer content={content} />
 
       <p className='text-black-600 text-xl font-bold'>Props</p>
-      <PropsTable
+      <PropsSpecTable
         specs={[
           {
             type: ['string', 'number', 'boolean'],
