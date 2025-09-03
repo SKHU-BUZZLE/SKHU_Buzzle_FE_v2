@@ -17,7 +17,8 @@
     "build-docs": "pnpm --filter @buzzle/design build",
     "preview": "pnpm -r --parallel run preview",
     "preview-web": "pnpm --filter buzzle preview",
-    "preview-docs": "pnpm --filter @buzzle/design preview"
+    "preview-docs": "pnpm --filter @buzzle/design preview",
+    "generate-doc": "pnpm --filter @buzzle/design generate-doc"
   },
   "keywords": [],
   "author": "",
