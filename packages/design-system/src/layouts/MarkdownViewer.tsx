@@ -38,7 +38,7 @@ import remarkGfm from 'remark-gfm';
  */
 export default function MarkdownViewer({ content }: { content: string }) {
   return (
-    <div className='prose text-black-300 max-w-none min-w-0'>
+    <div className='prose dark:prose-invert max-w-none min-w-0'>
       <Markdown rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]} remarkPlugins={[remarkGfm]}>
         {content.trim()}
       </Markdown>

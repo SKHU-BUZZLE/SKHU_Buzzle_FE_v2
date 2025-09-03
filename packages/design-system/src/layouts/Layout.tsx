@@ -4,13 +4,13 @@ import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
   return (
-    <div className='bg-white-50 relative flex min-h-screen flex-col'>
+    <div className='relative flex min-h-screen flex-col'>
       <header className='sticky top-0'>
         <Navbar />
       </header>
 
       <div className='flex flex-1'>
-        <aside className='border-white-300 w-[15vw] border-r'>
+        <aside className='border-surface w-[15vw] border-r'>
           <Sidebar />
         </aside>
 

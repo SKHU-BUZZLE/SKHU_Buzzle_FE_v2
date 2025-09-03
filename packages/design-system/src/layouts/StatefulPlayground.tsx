@@ -58,7 +58,7 @@ export default function StatefulPlayground({ code, extraScope = {} }: { code: st
         </div>
 
         <div className='flex flex-col gap-8'>
-          <LiveEditor className='rounded-2xl bg-[#0B1522] p-5 font-mono text-sm text-white' />
+          <LiveEditor className='rounded-2xl bg-[#011627] p-5 font-mono text-sm text-white' />
           <LiveError className='text-error-red-500 mt-2 text-sm' />
         </div>
       </div>

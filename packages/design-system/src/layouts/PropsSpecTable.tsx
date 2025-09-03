@@ -17,8 +17,8 @@ interface PropSpec {
   options?: string[];
 }
 
-const thClass = `text-black-600 font-bold py-8`;
-const tdClass = `font-mono text-black-300 py-8`;
+const thClass = `text-title font-bold py-8`;
+const tdClass = `font-mono text-body py-8`;
 
 /**
  * PropsSpecTable
@@ -56,7 +56,7 @@ const tdClass = `font-mono text-black-300 py-8`;
  */
 export default function PropsSpecTable({ specs }: { specs: PropSpec[] }) {
   return (
-    <div className='border-white-200 overflow-x-auto rounded-2xl border px-16 py-12'>
+    <div className='border-surface overflow-x-auto rounded-2xl border px-16 py-12'>
       <table className='w-full [&_tbody>tr>td:not(:first-child)]:pl-48 [&_thead>tr>th:not(:first-child)]:pl-48'>
         <thead>
           <tr className='text-left'>
@@ -67,7 +67,7 @@ export default function PropsSpecTable({ specs }: { specs: PropSpec[] }) {
             <th className={thClass}>Description</th>
           </tr>
         </thead>
-        <tbody className='divide-white-200 divide-y text-sm'>
+        <tbody className='divide-white-300 dark:divide-dm-black-700 divide-y text-sm'>
           {specs.map((s) => (
             <tr key={s.propName}>
               <td className={`${tdClass} whitespace-nowrap`}>
@@ -77,24 +77,24 @@ export default function PropsSpecTable({ specs }: { specs: PropSpec[] }) {
               <td className={tdClass}>
                 <div className='flex flex-wrap gap-6'>
                   {s.type.map((t) => (
-                    <span key={t} className='bg-white-100 inline-block rounded px-8 py-2 font-mono'>
+                    <span key={t} className='bg-surface-muted inline-block rounded px-8 py-2 font-mono'>
                       {t}
                     </span>
                   ))}
                 </div>
               </td>
-              <td className={tdClass}>{s.defaultValue ?? <span className='text-black-100'>-</span>}</td>
+              <td className={tdClass}>{s.defaultValue ?? <span className='text-caption'>-</span>}</td>
               <td className={tdClass}>
                 <div className='flex flex-wrap gap-6'>
                   {s.options?.map((o) => (
-                    <span key={o} className='bg-white-100 inline-block rounded px-8 py-2 font-mono'>
+                    <span key={o} className='bg-surface-muted inline-block rounded px-8 py-2 font-mono'>
                       {o}
                     </span>
                   ))}
-                  {!s.options && <span className='text-black-100'>-</span>}
+                  {!s.options && <span className='text-caption'>-</span>}
                 </div>
               </td>
-              <td className={tdClass}>{s.description ?? <span className='text-black-100'>-</span>}</td>
+              <td className={tdClass}>{s.description ?? <span className='text-caption'>-</span>}</td>
             </tr>
           ))}
         </tbody>

@@ -98,9 +98,9 @@ export default function StatelessPlayground<T extends object>({
     const val = componentProps[key];
 
     const wrapperClass = `flex flex-col md:flex-row gap-4`;
-    const labelClass = `text-black-300 w-1/4 mr-4 inline-flex items-center gap-1`;
-    const inputClass = `bg-white-100 flex-1 rounded-md px-12 py-4 text-black-600 font-mono focus:border-black-200 border border-white-200 focus:outline-0`;
-    const optionClass = `mr-16 inline-flex items-center gap-4 cursor-pointer text-black-600 font-mono`;
+    const labelClass = `text-body w-1/4 mr-4 inline-flex items-center gap-1`;
+    const inputClass = `bg-surface-muted flex-1 rounded-md px-12 py-4 text-title font-mono border border-surface focus-border-surface focus:outline-0`;
+    const optionClass = `mr-16 inline-flex items-center gap-4 cursor-pointer text-title font-mono`;
 
     switch (spec.type) {
       case 'text':
@@ -235,14 +235,14 @@ export default function StatelessPlayground<T extends object>({
   return (
     <LiveProvider code={code} language='tsx' scope={scope}>
       <div className='flex flex-col gap-24'>
-        <div className='bg-white-50 border-white-200 min-h-xl flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
+        <div className='bg-surface border-surface min-h-xl flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
           <LivePreview />
         </div>
 
         <form className='flex w-full flex-col gap-24 md:gap-12'>{controlForm}</form>
 
         <div className='flex flex-col gap-8'>
-          <LiveEditor className='rounded-2xl bg-[#0B1522] p-5 font-mono text-sm text-white' />
+          <LiveEditor className='rounded-2xl bg-[#011627] p-5 font-mono text-sm text-white' />
           <LiveError className='text-error-red-500 mt-2 text-sm' />
         </div>
       </div>
