@@ -8,7 +8,7 @@ export default function MarkdownViewer({ content }: { content: string }) {
   return (
     <div className='prose text-black-300 mb-24 max-w-none min-w-0'>
       <Markdown rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]} remarkPlugins={[remarkGfm]}>
-        {content}
+        {content.trim()}
       </Markdown>
     </div>
   );
