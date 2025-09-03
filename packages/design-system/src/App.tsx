@@ -1,5 +1,16 @@
-function App() {
-  return <h1>Design System</h1>;
+import { Test1, Test2, Test3, Test4, Test5 } from '@components';
+
+export default function App() {
+  return (
+    <div>
+      <h1 className='text-center text-3xl font-bold'>디자인 문서</h1>
+      <Test1 />
+      <Test2 />
+      <Test3 />
+      <Test4 />
+      <Test5 />
+    </div>
+  );
 }
 
 export default App;
