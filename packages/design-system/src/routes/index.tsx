@@ -6,7 +6,7 @@ import ButtonDoc from '@/pages/components/ButtonDoc';
 import ColorDoc from '@/pages/foundations/ColorDoc';
 
 import Layout from '@/layouts/Layout';
-import PlaygroundGuide from '@/pages/PlaygroundGuide';
+import Introduction from '@/pages/Introduction';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       // /docs
-      { index: true, element: <PlaygroundGuide /> },
+      { index: true, element: <Introduction /> },
       // /docs/foundation/*
       {
         path: 'foundation',
