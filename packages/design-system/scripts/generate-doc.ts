@@ -19,11 +19,38 @@ function toPascalCase(str: string) {
 }
 
 rl.question(
-  `문서화할 컴포넌트 이름을 적어주세요. (예: Button)
-⚠️  컴포넌트명은 대문자로 시작해야 합니다.
-⚠️  컴포넌트 이름이 중복되면 기존 작업 내용에 덮어씌워질 수 있습니다. 겹치는 이름이 없는지 확인해주세요.
+  `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    _____  _     _  ______  ______  _       ______   
+   |  ___ \| |   | ||___  / |___  / | |     |  ____|  
+   | |__) | |   | |   / /     / /  | |     | |      
+   |  __ <| |   | |  / /     / /   | |     |  __|   
+   | |__) | |___| | / /__   / /__  | |____ | |____  
+   |______/ \_____/ /_____| /_____| |______||______| 
 
-컴포넌트 이름:`,
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ 아래 5가지를 자동으로 처리해드릴게요!
+  1) 컴포넌트 생성 
+     └ 디렉토리 + index.tsx 조합으로 생성됩니다.
+  2) 컴포넌트 Export 
+     └ components/index.ts에 barrel export 방식으로 추가됩니다.
+  3) 디자인 문서 생성 및 템플릿 제공
+     ├─ a. 제목 및 컴포넌트 설명 (필수)
+     ├─ b. Props 스펙 설명 (Props가 있다면 필수)
+     ├─ c. 실제 컴포넌트 (선택, 개발 공간)
+     └─ d. 미리보기(Playground) (선택, StatelessPlayground / StatefulPlayground)
+  4) 디자인 문서 라우트 등록
+  5) 사이드바에 디자인 문서 링크 추가
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  컴포넌트명은 반드시 "대문자"로 시작해야 합니다.
+⚠️  동일한 이름이 있으면 기존 작업이 덮어씌워집니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👉 문서화할 컴포넌트 이름을 입력해주세요. (예: Button): `,
   (input) => {
     const name = input.trim();
     if (!name) {
@@ -47,7 +74,7 @@ rl.question(
     }
     `;
     fs.writeFileSync(componentPath, componentTemplate.trim());
-    console.log(`✅ ${pascalName} 컴포넌트 생성 완료!`);
+    console.log(`\n✅ ${pascalName} 컴포넌트 생성 완료!`);
 
     // ---- 컴포넌트 Export
     const exportPath = path.resolve(__dirname, '../src/components/index.ts');
@@ -68,12 +95,44 @@ rl.question(
     // ---- 디자인 문서 생성
     const filePath = path.resolve(__dirname, `../src/pages/components/${pascalName}Doc.tsx`);
     const template = `
-    import ${pascalName} from '@/components/${pascalName}';
+import ${pascalName} from '@/components/${pascalName}';
+import MarkdownViewer from '@/layouts/MarkdownViewer';
+import PropsSpecTable from '@/layouts/PropsSpecTable';
 
-    export default function ${pascalName}Doc() {
-      return <${pascalName}></${pascalName}>;
-    }
-    `;
+export default function ${pascalName}Doc() {
+  return (
+    <div className='flex flex-col gap-20'>
+      {/* 1️⃣ 제목 & 설명 */}
+      <MarkdownViewer content={description} />
+
+      {/* 2️⃣ Props 스펙 */}
+      <PropsSpecTable
+        specs={[
+          {
+            propName: 'example',
+            type: ['string'],
+            description: 'prop에 대한 설명을 적어주세요.',
+            required: false,
+            defaultValue: '-',
+            options: [],
+          },
+        ]}
+      />
+
+      {/* 3️⃣ 실제 컴포넌트 */}
+      <${pascalName} />
+
+      {/* 4️⃣ 미리보기 (선택) : StatelessPlayground / StatefulPlayground */}
+    </div>
+  );
+}
+
+const description = \`
+# ${pascalName}
+${pascalName} 컴포넌트입니다.  
+~~이곳에 자유롭게 설명을 작성합니다.~~
+\`;
+`;
     fs.writeFileSync(filePath, template.trim());
     console.log(`✅ ${pascalName} 디자인 문서 생성 완료!`);
 
@@ -133,12 +192,12 @@ rl.question(
           insertion = `  ${newNavItemObj},\n`;
 
           const before = sidebarFile.slice(0, closeIdx);
-          const after = sidebarFile.slice(closeIdx); // ']' 포함
+          const after = sidebarFile.slice(closeIdx);
 
           sidebarFile = before + insertion + after;
 
           fs.writeFileSync(sidebarPath, sidebarFile, 'utf-8');
-          console.log(`✅ Sidebar에 '${pascalName}' Nav 링크 추가 완료!`);
+          console.log(`✅ 사이드바에 '${pascalName}' 링크 추가 완료!`);
         }
       }
     }

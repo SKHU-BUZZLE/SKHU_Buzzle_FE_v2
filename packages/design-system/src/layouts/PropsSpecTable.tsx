@@ -47,6 +47,7 @@ export default function PropsSpecTable({ specs }: { specs: PropSpec[] }) {
                       {o}
                     </span>
                   ))}
+                  {!s.options && <span className='text-black-100'>-</span>}
                 </div>
               </td>
               <td className={tdClass}>{s.description ?? <span className='text-black-100'>-</span>}</td>
