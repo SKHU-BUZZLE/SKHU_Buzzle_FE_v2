@@ -7,6 +7,7 @@ export default function App() {
       <Test1 />
       <Test2 />
       <Test3 />
+      프리뷰 테스트 입니다!
     </div>
   );
 }
