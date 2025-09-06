@@ -1,12 +1,10 @@
-/* eslint-disable */
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+
+import Layout from '@layouts/Layout';
+import ButtonDoc from '@pages/components/ButtonDoc';
 import InputDoc from '@pages/components/InputDoc';
-
-import ButtonDoc from '@/pages/components/ButtonDoc';
-import ColorDoc from '@/pages/foundations/ColorDoc';
-
-import Layout from '@/layouts/Layout';
-import Introduction from '@/pages/Introduction';
+import ColorDoc from '@pages/foundations/ColorDoc';
+import Introduction from '@pages/Introduction';
 
 const router = createBrowserRouter([
   {
