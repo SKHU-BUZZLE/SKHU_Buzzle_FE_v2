@@ -95,16 +95,15 @@ jobs:
             const prNumber = context.issue.number;
             const sha = context.payload.pull_request.head.sha.slice(0,7);
             const previewUrl = `https://buzzle.online/${{ steps.vars.outputs.TARGET_PATH }}`;
+
             const body = `✅ **Buzzle 서비스 프리뷰 배포 완료!**\n\n` +
-                        `🔗 [프리뷰 열기](${previewUrl})\n` +
+                        `🔗 <a href="${previewUrl}" target="_blank" rel="noopener noreferrer">프리뷰 열기</a>\n` +
                         `🧩 commit: \`${sha}\``;
 
-            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number: prNumber });
-            const mine = comments.find(c =>
-              c.user?.login === 'github-actions[bot]' && c.body?.includes('Buzzle 서비스 프리뷰 배포 완료')
-            );
-            if (mine) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: mine.id, body });
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number: prNumber, body });
-            }
+            // 2. 기존 댓글을 찾고 수정하는 로직을 제거하고, 항상 새 댓글을 작성하도록 변경했습니다.
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body
+            });
