@@ -1,4 +1,4 @@
-import MarkdownViewer from '@/layouts/MarkdownViewer';
+import MarkdownViewer from '@layouts/MarkdownViewer';
 
 const markdown = `
 # BUZZLE Design System

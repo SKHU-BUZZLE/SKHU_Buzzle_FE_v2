@@ -1,6 +1,6 @@
-import Input from '@/components/Input';
-import MarkdownViewer from '@/layouts/MarkdownViewer';
-import PropsSpecTable from '@/layouts/PropsSpecTable';
+import Input from '@components/Input';
+import MarkdownViewer from '@layouts/MarkdownViewer';
+import PropsSpecTable from '@layouts/PropsSpecTable';
 
 export default function InputDoc() {
   return (
