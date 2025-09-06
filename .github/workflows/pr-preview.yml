@@ -22,56 +22,20 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      service_changed: ${{ steps.set-output.outputs.service_changed }}
+      service_changed: ${{ steps.filter.outputs.service }}
 
     steps:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      # - name: 변경 경로 필터링
-      #   uses: dorny/paths-filter@v3
-      #   id: filter
-      #   with:
-      #     filters: |
-      #       service:
-      #         - 'apps/buzzle/**'
-      #         - 'packages/design-system/src/components/**'
-
-      # PR 전체 변경 기준 (opened / reopened)
-      - name: '변경 경로 필터링 (opened/reopened: PR 전체)'
-        if: ${{ github.event.action == 'opened' || github.event.action == 'reopened' }}
+      - name: 변경 경로 필터링
         uses: dorny/paths-filter@v3
-        id: filter_pr
+        id: filter
         with:
           filters: |
             service:
               - 'apps/buzzle/**'
               - 'packages/design-system/src/components/**'
-
-      # 마지막 푸시 변경 기준 (synchronize: before ↔ after)
-      - name: '변경 경로 필터링 (synchronize: 마지막 푸시만)'
-        if: ${{ github.event.action == 'synchronize' }}
-        uses: dorny/paths-filter@v3
-        id: filter_push
-        with:
-          base: ${{ github.event.before }} # 직전 HEAD
-          ref: ${{ github.event.after }} # 현재 HEAD
-          filters: |
-            service:
-              - 'apps/buzzle/**'
-              - 'packages/design-system/src/components/**'
-
-      # 공통 output 정리: 이벤트 타입에 따라 실제 실행된 스텝의 결과만 추려서 노출
-      - name: 출력 설정
-        id: set-output
-        run: |
-          if [ "${{ github.event.action }}" = "synchronize" ]; then
-            echo "service_changed=${{ steps.filter_push.outputs.service }}" >> $GITHUB_OUTPUT
-          else
-            echo "service_changed=${{ steps.filter_pr.outputs.service }}" >> $GITHUB_OUTPUT
-          fi
 
   deploy-preview:
     name: 프리뷰 배포 (apps/buzzle)
@@ -137,7 +101,6 @@ jobs:
                         `> 새 탭에서 열려면 **Ctrl + 클릭** (Mac: ⌘ + 클릭)\n\n` +
                         `🧩 commit: \`${sha}\``;
 
-            // 2. 기존 댓글을 찾고 수정하는 로직을 제거하고, 항상 새 댓글을 작성하도록 변경했습니다.
             await github.rest.issues.createComment({
               owner,
               repo,
