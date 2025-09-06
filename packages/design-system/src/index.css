@@ -154,6 +154,6 @@
   }
 
   .text-caption {
-    @apply text-black-100 dark:text-black-100;
+    @apply text-black-100 dark:text-white-100;
   }
 }
