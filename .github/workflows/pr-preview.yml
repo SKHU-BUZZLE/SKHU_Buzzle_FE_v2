@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      service_changed: ${{ steps.filter.outputs.service }}
+      service_changed: ${{ steps.set-output.outputs.service_changed }}
 
     steps:
       - name: 리포지토리 체크아웃
@@ -76,7 +76,7 @@ jobs:
   deploy-preview:
     name: 프리뷰 배포 (apps/buzzle)
     needs: filter
-    if: ${{ needs.filter.outputs.service_changed == 'true' && github.event.action != 'closed' }}
+    if: ${{ needs.filter.outputs.service_changed == 'true'}}
     runs-on: ubuntu-latest
     steps:
       - name: 리포지토리 체크아웃
