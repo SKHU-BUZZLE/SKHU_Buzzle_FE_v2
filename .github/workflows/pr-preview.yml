@@ -97,7 +97,7 @@ jobs:
             const previewUrl = `https://buzzle.online/${{ steps.vars.outputs.TARGET_PATH }}`;
 
             const body = `✅ **Buzzle 서비스 프리뷰 배포 완료!**\n\n` +
-                        `🔗 <a href="${previewUrl}" target="_blank" rel="noopener noreferrer">프리뷰 열기</a>\n` +
+                        `🔗 [프리뷰 열기](${previewUrl})\n` +
                         `🧩 commit: \`${sha}\``;
 
             // 2. 기존 댓글을 찾고 수정하는 로직을 제거하고, 항상 새 댓글을 작성하도록 변경했습니다.
