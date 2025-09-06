@@ -95,9 +95,9 @@ rl.question(
     // ---- 디자인 문서 생성
     const filePath = path.resolve(__dirname, `../src/pages/components/${pascalName}Doc.tsx`);
     const template = `
-import ${pascalName} from '@/components/${pascalName}';
-import MarkdownViewer from '@/layouts/MarkdownViewer';
-import PropsSpecTable from '@/layouts/PropsSpecTable';
+import ${pascalName} from '@components/${pascalName}';
+import MarkdownViewer from '@layouts/MarkdownViewer';
+import PropsSpecTable from '@layouts/PropsSpecTable';
 
 export default function ${pascalName}Doc() {
   return (

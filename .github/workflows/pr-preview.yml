@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - develop
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 # 중복 실행 방지 설정
 concurrency:
@@ -40,7 +40,7 @@ jobs:
   deploy-preview:
     name: 프리뷰 배포 (apps/buzzle)
     needs: filter
-    if: ${{ needs.filter.outputs.service_changed == 'true' && github.event.action != 'closed' }}
+    if: ${{ needs.filter.outputs.service_changed == 'true'}}
     runs-on: ubuntu-latest
     steps:
       - name: 리포지토리 체크아웃
@@ -95,16 +95,15 @@ jobs:
             const prNumber = context.issue.number;
             const sha = context.payload.pull_request.head.sha.slice(0,7);
             const previewUrl = `https://buzzle.online/${{ steps.vars.outputs.TARGET_PATH }}`;
+
             const body = `✅ **Buzzle 서비스 프리뷰 배포 완료!**\n\n` +
                         `🔗 [프리뷰 열기](${previewUrl})\n` +
+                        `> 새 탭에서 열려면 **Ctrl + 클릭** (Mac: ⌘ + 클릭)\n\n` +
                         `🧩 commit: \`${sha}\``;
 
-            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number: prNumber });
-            const mine = comments.find(c =>
-              c.user?.login === 'github-actions[bot]' && c.body?.includes('Buzzle 서비스 프리뷰 배포 완료')
-            );
-            if (mine) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: mine.id, body });
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number: prNumber, body });
-            }
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body
+            });

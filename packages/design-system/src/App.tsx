@@ -1,4 +1,4 @@
-import { Test1, Test2, Test3, Test4, Test5 } from '@components';
+import { Test1, Test2, Test3, Test4, Test5 } from '@components/index';
 
 export default function App() {
   return (
@@ -12,5 +12,3 @@ export default function App() {
     </div>
   );
 }
-
-export default App;

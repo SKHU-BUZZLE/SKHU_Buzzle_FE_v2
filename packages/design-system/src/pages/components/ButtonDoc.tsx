@@ -1,7 +1,7 @@
-import Button from '@/components/Button';
-import MarkdownViewer from '@/layouts/MarkdownViewer';
-import PropsSpecTable from '@/layouts/PropsSpecTable';
-import StatelessPlayground, { type Spec } from '@/layouts/StatelessPlayground';
+import Button from '@components/Button';
+import MarkdownViewer from '@layouts/MarkdownViewer';
+import PropsSpecTable from '@layouts/PropsSpecTable';
+import StatelessPlayground, { type Spec } from '@layouts/StatelessPlayground';
 
 export default function ButtonDoc() {
   // handler들을 extraScope로 넘겨서 handler select로 연결할 수 있게 함

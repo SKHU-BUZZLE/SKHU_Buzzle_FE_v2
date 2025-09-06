@@ -1,25 +1,25 @@
-import Button from '@/components/Button';
-import StatefulPlayground from '@/layouts/StatefulPlayground';
+import Button from '@components/Button';
+import StatefulPlayground from '@layouts/StatefulPlayground';
 
-const code = `
-function Component() {
-  const [count, setCount] = useState(0);
+// const code = `
+// function Component() {
+//   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    console.log("[log] count:", count);
-  }, [count]);
+//   useEffect(() => {
+//     console.log("[log] count:", count);
+//   }, [count]);
 
-  return (
-    <button
-      onClick={() => setCount(count + 1)}
-    >
-      Count: {count}
-    </button>
-  );
-}
+//   return (
+//     <button
+//       onClick={() => setCount(count + 1)}
+//     >
+//       Count: {count}
+//     </button>
+//   );
+// }
 
-render(<Component />);
-`;
+// render(<Component />);
+// `;
 
 const extraScopeCode = `
 function Component() {
