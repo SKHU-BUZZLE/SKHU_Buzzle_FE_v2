@@ -16,7 +16,8 @@ export default function IconsDoc() {
         {ICON_ITEMS.map(({ name, Component, className, props: iconProps }) => (
           <li key={name} className='flex min-h-32 flex-col items-center justify-center gap-4 rounded-2xl border p-6'>
             <Component className={className} {...iconProps} />
-            <span className='text-body font-mono'>{name}</span>
+            <span className='text-body-1'>{name}</span>
+            <span className='text-body-3'>{className}</span>
           </li>
         ))}
       </ul>
@@ -34,10 +35,12 @@ SVG를 기반으로 하며 Tailwind 유틸리티를 활용해 크기와 색상�
 ## 크기 (Size)
 - 기본 아이콘 크기를 size로 변환해 적용 해뒀습니다.
 - 다른 크기가 필요하면 \`className\`으로 \`size-*\` 유틸리티를 덮어쓰세요. 예: \`"size-24"\`.
+- 일부 비율이 맞지 않는 아이콘은 여백을 추가하여 비율을 맞춰두었습니다.
 
 ## 색상 (Color)
 - \`fill="currentColor"\`로 동작하므로 Tailwind의 \`text-*\` 유틸리티로 색상을 제어합니다.  
   예: \`"text-gray-900"\`, \`"text-primary-600"\`.
+- 단, **GoldMedalIcon, SilverMedalIcon, BronzeMedalIcon**은 색상이 고정되어 있으며, \`text-*\` 유틸리티로 색상 변경이 **불가능**합니다.
 
 ## 접근성 (A11y)
 - 장식용이면 \`aria-hidden\`을 전달하세요: \`<HomeIcon aria-hidden />\`
@@ -82,6 +85,214 @@ const ICON_ITEMS = [
     className: 'text-blue-500 size-40',
     props: {
       onClick: () => alert('유저 클릭!'),
+    },
+  },
+  {
+    name: 'MultiUserIcon',
+    Component: Icons.MultiUserIcon,
+    className: 'text-green-500 size-40',
+    props: {
+      onClick: () => alert('멀티유저 클릭!'),
+    },
+  },
+  {
+    name: 'RankingIcon',
+    Component: Icons.RankingIcon,
+    className: 'text-yellow-500 size-40',
+    props: {
+      onClick: () => alert('랭킹 클릭!'),
+    },
+  },
+  {
+    name: 'NoteIcon',
+    Component: Icons.NoteIcon,
+    className: 'text-purple-500 size-40',
+    props: {
+      onClick: () => alert('노트 클릭!'),
+    },
+  },
+  {
+    name: 'MedalIcon',
+    Component: Icons.MedalIcon,
+    className: 'text-pink-500 size-40',
+    props: {
+      onClick: () => alert('메달 클릭!'),
+    },
+  },
+  {
+    name: 'CalendarIcon',
+    Component: Icons.CalendarIcon,
+    className: 'text-indigo-500 size-40',
+    props: {
+      onClick: () => alert('캘린더 클릭!'),
+    },
+  },
+  {
+    name: 'HeartIcon',
+    Component: Icons.HeartIcon,
+    className: 'text-red-400 size-40',
+    props: {
+      onClick: () => alert('하트 클릭!'),
+    },
+  },
+  {
+    name: 'MoonIcon',
+    Component: Icons.MoonIcon,
+    className: 'text-gray-500 size-40',
+    props: {
+      onClick: () => alert('문 클릭!'),
+    },
+  },
+  {
+    name: 'SunIcon',
+    Component: Icons.SunIcon,
+    className: 'text-yellow-400 size-40',
+    props: {
+      onClick: () => alert('선 클릭!'),
+    },
+  },
+  {
+    name: 'BookIcon',
+    Component: Icons.BookIcon,
+    className: 'text-green-400 size-40',
+    props: {
+      onClick: () => alert('북 클릭!'),
+    },
+  },
+  {
+    name: 'EconomyIcon',
+    Component: Icons.EconomyIcon,
+    className: 'text-blue-400 size-40',
+    props: {
+      onClick: () => alert('이코노미 클릭!'),
+    },
+  },
+  {
+    name: 'ScienceIcon',
+    Component: Icons.ScienceIcon,
+    className: 'text-purple-400 size-40',
+    props: {
+      onClick: () => alert('사이언스 클릭!'),
+    },
+  },
+  {
+    name: 'CultureIcon',
+    Component: Icons.CultureIcon,
+    className: 'text-pink-400 size-40',
+    props: {
+      onClick: () => alert('컬쳐 클릭!'),
+    },
+  },
+  {
+    name: 'SportsIcon',
+    Component: Icons.SportsIcon,
+    className: 'text-red-400 size-40',
+    props: {
+      onClick: () => alert('스포츠 클릭!'),
+    },
+  },
+  {
+    name: 'HistoryIcon',
+    Component: Icons.HistoryIcon,
+    className: 'text-gray-400 size-40',
+    props: {
+      onClick: () => alert('히스토리 클릭!'),
+    },
+  },
+  {
+    name: 'NatureIcon',
+    Component: Icons.NatureIcon,
+    className: 'text-green-400 size-40',
+    props: {
+      onClick: () => alert('네이처 클릭!'),
+    },
+  },
+  {
+    name: 'TriviaIcon',
+    Component: Icons.TriviaIcon,
+    className: 'text-yellow-400 size-40',
+    props: {
+      onClick: () => alert('트리비아 클릭!'),
+    },
+  },
+  {
+    name: 'SuccessIcon',
+    Component: Icons.SuccessIcon,
+    className: 'text-green-400 size-40',
+    props: {
+      onClick: () => alert('성공 클릭!'),
+    },
+  },
+  {
+    name: 'ErrorIcon',
+    Component: Icons.ErrorIcon,
+    className: 'text-red-400 size-40',
+    props: {
+      onClick: () => alert('에러 클릭!'),
+    },
+  },
+  {
+    name: 'MinusIcon',
+    Component: Icons.MinusIcon,
+    className: 'text-gray-400 size-40',
+    props: {
+      onClick: () => alert('마이너스 클릭!'),
+    },
+  },
+  {
+    name: 'PlusIcon',
+    Component: Icons.PlusIcon,
+    className: 'text-gray-400 size-40',
+    props: {
+      onClick: () => alert('플러스 클릭!'),
+    },
+  },
+  {
+    name: 'LogoutIcon',
+    Component: Icons.LogoutIcon,
+    className: 'text-gray-400 size-40',
+    props: {
+      onClick: () => alert('로그아웃 클릭!'),
+    },
+  },
+  {
+    name: 'ChevronIcon',
+    Component: Icons.ChevronIcon,
+    className: 'text-gray-400 size-40',
+    props: {
+      onClick: () => alert('체브론 클릭!'),
+    },
+  },
+  {
+    name: 'CrownIcon',
+    Component: Icons.CrownIcon,
+    className: 'text-yellow-400 size-40',
+    props: {
+      onClick: () => alert('크라운 클릭!'),
+    },
+  },
+  {
+    name: 'GoldMedalIcon',
+    Component: Icons.GoldMedalIcon,
+    className: 'size-40',
+    props: {
+      onClick: () => alert('골드메달 클릭!'),
+    },
+  },
+  {
+    name: 'SilverMedalIcon',
+    Component: Icons.SilverMedalIcon,
+    className: 'size-40',
+    props: {
+      onClick: () => alert('실버메달 클릭!'),
+    },
+  },
+  {
+    name: 'BronzeMedalIcon',
+    Component: Icons.BronzeMedalIcon,
+    className: 'size-40',
+    props: {
+      onClick: () => alert('브론즈메달 클릭!'),
     },
   },
 ];
