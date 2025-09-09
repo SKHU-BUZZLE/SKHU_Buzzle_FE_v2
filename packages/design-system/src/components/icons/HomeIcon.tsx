@@ -30,7 +30,7 @@ import { twMerge } from 'tailwind-merge';
  * ```
  *
  * @param {string} [className] Tailwind 유틸리티 클래스. 예: `"size-24 text-gray-900"`.
- * @param {React.SVGProps<SVGSVGElement>} props 표준 SVG 속성(onClick, aria-*, data-*, tabIndex 등).
+ * @param {React.SVGProps<SVGSVGElement>} [props] 표준 SVG 속성(onClick, aria-*, data-*, tabIndex 등).
  * @returns {JSX.Element} SVG 아이콘 요소.
  */
 export default function HomeIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
