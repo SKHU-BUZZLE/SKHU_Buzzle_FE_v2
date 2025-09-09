@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import IconsDoc from '@pages/components/IconsDoc';
 
 import Layout from '@layouts/Layout';
 import ButtonDoc from '@pages/components/ButtonDoc';
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
           { index: true, element: <ButtonDoc /> },
           { path: 'Button', element: <ButtonDoc /> },
           { path: 'Input', element: <InputDoc /> },
+          { path: 'Icons', element: <IconsDoc /> },
         ],
       },
     ],

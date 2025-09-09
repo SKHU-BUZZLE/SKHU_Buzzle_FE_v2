@@ -9,7 +9,8 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
   component: [
     { label: 'Button', to: '/docs/component/Button' },
     { label: 'Input', to: '/docs/component/Input' },
-  ],
+    { label: 'Icons', to: '/docs/component/Icons' },
+],
 };
 
 /** 현재 URL 경로 중 해당하는 Section 타입(foundation | component | root)을 반환 */

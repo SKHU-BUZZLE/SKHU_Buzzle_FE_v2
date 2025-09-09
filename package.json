@@ -18,7 +18,8 @@
     "preview": "pnpm -r --parallel run preview",
     "preview-web": "pnpm --filter buzzle preview",
     "preview-docs": "pnpm --filter @buzzle/design preview",
-    "generate-doc": "pnpm --filter @buzzle/design generate-doc"
+    "generate-doc": "pnpm --filter @buzzle/design generate-doc",
+    "convert-to-webp": "pnpm --filter @buzzle/design convert-to-webp"
   },
   "keywords": [],
   "author": "",
