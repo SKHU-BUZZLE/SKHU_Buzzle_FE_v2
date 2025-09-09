@@ -1,4 +1,4 @@
-import { HomeIcon } from '@components/icons';
+import * as Icons from '@components/icons';
 import MarkdownViewer from '@layouts/MarkdownViewer';
 import PropsSpecTable from '@layouts/PropsSpecTable';
 
@@ -70,10 +70,18 @@ const propsSpecs = [
 const ICON_ITEMS = [
   {
     name: 'HomeIcon',
-    Component: HomeIcon,
+    Component: Icons.HomeIcon,
     className: 'text-red-500 size-40',
     props: {
       onClick: () => alert('홈 클릭!'),
+    },
+  },
+  {
+    name: 'UserIcon',
+    Component: Icons.UserIcon,
+    className: 'text-blue-500 size-40',
+    props: {
+      onClick: () => alert('유저 클릭!'),
     },
   },
 ];
