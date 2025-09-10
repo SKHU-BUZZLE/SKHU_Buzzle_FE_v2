@@ -90,9 +90,16 @@
   }
 
   .prose code:not(pre code):not(.not-prose code) {
-    background-color: #f4f4f5;
     padding: 0.2em 0.4em;
     border-radius: 0.25rem;
+  }
+
+  .prose code:not(pre code):not(.not-prose code) {
+    background-color: var(--color-white-300);
+  }
+
+  .dark .prose code:not(pre code):not(.not-prose code) {
+    background-color: var(--color-dm-black-600);
   }
 }
 
