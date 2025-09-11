@@ -8,7 +8,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label='하단 네비게이션'
-      className={`border-white-400 fixed bottom-0 left-1/2 z-50 w-full -translate-x-1/2 border-t bg-white text-sm ${LAYOUT_MAX_WIDTH} ${BOTTOM_NAV_HEIGHT}`}
+      className={`bg-surface border-surface fixed bottom-0 left-1/2 z-50 w-full -translate-x-1/2 border-t text-sm ${LAYOUT_MAX_WIDTH} ${BOTTOM_NAV_HEIGHT}`}
     >
       <div className='flex h-full items-center justify-around'>
         <NavLink className={linkClass} to='/home'>
