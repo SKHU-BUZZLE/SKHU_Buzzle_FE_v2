@@ -36,11 +36,12 @@ SVG를 기반으로 하며 Tailwind 유틸리티를 활용해 크기와 색상�
 - 기본 아이콘 크기를 size로 변환해 적용 해뒀습니다.
 - 다른 크기가 필요하면 \`className\`으로 \`size-*\` 유틸리티를 덮어쓰세요. 예: \`"size-24"\`.
 - 일부 비율이 맞지 않는 아이콘은 여백을 추가하여 비율을 맞춰두었습니다.
+- 단, **TextLogoIcon**은 고정된 크기(\`w-92\`)가 적용되어 있으며, \`w-*\` 유틸리티로 크기 변경이 **가능**합니다.
 
 ## 색상 (Color)
 - \`fill="currentColor"\`로 동작하므로 Tailwind의 \`text-*\` 유틸리티로 색상을 제어합니다.  
   예: \`"text-gray-900"\`, \`"text-primary-600"\`.
-- 단, **GoldMedalIcon, SilverMedalIcon, BronzeMedalIcon**은 색상이 고정되어 있으며, \`text-*\` 유틸리티로 색상 변경이 **불가능**합니다.
+- 단, **GoldMedalIcon, SilverMedalIcon, BronzeMedalIcon, TextLogoIcon**은 색상이 고정되어 있으며, \`text-*\` 유틸리티로 색상 변경이 **불가능**합니다.
 
 ## 접근성 (A11y)
 - 장식용이면 \`aria-hidden\`을 전달하세요: \`<HomeIcon aria-hidden />\`
@@ -293,6 +294,22 @@ const ICON_ITEMS = [
     className: 'size-40',
     props: {
       onClick: () => alert('브론즈메달 클릭!'),
+    },
+  },
+  {
+    name: 'DeleteIcon',
+    Component: Icons.DeleteIcon,
+    className: 'size-40',
+    props: {
+      onClick: () => alert('삭제 클릭!'),
+    },
+  },
+  {
+    name: 'TextLogoIcon',
+    Component: Icons.TextLogoIcon,
+    className: 'w-100',
+    props: {
+      onClick: () => alert('텍스트 로고 클릭!'),
     },
   },
 ];
