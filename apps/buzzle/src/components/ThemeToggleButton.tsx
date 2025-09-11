@@ -18,10 +18,12 @@ export default function ThemeToggleButton() {
 
   return (
     <button
-      className='bg-white-200 dark:bg-dm-black-600 size-32 cursor-pointer rounded-full hover:opacity-80'
+      className='bg-white-400 dark:bg-dm-black-600 size-31 cursor-pointer rounded-full hover:opacity-80'
       onClick={toggleTheme}
     >
-      <span className='flex items-center justify-center'>{theme === 'dark' ? <MoonIcon /> : <SunIcon />}</span>
+      <span className='flex items-center justify-center'>
+        {theme === 'dark' ? <MoonIcon className='text-black-100' /> : <SunIcon className='text-black-200' />}
+      </span>
     </button>
   );
 }
