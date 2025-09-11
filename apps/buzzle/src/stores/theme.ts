@@ -8,16 +8,21 @@ interface ThemeState {
 }
 
 const getInitialTheme = (): 'light' | 'dark' => {
-  // 로컬스토리지에 저장된 값 우선
-  const storage = localStorage.getItem('theme');
-  if (storage) {
-    const parsed = JSON.parse(storage);
-    const savedTheme = parsed?.state?.theme as 'light' | 'dark' | undefined;
-    if (savedTheme) return savedTheme;
+  // SSR, 프리렌더 환경 대비
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') return 'light';
+
+  try {
+    // 로컬스토리지에 저장된 값 우선
+    const storage = localStorage.getItem('theme');
+    if (storage) {
+      const saved = JSON.parse(storage)?.state?.theme as 'light' | 'dark' | undefined;
+      if (saved === 'light' || saved === 'dark') return saved;
+    }
+  } catch {
+    // 기본은 시스템 설정으로
   }
 
-  // 없으면 시스템 모드와 똑같게 설정
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
 export const useTheme = create<ThemeState>()(
