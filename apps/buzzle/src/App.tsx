@@ -1,4 +1,5 @@
 import { Test1, Test2, Test3 } from '@buzzle/design';
+import ThemeToggleButton from '@components/ThemeToggleButton';
 
 export default function App() {
   return (
@@ -8,6 +9,7 @@ export default function App() {
       <Test2 />
       <Test3 />
       프리뷰 테스트 입니다!
+      <ThemeToggleButton />
     </div>
   );
 }
