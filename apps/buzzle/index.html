@@ -3,15 +3,26 @@
   <head>
     <script>
       (() => {
-        // zustand persist로 저장해둔 값 읽기
-        const p = localStorage.getItem('theme');
-        // JSON 파싱 후 theme 값 꺼내기
-        const t =
-          (p && JSON.parse(p)?.state?.theme) ||
-          // 없으면 시스템 설정 확인
-          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        // 다크 모드면 <html>에 dark 클래스를 미리 붙임
-        if (t === 'dark') document.documentElement.classList.add('dark');
+        // 기본은 라이트모드
+        let t = 'light';
+        try {
+          // zustand persist로 저장해둔 값 읽기
+          const raw = localStorage.getItem('theme');
+          const saved = raw && JSON.parse(raw)?.state?.theme;
+          // 로컬 스토리지에 저장된 테마를 우선으로 하고, 첫 접속이라면 시스템 테마를 따라감
+          t =
+            saved === 'dark' || saved === 'light'
+              ? saved
+              : window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+        } catch {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        const root = document.documentElement;
+        // 테마 적용
+        root.classList.toggle('dark', t === 'dark');
+        root.style.colorScheme = t;
       })();
     </script>
     <meta charset="UTF-8" />
