@@ -1,6 +1,7 @@
 import * as Icons from '@components/icons';
 import MarkdownViewer from '@layouts/MarkdownViewer';
 import PropsSpecTable from '@layouts/PropsSpecTable';
+import StatefulPlayground from '@layouts/StatefulPlayground';
 
 export default function IconsDoc() {
   return (
@@ -22,7 +23,7 @@ export default function IconsDoc() {
         ))}
       </ul>
 
-      {/* 4️⃣ 미리보기 (선택) : StatelessPlayground / StatefulPlayground */}
+      <StatefulPlayground code={code} extraScope={{ Icons }} />
     </div>
   );
 }
@@ -313,3 +314,16 @@ const ICON_ITEMS = [
     },
   },
 ];
+
+const code = `
+function IconDemo() {
+  return (
+    // import 가 * as Icons로 되어있어서 테스트 할때만 Icons. 접두사를 붙혀주세요..! (서비스일땐 X)
+    <div className='flex flex-wrap gap-8'>
+      <Icons.DeleteIcon className="text-red-500 size-40" onClick={() => alert('삭제 클릭!')} />
+      <Icons.TextLogoIcon className="w-100" />
+    </div>
+  );
+}
+render(<IconDemo />);
+`;
