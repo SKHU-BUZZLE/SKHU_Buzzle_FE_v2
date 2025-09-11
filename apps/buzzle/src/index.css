@@ -125,6 +125,10 @@
     @apply bg-white-400 dark:bg-dm-black-800;
   }
 
+  .bg-backdrop {
+    @apply md:bg-white-300 dark:md:bg-dm-black-900;
+  }
+
   /* === Text Color === */
   .text-title {
     @apply text-black-600 dark:text-white-50;
@@ -136,5 +140,23 @@
 
   .text-caption {
     @apply text-black-100 dark:text-black-100;
+  }
+
+  /* === Layout Constants === */
+  .layout-max-width {
+    @apply max-w-768;
+  }
+
+  .layout-padding {
+    @apply px-16;
+  }
+
+  /* === Bottom Bar Constants (높이 수정시 전부 수정해야합니다.) === */
+  .bottom-nav-height {
+    @apply h-64;
+  }
+
+  .bottom-nav-padding {
+    @apply pb-64;
   }
 }
