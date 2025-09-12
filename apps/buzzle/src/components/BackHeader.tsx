@@ -30,7 +30,7 @@ function useBeforeUnloadGuard(preventBackNavigation: boolean) {
  *
  * @param {boolean} [props.preventBackNavigation=false] 라우터 전환 시 confirm으로 뒤로가기 차단 여부 (선택)
  * @param {string} [props.to="/"] 뒤로가기 아이콘 클릭 시 이동할 경로 (필수)
- * @param {ReactNode} [props.rightSlot] 헤더 우측에 렌더링할 요소 (선택)
+ * @param {ReactNode} [props.rightSlot] 헤더 우측에 렌더링할 요소 (필수)
  *
  * @example 1) 남은 하트 카운터 표시
  * <BackHeader
@@ -71,14 +71,17 @@ export default function BackHeader({ to = '/', preventBackNavigation = false, ri
   useBeforeUnloadGuard(preventBackNavigation);
 
   return (
-    <nav className='flex items-center justify-between gap-12 py-12'>
-      <ChevronIcon
+    <nav aria-label='뒤로가기 헤더' className='flex items-center justify-between gap-12 py-12'>
+      <button
         aria-label='뒤로가기'
-        className='text-black-300 dark:text-black-100 size-28 cursor-pointer'
+        className='cursor-pointer'
+        type='button'
         onClick={() => {
           navigate(to);
         }}
-      />
+      >
+        <ChevronIcon className='text-black-300 dark:text-black-100 size-28' />
+      </button>
       {rightSlot}
     </nav>
   );
