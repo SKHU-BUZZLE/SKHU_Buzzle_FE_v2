@@ -8,6 +8,22 @@ interface BackHeaderProps {
   rightSlot: ReactNode;
 }
 
+/** beforeunload 가드: 새로고침/탭닫기/주소창 이동 방지 (기본 확인창만 가능) */
+function useBeforeUnloadGuard(preventBackNavigation: boolean) {
+  useEffect(() => {
+    if (!preventBackNavigation) return;
+
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = ''; // 크롬 등에서 필수
+      return '';
+    };
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [preventBackNavigation]);
+}
+
 /** BackHeader
  * @description 뒤로가기를 할 수 있는 BackHeader 컴포넌트입니다.
  * @description 오른쪽에 들어올 아이템은 `rightSlot` prop을 통해 커스텀할 수 있습니다.
@@ -51,6 +67,8 @@ export default function BackHeader({ to = '/', preventBackNavigation = false, ri
       }
     }
   }, [blocker]);
+
+  useBeforeUnloadGuard(preventBackNavigation);
 
   return (
     <nav className='flex items-center justify-between gap-12 py-12'>
