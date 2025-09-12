@@ -1,4 +1,4 @@
-import { HeartIcon } from '../icons';
+import { HeartIcon } from '@components/icons';
 
 export default function LifeCounter({ life = 0 }: { life: number }) {
   return (
