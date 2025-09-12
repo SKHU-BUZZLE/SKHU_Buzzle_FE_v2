@@ -95,13 +95,13 @@
     @apply text-[1rem] font-bold md:text-[1.125rem]; /* 16px / 18px */
   }
   .text-body-1 {
-    @apply text-[0.875rem] font-bold md:text-[1rem]; /* 14px / 16px */
+    @apply text-[0.875rem] md:text-[1rem]; /* 14px / 16px */
   }
   .text-body-2 {
-    @apply text-[0.75rem] font-bold md:text-[0.875rem]; /* 12px / 14px */
+    @apply text-[0.75rem] md:text-[0.875rem]; /* 12px / 14px */
   }
   .text-body-3 {
-    @apply text-[0.75rem] font-bold md:text-[0.75rem]; /* 12px / 12px */
+    @apply text-[0.75rem] md:text-[0.75rem]; /* 12px / 12px */
   }
 
   /* === Background & Border Color === */
@@ -139,7 +139,7 @@
   }
 
   .text-caption {
-    @apply text-black-100 dark:text-white-100;
+    @apply text-black-100 dark:text-black-100;
   }
 
   /* === Layout Constants === */

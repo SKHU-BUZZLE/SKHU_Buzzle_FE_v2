@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import LifeCounterDoc from '@pages/components/LifeCounterDoc';
 import IconsDoc from '@pages/components/IconsDoc';
 
 import Layout from '@layouts/Layout';
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
           { path: 'Button', element: <ButtonDoc /> },
           { path: 'Input', element: <InputDoc /> },
           { path: 'Icons', element: <IconsDoc /> },
+          { path: 'LifeCounter', element: <LifeCounterDoc /> },
         ],
       },
     ],
