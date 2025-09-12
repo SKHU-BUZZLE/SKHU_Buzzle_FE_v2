@@ -1,3 +1,4 @@
+import HomeFrame from '@layouts/HomeFrame';
 import RootFrame from '@layouts/RootFrame';
 import HomePage from '@pages/home';
 import LoginPage from '@pages/login';
@@ -22,7 +23,6 @@ export const router = createBrowserRouter(
           element: <App />,
           children: [
             { index: true, element: <Navigate replace to='/home' /> },
-            { path: 'home', element: <HomePage /> },
             { path: 'single', element: <SinglePage /> },
             { path: 'multi', element: <MultiPage /> },
             { path: 'ranking', element: <RankingPage /> },
@@ -31,6 +31,7 @@ export const router = createBrowserRouter(
             { path: '*', element: <NotFoundPage /> },
           ],
         },
+        { element: <HomeFrame />, children: [{ path: 'home', element: <HomePage /> }] },
       ],
     },
   ],
