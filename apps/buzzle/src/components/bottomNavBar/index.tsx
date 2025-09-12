@@ -1,6 +1,7 @@
 // 임시 바텀바 입니다.
 import { HomeIcon, MultiUserIcon, NoteIcon, RankingIcon, UserIcon } from '@buzzle/design';
-import BottomNavItem from '@components/bottomNavBar/BottomNavItem';
+
+import BottomNavItem from './BottomNavItem';
 
 const navItems = [
   { to: '/home', Icon: HomeIcon, label: '홈' },
