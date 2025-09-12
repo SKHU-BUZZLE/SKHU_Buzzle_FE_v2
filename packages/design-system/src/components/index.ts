@@ -8,3 +8,4 @@ export { default as Test4 } from './Test4';
 export { default as Test5 } from './Test5';
 
 export * from './icons';
+export { default as LifeCounter } from './LifeCounter';
