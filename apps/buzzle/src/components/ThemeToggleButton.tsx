@@ -18,7 +18,7 @@ export default function ThemeToggleButton() {
 
   return (
     <button
-      className='bg-white-400 dark:bg-dm-black-600 size-31 cursor-pointer rounded-full hover:opacity-80'
+      className='bg-white-400 dark:bg-dm-black-600 size-35 cursor-pointer rounded-full hover:opacity-80'
       onClick={toggleTheme}
     >
       <span className='flex items-center justify-center'>
