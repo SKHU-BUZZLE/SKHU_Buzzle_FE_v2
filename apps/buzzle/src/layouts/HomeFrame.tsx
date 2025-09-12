@@ -1,4 +1,4 @@
-import BottomNav from '@components/BottomNav';
+import BottomNavBar from '@components/bottomNavBar';
 import HomeHeader from '@components/HomeHeader';
 import { Outlet } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ export default function HomeFrame() {
     <div className='bg-white-200 dark:bg-dm-black-800 layout-padding h-full w-full'>
       <HomeHeader />
       <Outlet />
-      <BottomNav />
+      <BottomNavBar />
     </div>
   );
 }
