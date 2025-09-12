@@ -5,7 +5,7 @@ import { useBlocker, useNavigate } from 'react-router-dom';
 interface BackHeaderProps {
   to: string;
   preventBackNavigation?: boolean;
-  rightSlot?: ReactNode;
+  rightSlot: ReactNode;
 }
 
 /** BackHeader
