@@ -40,7 +40,7 @@ const useBeforeUnloadGuard = (preventBackNavigation: boolean) => {
  *
  * @example 2) 삭제 버튼 표시
  * <BackHeader
- *   to="/note"
+ *   to="/review"
  *   preventBackNavigation
  *   rightSlot={
  *     <DeleteIcon

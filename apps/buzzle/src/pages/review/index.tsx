@@ -1,4 +1,4 @@
-export default function NotePage() {
+export default function ReviewPage() {
   return (
     <section className='space-y-8'>
       <h1 className='text-heading-2 text-title'>오답 노트</h1>

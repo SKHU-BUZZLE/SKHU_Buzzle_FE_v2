@@ -22,7 +22,7 @@ export default function BottomNav() {
         <NavLink className={linkClass} to='/ranking'>
           랭킹
         </NavLink>
-        <NavLink className={linkClass} to='/note'>
+        <NavLink className={linkClass} to='/review'>
           오답 노트
         </NavLink>
       </div>

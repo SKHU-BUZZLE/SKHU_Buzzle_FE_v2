@@ -4,8 +4,8 @@ import HomePage from '@pages/home';
 import LoginPage from '@pages/login';
 import MultiPage from '@pages/multi';
 import NotFoundPage from '@pages/not-found';
-import NotePage from '@pages/note';
 import RankingPage from '@pages/ranking';
+import ReviewPage from '@pages/review';
 import SinglePage from '@pages/single';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ export const router = createBrowserRouter(
             { path: 'single', element: <SinglePage /> },
             { path: 'multi', element: <MultiPage /> },
             { path: 'ranking', element: <RankingPage /> },
-            { path: 'note', element: <NotePage /> },
+            { path: 'review', element: <ReviewPage /> },
             { path: 'login', element: <LoginPage /> },
             { path: '*', element: <NotFoundPage /> },
           ],
