@@ -16,7 +16,7 @@ interface QuizOptionProps {
 
 const VARIANT_CLASSNAME = {
   default: 'bg-white-200 dark:bg-dm-black-600',
-  selected: 'bg-primary-alpha-10 dark:primary-alpha-20 text-primary-500',
+  selected: 'bg-primary-alpha-10 dark:bg-primary-alpha-20 text-primary-500',
   correct: 'bg-correct-green-alpha text-correct-green-500',
   incorrect: 'bg-error-red-alpha text-error-red-500',
 } as const;
@@ -72,6 +72,7 @@ export default function QuizOption({ option, variant = 'default', disabled = fal
         VARIANT_CLASSNAME[variant],
       )}
       disabled={disabled}
+      type='button'
       onClick={() => {
         // 눌린 선택지의 index를 외부로 반환
         if (index === undefined || index === null) return;
