@@ -51,7 +51,7 @@ function useBeforeUnloadGuard(preventBackNavigation: boolean) {
  * />
  *
  */
-export default function BackHeader({ to = '/', preventBackNavigation = false, rightSlot }: BackHeaderProps) {
+export default function BackHeader({ to, preventBackNavigation = false, rightSlot }: BackHeaderProps) {
   const navigate = useNavigate();
 
   // 현재 라우터에서 다른 모든 라우터로 이동을 차단
