@@ -22,13 +22,12 @@ export default function ProfileImage({ src, alt = '프로필 이미지', classNa
 
   return (
     <span
-      aria-label={alt}
+      {...(showFallback ? { role: 'img', 'aria-label': alt } : {})}
       className={twMerge(
         'bg-white-300 text-black-100 inline-flex aspect-square items-center justify-center overflow-hidden rounded-full',
         'size-32',
         className,
       )}
-      role='img'
     >
       {showFallback ? (
         <UserIcon aria-hidden='true' className='size-[62.5%]' />
