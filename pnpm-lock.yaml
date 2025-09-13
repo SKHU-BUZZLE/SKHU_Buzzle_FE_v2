@@ -102,8 +102,8 @@ importers:
         specifier: ^5.85.5
         version: 5.85.5(react@19.1.1)
       axios:
-        specifier: ^1.11.0
-        version: 1.11.0
+        specifier: ^1.12.0
+        version: 1.12.0
       motion:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -121,13 +121,13 @@ importers:
         version: 3.3.1
       zustand:
         specifier: ^5.0.8
-        version: 5.0.8(@types/react@19.1.12)(react@19.1.1)
+        version: 5.0.8(@types/react@19.1.13)(react@19.1.1)
 
   packages/design-system:
     dependencies:
       axios:
-        specifier: ^1.11.0
-        version: 1.11.0
+        specifier: ^1.12.0
+        version: 1.12.0
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
@@ -145,7 +145,7 @@ importers:
         version: 4.1.8(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react-markdown:
         specifier: ^10.1.0
-        version: 10.1.0(@types/react@19.1.12)(react@19.1.1)
+        version: 10.1.0(@types/react@19.1.13)(react@19.1.1)
       react-router-dom:
         specifier: ^7.8.2
         version: 7.8.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -1022,6 +1022,9 @@ packages:
   '@types/react@19.1.12':
     resolution: {integrity: sha512-cMoR+FoAf/Jyq6+Df2/Z41jISvGZZ2eTlnsaJRptmZ76Caldwy1odD4xTr/gNV9VLj0AWgg/nmkevIyUfIIq5w==}
 
+  '@types/react@19.1.13':
+    resolution: {integrity: sha512-hHkbU/eoO3EG5/MZkuFSKmYqPbSVk5byPFa3e7y/8TybHiLMACgI8seVYlicwk7H5K/rI2px9xrQp/C+AUDTiQ==}
+
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
@@ -1248,8 +1251,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.11.0:
-    resolution: {integrity: sha512-1Lx3WLFQWm3ooKDYZD1eXmoGO9fxYQjrycfHFC8P0sCfQVXyROp0p9PFWBehewBOdCwHc+f/b8I0fMto5eSfwA==}
+  axios@1.12.0:
+    resolution: {integrity: sha512-oXTDccv8PcfjZmPGlWsPSwtOJCZ/b6W5jAMCNcfwJbCzDckwG0jrYJFaWH1yvivfCXjVzV/SPDEhMB3Q+DSurg==}
 
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
@@ -4173,6 +4176,10 @@ snapshots:
     dependencies:
       csstype: 3.1.3
 
+  '@types/react@19.1.13':
+    dependencies:
+      csstype: 3.1.3
+
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
@@ -4473,7 +4480,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios@1.11.0:
+  axios@1.12.0:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.4
@@ -6278,11 +6285,11 @@ snapshots:
       sucrase: 3.35.0
       use-editable: 2.3.3(react@19.1.1)
 
-  react-markdown@10.1.0(@types/react@19.1.12)(react@19.1.1):
+  react-markdown@10.1.0(@types/react@19.1.13)(react@19.1.1):
     dependencies:
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      '@types/react': 19.1.12
+      '@types/react': 19.1.13
       devlop: 1.1.0
       hast-util-to-jsx-runtime: 2.3.6
       html-url-attributes: 3.0.1
@@ -7015,9 +7022,9 @@ snapshots:
 
   yocto-queue@1.2.1: {}
 
-  zustand@5.0.8(@types/react@19.1.12)(react@19.1.1):
+  zustand@5.0.8(@types/react@19.1.13)(react@19.1.1):
     optionalDependencies:
-      '@types/react': 19.1.12
+      '@types/react': 19.1.13
       react: 19.1.1
 
   zwitch@2.0.4: {}
