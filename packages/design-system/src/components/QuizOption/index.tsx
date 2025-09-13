@@ -2,10 +2,15 @@ import { ErrorIcon, SuccessIcon } from '@components/icons';
 import { twMerge } from 'tailwind-merge';
 
 interface QuizOptionProps {
+  /** 보기 텍스트 */
   option: string;
+  /** 보기의 상태 (기본, 선택됨, 정답, 오답) */
   variant?: Variant;
+  /** 보기 비활성화 여부 */
   disabled?: boolean;
+  /** 보기의 인덱스 */
   index?: number | undefined;
+  /** 클릭 시 호출되는 콜백. 눌린 보기의 인덱스를 반환 */
   onClick?: (index: number) => void;
 }
 
@@ -17,6 +22,37 @@ const VARIANT_CLASSNAME = {
 } as const;
 type Variant = keyof typeof VARIANT_CLASSNAME;
 
+/**
+ * QuizOption 컴포넌트
+ *
+ * - 객관식 퀴즈에서 하나의 선지(보기)를 렌더링합니다.
+ * - `variant`에 따라 기본, 선택됨, 정답, 오답 상태를 스타일링합니다.
+ * - `disabled` 상태일 경우 클릭할 수 없으며 흐리게 표시됩니다.
+ * - 클릭 시 `onClick` 콜백을 호출하여 현재 보기의 `index`를 외부로 전달합니다.
+ *
+ * @param {string} props.option - 보기 텍스트
+ * @param {'default' | 'selected' | 'correct' | 'incorrect'} [props.variant='default'] - 보기 상태
+ * @param {boolean} [props.disabled=false] - 보기 비활성화 여부
+ * @param {number} [props.index] - 보기의 인덱스 (클릭 시 외부로 전달)
+ * @param {(index: number) => void} [props.onClick] - 클릭 시 실행되는 콜백
+ *
+ * @example
+ * ```tsx
+ * <QuizOption
+ *   index={1}
+ *   option="정답입니다"
+ *   variant="correct"
+ *   onClick={(idx) => console.log('선택된 보기:', idx)}
+ * />
+ *
+ * <QuizOption
+ *   index={2}
+ *   option="오답입니다"
+ *   variant="incorrect"
+ *   disabled
+ * />
+ * ```
+ */
 export default function QuizOption({ option, variant = 'default', disabled = false, index, onClick }: QuizOptionProps) {
   let icon = null;
   switch (variant) {
