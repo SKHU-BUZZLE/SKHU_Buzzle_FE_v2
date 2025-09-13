@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import QuizOptionDoc from '@pages/components/QuizOptionDoc';
 import LifeCounterDoc from '@pages/components/LifeCounterDoc';
 import IconsDoc from '@pages/components/IconsDoc';
 
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
           { path: 'Input', element: <InputDoc /> },
           { path: 'Icons', element: <IconsDoc /> },
           { path: 'LifeCounter', element: <LifeCounterDoc /> },
+          { path: 'QuizOption', element: <QuizOptionDoc /> },
         ],
       },
     ],
