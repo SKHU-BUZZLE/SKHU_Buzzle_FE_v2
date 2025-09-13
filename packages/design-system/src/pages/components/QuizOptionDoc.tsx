@@ -96,7 +96,7 @@ const specs = [
     label: 'Option',
   },
   {
-    type: 'text',
+    type: 'number',
     propName: 'index',
     label: 'Index',
   },
