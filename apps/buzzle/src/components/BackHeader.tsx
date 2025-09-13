@@ -9,7 +9,7 @@ interface BackHeaderProps {
 }
 
 /** beforeunload 가드: 새로고침/탭닫기/주소창 이동 방지 (기본 확인창만 가능) */
-function useBeforeUnloadGuard(preventBackNavigation: boolean) {
+const useBeforeUnloadGuard = (preventBackNavigation: boolean) => {
   useEffect(() => {
     if (!preventBackNavigation) return;
 
@@ -22,7 +22,7 @@ function useBeforeUnloadGuard(preventBackNavigation: boolean) {
     window.addEventListener('beforeunload', onBeforeUnload);
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [preventBackNavigation]);
-}
+};
 
 /** BackHeader
  * @description 뒤로가기를 할 수 있는 BackHeader 컴포넌트입니다.
