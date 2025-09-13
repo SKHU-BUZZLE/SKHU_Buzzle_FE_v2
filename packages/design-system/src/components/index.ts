@@ -9,3 +9,4 @@ export { default as Test5 } from './Test5';
 
 export * from './icons';
 export { default as LifeCounter } from './LifeCounter';
+export { default as ProfileImage } from './ProfileImage';
