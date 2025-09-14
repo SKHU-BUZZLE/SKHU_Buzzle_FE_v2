@@ -42,7 +42,8 @@
 
   /* Accent */
   --color-primary-500: #0656d7;
-  --color-primary-alpha: rgba(6, 86, 215, 0.15);
+  --color-primary-alpha-10: rgba(6, 86, 215, 0.15);
+  --color-primary-alpha-20: rgba(6, 86, 215, 0.2);
 
   --color-correct-green-500: #15c47e;
   --color-correct-green-alpha: rgba(21, 196, 126, 0.15);
