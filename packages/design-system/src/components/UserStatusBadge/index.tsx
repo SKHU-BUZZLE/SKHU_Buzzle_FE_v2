@@ -45,7 +45,7 @@ const baseContainer =
  * <UserStatusBadge className="bg-primary-50 text-primary-700" label="내 점수" value={99} valueSuffix="점" />
  */
 export default function UserStatusBadge({ icon, label, value, valueSuffix, className }: UserStatusBadgeProps) {
-  const aria = `${label} ${value}${valueSuffix ?? ''}`;
+  const aria = `${label}: ${value}${valueSuffix ?? ''}`;
 
   return (
     <div aria-label={aria} className={twMerge(baseContainer, className)}>
