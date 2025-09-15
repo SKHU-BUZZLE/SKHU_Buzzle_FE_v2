@@ -1,7 +1,7 @@
 import { LoaderIcon } from '@components/icons';
+import getValidChildren from '@utils/getValidChildren';
+import isValidIcon from '@utils/isValidIcon';
 import { useState } from 'react';
-import getValidChildren from 'src/utils/getValidChildren';
-import isValidIcon from 'src/utils/isValidIcon';
 import { twMerge } from 'tailwind-merge';
 
 /** 버튼 스타일 맵 */
@@ -10,6 +10,11 @@ const VARIANT_STYLES = {
     lg: 'w-370 py-16 ds-typ-body-1',
     md: 'w-200 py-14 ds-typ-body-2 ',
     sm: 'w-140 py-10 ds-typ-body-2',
+  },
+  iconOnlySize: {
+    lg: 'w-fit p-12',
+    md: 'w-fit p-8',
+    sm: 'w-fit p-4',
   },
   round: {
     rounded: 'rounded-xl',
@@ -40,7 +45,7 @@ const VARIANT_STYLES = {
 interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick' | 'disabled' | 'className' | 'ref'> {
   /** 버튼 내부 콘텐츠 (문자열, span, p 태그만을 지원) */
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** 클릭 핸들러 */
   onClick: () => void;
   /** 버튼 스타일 */
@@ -63,6 +68,8 @@ interface ButtonProps
   rightIcon?: React.ReactNode;
   /** 버튼 스타일 확장용 className */
   className?: string;
+  /** 아이콘 전용 버튼 */
+  iconOnly?: boolean;
 }
 
 /**
@@ -87,6 +94,7 @@ interface ButtonProps
  * @param {React.ReactNode} [props.leftIcon] 왼쪽 아이콘
  * @param {React.ReactNode} [props.rightIcon] 오른쪽 아이콘
  * @param {string} [props.className] 버튼 스타일 확장용 className
+ * @param {string} [props.iconOnly] 아이콘 전용 버튼 여부
  *
  * @example 기본 사용
  * ```tsx
@@ -128,6 +136,7 @@ export default function Button({
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
   className,
+  iconOnly = false,
   ...props
 }: ButtonProps) {
   const [cooldown, setCooldown] = useState(false); // 클릭 쿨타임
@@ -161,7 +170,7 @@ export default function Button({
     'w-fit flex gap-8 flex-shrink-0 justify-center items-center leading-none cursor-pointer p-4',
     'disabled:cursor-not-allowed disabled:opacity-50',
     'enabled:hover:opacity-85 enabled:active:brightness-80',
-    size ? VARIANT_STYLES.size[size] : '',
+    iconOnly ? VARIANT_STYLES.iconOnlySize[size] : VARIANT_STYLES.size[size],
     variant ? VARIANT_STYLES.variant[variant] : 'border-none',
     round ? VARIANT_STYLES.round[round] : '',
   );
@@ -175,15 +184,17 @@ export default function Button({
       {...props}
       className={twMerge(buttonClassNames, className)}
     >
-      {ValidLeftIcon && <span className='flex shrink-0 items-center justify-center'>{ValidLeftIcon}</span>}
+      {!loading && ValidLeftIcon && <span className='flex shrink-0 items-center justify-center'>{ValidLeftIcon}</span>}
       {loading ? (
         <LoaderIcon
           className={twMerge('animate-spin', VARIANT_STYLES.loader[variant], VARIANT_STYLES.loaderSize[size])}
         />
       ) : (
-        validChildren
+        !iconOnly && validChildren
       )}
-      {ValidRightIcon && <span className='flex shrink-0 items-center justify-center'>{ValidRightIcon}</span>}
+      {!loading && ValidRightIcon && (
+        <span className='flex shrink-0 items-center justify-center'>{ValidRightIcon}</span>
+      )}
     </button>
   );
 }
