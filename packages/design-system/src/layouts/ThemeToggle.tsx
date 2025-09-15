@@ -1,3 +1,5 @@
+import Button from '@components/Button';
+import { MoonIcon, SunIcon } from '@components/icons';
 import { useEffect, useState } from 'react';
 
 export default function ThemeToggle() {
@@ -13,12 +15,23 @@ export default function ThemeToggle() {
     }
   }, [isDark]);
 
-  return (
-    <button
-      className='ds-theme-border-base bg-white-200 dark:bg-dm-black-600 size-32 cursor-pointer rounded-full border hover:opacity-80'
+  return isDark ? (
+    <Button
+      iconOnly
+      className='rounded-full'
+      leftIcon={<MoonIcon />}
+      size='md'
+      variant='outline'
       onClick={() => setIsDark(!isDark)}
-    >
-      <span className='ds-text-normal'>{isDark ? '🌙' : '☀️'}</span>
-    </button>
+    />
+  ) : (
+    <Button
+      iconOnly
+      className='rounded-full'
+      leftIcon={<SunIcon />}
+      size='md'
+      variant='outline'
+      onClick={() => setIsDark(!isDark)}
+    />
   );
 }
