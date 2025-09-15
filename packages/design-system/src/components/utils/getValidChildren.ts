@@ -28,12 +28,12 @@ import { Children, isValidElement } from 'react';
  * => [<span>텍스트</span>, "문자열"]
  * ```
  */
-export default function getValidChildren(children: React.ReactNode) {
+export default function getValidChildren(children: React.ReactNode): React.ReactNode[] {
   const childrenArray = Children.toArray(children);
 
   return childrenArray.filter((child) => {
-    // 기본 string 허용
-    if (typeof child === 'string') return true;
+    // 문자열과 숫자 허용
+    if (typeof child === 'string' || typeof child === 'number') return true;
     // span, p 태그 허용
     if (isValidElement(child) && (child.type === 'span' || child.type === 'p')) {
       return true;
