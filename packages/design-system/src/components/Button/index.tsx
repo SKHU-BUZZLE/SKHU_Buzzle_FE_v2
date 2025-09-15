@@ -48,7 +48,7 @@ interface ButtonProps
   /** 버튼 내부 콘텐츠 (문자열, span, p 태그만을 지원) */
   children?: React.ReactNode;
   /** 클릭 핸들러 */
-  onClick: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   /** 버튼 스타일 */
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   /** 버튼 타입 */
@@ -84,7 +84,7 @@ interface ButtonProps
  * - children은 문자열, `<span>`, `<p>` 태그만 지원합니다.
  *
  * @param {React.ReactNode} props.children 버튼 내부 콘텐츠 (문자열, span, p 태그만 지원)
- * @param {() => void} props.onClick 버튼 클릭 핸들러
+ * @param { onClick?: React.MouseEventHandler<HTMLButtonElement>} props.onClick 버튼 클릭 핸들러
  * @param {'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'} [props.variant='primary'] 버튼 스타일
  * @param {'button' | 'submit' | 'reset'} [props.type='button'] 버튼 타입
  * @param {React.Ref<HTMLButtonElement>} [props.ref] 버튼 DOM에 접근하기 위한 ref
@@ -95,7 +95,7 @@ interface ButtonProps
  * @param {React.ReactNode} [props.leftIcon] 왼쪽 아이콘
  * @param {React.ReactNode} [props.rightIcon] 오른쪽 아이콘
  * @param {string} [props.className] 버튼 스타일 확장용 className
- * @param {string} [props.iconOnly] 아이콘 전용 버튼 여부
+ * @param {boolean} [props.iconOnly] 아이콘 전용 버튼 여부
  *
  * @example 기본 사용
  * ```tsx
@@ -156,7 +156,7 @@ export default function Button({
     setCooldown(true);
     setTimeout(() => setCooldown(false), 500); // 0.5초 동안 연타 막기
 
-    onClick?.();
+    onClick?.(e);
   };
 
   // children에서 텍스트만 필터링
