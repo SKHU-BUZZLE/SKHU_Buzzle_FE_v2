@@ -15,12 +15,12 @@ const VARIANT_STYLES = {
   },
   meta: {
     score: 'text-body-2 text-caption',
-    rank: 'text-title font-title-2 font-bold',
-  } satisfies Partial<Record<Variant, string>>,
+    rank: 'text-title font-title-2',
+  } satisfies Record<Exclude<Variant, 'default'>, string>,
   metaUnit: {
     score: '점',
     rank: '등',
-  } satisfies Partial<Record<Variant, string>>,
+  } satisfies Record<Exclude<Variant, 'default'>, string>,
 } as const;
 
 interface AvatarProps {
