@@ -5,7 +5,7 @@ export default function Navbar() {
   const { pathname } = useLocation();
 
   return (
-    <nav className='bg-surface border-surface flex h-[8vh] items-center justify-between border-b px-28'>
+    <nav className='ds-theme-bg-base ds-theme-border-base flex h-[8vh] items-center justify-between border-b px-28'>
       <Link to='/docs'>
         <h2 className='text-primary-500'>BUZZLE</h2>
       </Link>

@@ -100,9 +100,9 @@ export default function StatelessPlayground<T extends object>({
     const val = componentProps[key];
 
     const wrapperClass = `flex flex-col md:flex-row gap-4`;
-    const labelClass = `text-body w-1/4 mr-4 inline-flex items-center gap-1`;
-    const inputClass = `bg-surface-muted flex-1 rounded-md px-12 py-4 text-title font-mono border border-surface focus-border-surface focus:outline-0`;
-    const optionClass = `mr-16 inline-flex items-center gap-4 cursor-pointer text-title font-mono`;
+    const labelClass = `ds-text-normal w-1/4 mr-4 inline-flex items-center gap-1`;
+    const inputClass = `ds-theme-bg-muted flex-1 rounded-md px-12 py-4 ds-text-strong font-mono border ds-theme-border-base ds-theme-border-focus focus:outline-0`;
+    const optionClass = `mr-16 inline-flex items-center gap-4 cursor-pointer ds-text-strong font-mono`;
 
     switch (spec.type) {
       case 'text':
@@ -237,7 +237,7 @@ export default function StatelessPlayground<T extends object>({
   return (
     <LiveProvider code={code} language='tsx' scope={scope}>
       <div className='flex flex-col gap-24'>
-        <div className='bg-surface border-surface min-h-xl flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
+        <div className='ds-theme-bg-base ds-theme-border-base min-h-xl flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
           <LivePreview />
         </div>
 

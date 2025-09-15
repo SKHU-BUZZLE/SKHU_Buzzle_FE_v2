@@ -80,7 +80,7 @@ export default function QuizOption({ option, variant = 'default', disabled = fal
       }}
     >
       {icon}
-      <p className='text-body-2'>{option}</p>
+      <p className='ds-typ-body-2'>{option}</p>
     </button>
   );
 }

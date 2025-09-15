@@ -53,7 +53,7 @@ export default function StatefulPlayground({ code, extraScope = {} }: { code: st
   return (
     <LiveProvider noInline code={code.trim()} scope={scope}>
       <div className='flex flex-col gap-12'>
-        <div className='bg-surface border-surface min-h-xl mb-4 flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
+        <div className='ds-theme-bg-base ds-theme-border-base min-h-xl mb-4 flex flex-col justify-center overflow-auto rounded-2xl border px-12 py-12'>
           <LivePreview />
         </div>
 
