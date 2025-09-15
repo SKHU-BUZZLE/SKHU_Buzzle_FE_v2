@@ -1,8 +1,8 @@
 export default function RankingPage() {
   return (
     <section className='space-y-8'>
-      <h1 className='text-heading-2 text-title'>랭킹</h1>
-      <p className='text-body'>임시 랭킹 페이지입니다.</p>
+      <h1 className='ds-typ-heading-2 ds-text-strong'>랭킹</h1>
+      <p className='ds-text-normal'>임시 랭킹 페이지입니다.</p>
     </section>
   );
 }

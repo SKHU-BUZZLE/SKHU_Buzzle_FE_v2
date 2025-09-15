@@ -17,8 +17,8 @@ export default function IconsDoc() {
         {ICON_ITEMS.map(({ name, Component, className, props: iconProps }) => (
           <li key={name} className='flex min-h-32 flex-col items-center justify-center gap-4 rounded-2xl border p-6'>
             <Component className={className} {...iconProps} />
-            <span className='text-body-1'>{name}</span>
-            <span className='text-body-3'>{className}</span>
+            <span className='ds-typ-body-1'>{name}</span>
+            <span className='ds-typ-body-3'>{className}</span>
           </li>
         ))}
       </ul>

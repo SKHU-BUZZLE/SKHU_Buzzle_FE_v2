@@ -10,7 +10,7 @@ export default function Layout() {
       </header>
 
       <div className='flex flex-1'>
-        <aside className='border-surface w-[15vw] border-r'>
+        <aside className='ds-theme-border-base w-[15vw] border-r'>
           <Sidebar />
         </aside>
 
