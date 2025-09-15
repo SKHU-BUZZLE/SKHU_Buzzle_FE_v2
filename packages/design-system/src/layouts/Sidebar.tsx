@@ -14,7 +14,8 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'QuizOption', to: '/docs/component/QuizOption' },
     { label: 'ProfileImage', to: '/docs/component/ProfileImage' },
     { label: 'Avatar', to: '/docs/component/Avatar' },
-  ],
+    { label: 'UserStatusBadge', to: '/docs/component/UserStatusBadge' },
+],
 };
 
 /** 현재 URL 경로 중 해당하는 Section 타입(foundation | component | root)을 반환 */
