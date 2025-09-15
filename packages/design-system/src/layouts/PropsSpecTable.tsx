@@ -17,8 +17,8 @@ interface PropSpec {
   options?: string[];
 }
 
-const thClass = `text-title font-bold py-8`;
-const tdClass = `font-mono text-body py-8`;
+const thClass = `ds-text-strong font-bold py-8`;
+const tdClass = `font-mono ds-text-normal py-8`;
 
 /**
  * PropsSpecTable
@@ -56,7 +56,7 @@ const tdClass = `font-mono text-body py-8`;
  */
 export default function PropsSpecTable({ specs }: { specs: PropSpec[] }) {
   return (
-    <div className='border-surface overflow-x-auto rounded-2xl border px-16 py-12'>
+    <div className='ds-theme-border-base overflow-x-auto rounded-2xl border px-16 py-12'>
       <table className='w-full [&_tbody>tr>td:not(:first-child)]:pl-48 [&_thead>tr>th:not(:first-child)]:pl-48'>
         <thead>
           <tr className='text-left'>
@@ -77,24 +77,24 @@ export default function PropsSpecTable({ specs }: { specs: PropSpec[] }) {
               <td className={tdClass}>
                 <div className='flex flex-wrap gap-6'>
                   {s.type.map((t) => (
-                    <span key={t} className='bg-surface-muted inline-block rounded px-8 py-2 font-mono'>
+                    <span key={t} className='ds-theme-bg-muted inline-block rounded px-8 py-2 font-mono'>
                       {t}
                     </span>
                   ))}
                 </div>
               </td>
-              <td className={tdClass}>{s.defaultValue ?? <span className='text-caption'>-</span>}</td>
+              <td className={tdClass}>{s.defaultValue ?? <span className='ds-text-caption'>-</span>}</td>
               <td className={tdClass}>
                 <div className='flex flex-wrap gap-6'>
                   {s.options?.map((o) => (
-                    <span key={o} className='bg-surface-muted inline-block rounded px-8 py-2 font-mono'>
+                    <span key={o} className='ds-theme-bg-muted inline-block rounded px-8 py-2 font-mono'>
                       {o}
                     </span>
                   ))}
-                  {!s.options && <span className='text-caption'>-</span>}
+                  {!s.options && <span className='ds-text-caption'>-</span>}
                 </div>
               </td>
-              <td className={tdClass}>{s.description ?? <span className='text-caption'>-</span>}</td>
+              <td className={tdClass}>{s.description ?? <span className='ds-text-caption'>-</span>}</td>
             </tr>
           ))}
         </tbody>

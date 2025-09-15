@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 export default function HomeFrame() {
   return (
-    <div className='bg-white-200 dark:bg-dm-black-800 layout-padding h-full w-full'>
+    <div className='bg-white-200 dark:bg-dm-black-800 ds-layout-padding h-full w-full'>
       <HomeHeader />
       <Outlet />
       <BottomNavBar />

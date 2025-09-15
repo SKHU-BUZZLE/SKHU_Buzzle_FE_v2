@@ -46,9 +46,9 @@ export default function Sidebar() {
   }, [section]);
 
   return (
-    <nav className='border-surface px-28 py-20'>
+    <nav className='ds-theme-border-base px-28 py-20'>
       <input
-        className='border-surface focus-border-surface w-full rounded-lg border px-8 py-4 text-sm focus:outline-0'
+        className='ds-theme-border-base ds-theme-border-focus w-full rounded-lg border px-8 py-4 text-sm focus:outline-0'
         placeholder='Search'
         type='text'
         value={query}

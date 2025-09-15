@@ -15,10 +15,10 @@ export default function ThemeToggle() {
 
   return (
     <button
-      className='border-surface bg-white-200 dark:bg-dm-black-600 size-32 cursor-pointer rounded-full border hover:opacity-80'
+      className='ds-theme-border-base bg-white-200 dark:bg-dm-black-600 size-32 cursor-pointer rounded-full border hover:opacity-80'
       onClick={() => setIsDark(!isDark)}
     >
-      <span className='text-body'>{isDark ? '🌙' : '☀️'}</span>
+      <span className='ds-text-normal'>{isDark ? '🌙' : '☀️'}</span>
     </button>
   );
 }
