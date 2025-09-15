@@ -30,7 +30,7 @@ export default function ProfileImage({ src, alt = '프로필 이미지', classNa
       )}
     >
       {showFallback ? (
-        <UserIcon aria-hidden='true' className='size-[62.5%]' />
+        <UserIcon aria-hidden='true' className='size-[50%]' />
       ) : (
         <img
           alt={alt}
