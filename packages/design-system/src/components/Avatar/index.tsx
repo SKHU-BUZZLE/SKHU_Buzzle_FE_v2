@@ -9,13 +9,13 @@ const VARIANT_STYLES = {
     rank: 'size-52',
   },
   name: {
-    default: 'text-body-2 text-body',
-    score: 'text-body-2 text-body font-bold',
-    rank: 'text-body-2 text-body',
+    default: 'ds-typ-body-2 ds-text-normal',
+    score: 'ds-typ-body-2 ds-text-normal font-bold',
+    rank: 'ds-typ-body-2 ds-text-normal',
   },
   meta: {
-    score: 'text-body-2 text-caption',
-    rank: 'text-title font-title-2',
+    score: 'ds-typ-body-2 ds-text-caption',
+    rank: 'ds-text-strong ds-typ-title-2',
   } satisfies Record<Exclude<Variant, 'default'>, string>,
   metaUnit: {
     score: '점',
