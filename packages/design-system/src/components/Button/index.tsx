@@ -1,7 +1,7 @@
 import { LoaderIcon } from '@components/icons';
-import getValidChildren from '@utils/getValidChildren';
-import isValidIcon from '@utils/isValidIcon';
-import { twm } from '@utils/twm';
+import getValidChildren from '@components/utils/getValidChildren';
+import isValidIcon from '@components/utils/isValidIcon';
+import { twm } from '@components/utils/twm';
 import { useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
