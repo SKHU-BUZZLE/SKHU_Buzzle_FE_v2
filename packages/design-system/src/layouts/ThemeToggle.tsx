@@ -18,20 +18,22 @@ export default function ThemeToggle() {
   return isDark ? (
     <Button
       iconOnly
-      className='rounded-full'
+      aria-label='라이트 모드로 전환'
       leftIcon={<MoonIcon />}
+      round='circular'
       size='md'
       variant='outline'
-      onClick={() => setIsDark(!isDark)}
+      onClick={() => setIsDark((v) => !v)}
     />
   ) : (
     <Button
       iconOnly
-      className='rounded-full'
+      aria-label='다크 모드로 전환'
       leftIcon={<SunIcon />}
+      round='circular'
       size='md'
       variant='outline'
-      onClick={() => setIsDark(!isDark)}
+      onClick={() => setIsDark((v) => !v)}
     />
   );
 }
