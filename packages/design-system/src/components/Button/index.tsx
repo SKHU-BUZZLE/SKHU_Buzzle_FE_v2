@@ -179,11 +179,12 @@ export default function Button({
   return (
     <button
       ref={ref}
+      aria-busy={loading || undefined}
+      className={twm(buttonClassNames, className)}
       disabled={disabled || loading}
       type={type}
       onClick={handleClick}
       {...props}
-      className={twm(buttonClassNames, className)}
     >
       {!loading && ValidLeftIcon && <span className='flex shrink-0 items-center justify-center'>{ValidLeftIcon}</span>}
       {loading ? (
