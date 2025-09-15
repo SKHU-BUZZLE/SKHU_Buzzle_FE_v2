@@ -131,6 +131,10 @@
     @apply bg-white-400 dark:bg-dm-black-800;
   }
 
+  .ds-theme-bg-backdrop {
+    @apply md:bg-white-300 dark:md:bg-dm-black-900;
+  }
+
   /* === Border === */
   .ds-theme-border-base {
     @apply border-white-300 dark:border-dm-black-700;
@@ -138,5 +142,23 @@
 
   .ds-theme-border-focus {
     @apply dark:focus:border-dm-black-500 focus:border-white-600;
+  }
+
+  /* === Layout Constants === */
+  .ds-layout-max-width {
+    @apply max-w-768;
+  }
+
+  .ds-layout-padding {
+    @apply px-16;
+  }
+
+  /* === Bottom Bar Constants (높이 수정시 전부 수정해야합니다.) === */
+  .ds-bottom-nav-height {
+    @apply h-64;
+  }
+
+  .ds-bottom-nav-padding {
+    @apply pb-64;
   }
 }
