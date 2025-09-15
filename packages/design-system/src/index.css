@@ -118,7 +118,7 @@
   .text-title-1 {
     @apply text-[1.125rem] font-bold md:text-[1.25rem]; /* 18px / 20px */
   }
-  .text-title-2 {
+  .font-title-2 {
     @apply text-[1rem] font-bold md:text-[1.125rem]; /* 16px / 18px */
   }
   .text-body-1 {
