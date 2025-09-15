@@ -30,6 +30,8 @@ interface AvatarProps {
   src?: string;
   /** 표시할 이름 */
   name: string;
+  /** 프로필 이미지 대체 텍스트(미지정 시 name 기반 생성) */
+  alt?: string;
   /** 점수 또는 순위 값 */
   metaValue?: number;
   /** 이름/메타 정보의 배치 방향 */
@@ -56,6 +58,7 @@ interface AvatarProps {
  * - `score`: 점수 표시용
  * - `rank`: 순위 표시용
  * @param {string} [props.src] 프로필 이미지 src입니다.
+ * @param {string} [props.alt] 프로필 이미지 대체 텍스트입니다.
  * @param {string} props.name 표시할 이름입니다. (필수)
  * @param {number} [props.metaValue] 점수 또는 순위 값입니다.
  * `variant`가 `score` 또는 `rank`일 때만 표시됩니다.
@@ -83,6 +86,7 @@ interface AvatarProps {
 export default function Avatar({
   variant = 'default',
   src,
+  alt,
   name,
   metaValue,
   direction = 'vertical',
@@ -91,13 +95,18 @@ export default function Avatar({
   nameClassName,
   metaClassName,
 }: AvatarProps) {
+  const altText = alt ?? `${name}의 프로필 이미지`;
   const metaUnit = variant === 'default' ? '' : VARIANT_STYLES.metaUnit[variant];
   const flexDirection = direction === 'vertical' ? 'flex-col' : 'flex-row';
   const gap = variant === 'rank' ? 'gap-20' : 'gap-12';
 
   return (
     <div className={twMerge(`flex w-fit items-center`, flexDirection, gap, layoutClassName)}>
-      <ProfileImage className={twMerge(VARIANT_STYLES.profileImage[variant], profileImageClassName)} src={src} />
+      <ProfileImage
+        alt={altText}
+        className={twMerge(VARIANT_STYLES.profileImage[variant], profileImageClassName)}
+        src={src}
+      />
 
       <div className={twMerge('flex flex-col items-start gap-2', direction === 'vertical' && 'items-center')}>
         <p className={twMerge(VARIANT_STYLES.name[variant], nameClassName)}>{name}</p>

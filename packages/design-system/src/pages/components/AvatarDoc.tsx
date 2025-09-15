@@ -61,6 +61,12 @@ const propsSpecs = [
     required: false,
   },
   {
+    propName: 'alt',
+    type: ['string'],
+    description: '프로필 이미지의 대체 텍스트입니다. 값이 없으면 name 기반으로 생성됩니다.',
+    required: false,
+  },
+  {
     propName: 'name',
     type: ['string'],
     description: '사용자 이름입니다.',
@@ -128,6 +134,11 @@ const specs = [
     type: 'text',
     propName: 'src',
     label: 'Image Src',
+  },
+  {
+    type: 'text',
+    propName: 'alt',
+    label: 'Image Alt',
   },
   {
     type: 'number',
