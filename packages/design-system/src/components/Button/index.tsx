@@ -1,35 +1,10 @@
 import { LoaderIcon } from '@components/icons';
-import { Children, isValidElement, type JSXElementConstructor, useState } from 'react';
+import { useState } from 'react';
+import getValidChildren from 'src/utils/getValidChildren';
+import isValidIcon from 'src/utils/isValidIcon';
 import { twMerge } from 'tailwind-merge';
 
-function getValidChildren(children: React.ReactNode) {
-  const childrenArray = Children.toArray(children);
-
-  return childrenArray.filter((child) => {
-    // 기본 string 허용
-    if (typeof child === 'string') return true;
-    // span, p 태그 허용
-    if (isValidElement(child) && (child.type === 'span' || child.type === 'p')) {
-      return true;
-    }
-
-    return false;
-  });
-}
-
-function isValidIcon(node: React.ReactNode) {
-  if (!isValidElement(node)) return false;
-
-  // node.type 은 string(태그) 또는 컴포넌트 타입일 수 있음
-  if (typeof node.type === 'string') return false;
-
-  // 함수/클래스 컴포넌트 타입으로 좁히기
-  const type = node.type as JSXElementConstructor<unknown> & { displayName?: string };
-
-  const displayName = type.displayName ?? type.name;
-  return typeof displayName === 'string' && displayName.includes('Icon');
-}
-
+/** 버튼 스타일 맵 */
 const VARIANT_STYLES = {
   size: {
     lg: 'w-370 py-16 ds-typ-body-1',
@@ -64,21 +39,82 @@ const VARIANT_STYLES = {
 
 interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick' | 'disabled' | 'className' | 'ref'> {
+  /** 버튼 내부 콘텐츠 (문자열, span, p 태그만을 지원) */
   children: React.ReactNode;
+  /** 클릭 핸들러 */
   onClick: () => void;
+  /** 버튼 스타일 */
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  /** 버튼 타입 */
   type?: 'button' | 'submit' | 'reset';
+  /** 버튼 DOM에 접근하기 위한 ref */
   ref?: React.Ref<HTMLButtonElement>;
+  /** 로딩 상태 */
   loading?: boolean;
+  /** 비활성화 상태 */
   disabled?: boolean;
+  /** 버튼 크기 */
   size?: 'lg' | 'md' | 'sm';
+  /** 버튼 모서리 */
   round?: 'rounded' | 'circular' | 'square';
+  /** 왼쪽 아이콘 */
   leftIcon?: React.ReactNode;
+  /** 오른쪽 아이콘 */
   rightIcon?: React.ReactNode;
-  iconProps?: React.SVGProps<SVGSVGElement>;
+  /** 버튼 스타일 확장용 className */
   className?: string;
 }
 
+/**
+ * Button 컴포넌트
+ *
+ * @description
+ * - variant / size / round 등 props로 스타일을 제어할 수 있습니다.
+ * - loading prop를 통한 로딩 상태 시 `LoaderIcon`을 표시하고 클릭 이벤트를 차단합니다.
+ * - 비활성화 상태에서는 클릭 이벤트가 차단됩니다.
+ * - 연타 방지를 위해 내부적으로 0.5초 쿨다운을 둡니다.
+ * - children은 문자열, `<span>`, `<p>` 태그만 지원합니다.
+ *
+ * @param {React.ReactNode} props.children 버튼 내부 콘텐츠 (문자열, span, p 태그만 지원)
+ * @param {() => void} props.onClick 버튼 클릭 핸들러
+ * @param {'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'} [props.variant='primary'] 버튼 스타일
+ * @param {'button' | 'submit' | 'reset'} [props.type='button'] 버튼 타입
+ * @param {React.Ref<HTMLButtonElement>} [props.ref] 버튼 DOM에 접근하기 위한 ref
+ * @param {boolean} [props.loading=false] 로딩 상태 (true일 경우 LoaderIcon 표시 및 클릭 차단)
+ * @param {boolean} [props.disabled=false] 비활성화 상태
+ * @param {'lg' | 'md' | 'sm'} [props.size='lg'] 버튼 크기
+ * @param {'rounded' | 'circular' | 'square'} [props.round='rounded'] 버튼 모서리 스타일
+ * @param {React.ReactNode} [props.leftIcon] 왼쪽 아이콘
+ * @param {React.ReactNode} [props.rightIcon] 오른쪽 아이콘
+ * @param {string} [props.className] 버튼 스타일 확장용 className
+ *
+ * @example 기본 사용
+ * ```tsx
+ * <Button onClick={() => console.log('clicked')}>
+ *   확인
+ * </Button>
+ * ```
+ *
+ * @example 아이콘 포함
+ * ```tsx
+ * <Button
+ *   variant="secondary"
+ *   size="md"
+ *   leftIcon={<CheckIcon />}
+ *   rightIcon={<ChevronRightIcon />}
+ *   onClick={submitForm}
+ * >
+ *   저장하기
+ * </Button>
+ * ```
+ *
+ * @example 로딩 상태
+ * ```tsx
+ * <Button loading disabled onClick={submitForm}>
+ *   제출
+ * </Button>
+ * ```
+ */
 export default function Button({
   loading = false,
   disabled = false,
@@ -91,12 +127,17 @@ export default function Button({
   size = 'lg',
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
-  iconProps,
   className,
   ...props
 }: ButtonProps) {
   const [cooldown, setCooldown] = useState(false); // 클릭 쿨타임
 
+  /**
+   * 내부 클릭 핸들러
+   *
+   * - `disabled`/`loading`/`cooldown` 상태에서는 `preventDefault()` 후 조기 반환합니다.
+   * - 성공 시 쿨다운 타이머(500ms)를 설정한 뒤 `onClick`을 호출합니다.
+   */
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled || loading || cooldown) {
       e.preventDefault();
