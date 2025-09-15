@@ -1,8 +1,9 @@
 import { LoaderIcon } from '@components/icons';
 import getValidChildren from '@utils/getValidChildren';
 import isValidIcon from '@utils/isValidIcon';
+import { twm } from '@utils/twm';
 import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twJoin, twMerge } from 'tailwind-merge';
 
 /** 버튼 스타일 맵 */
 const VARIANT_STYLES = {
@@ -166,7 +167,7 @@ export default function Button({
   const ValidRightIcon = isValidIcon(RightIcon) ? RightIcon : null;
 
   // 기본 버튼 스타일 (disabled / hover / active 스타일 포함)
-  const buttonClassNames = twMerge(
+  const buttonClassNames = twJoin(
     'w-fit flex gap-8 flex-shrink-0 justify-center items-center leading-none cursor-pointer p-4',
     'disabled:cursor-not-allowed disabled:opacity-50',
     'enabled:hover:opacity-85 enabled:active:brightness-80',
@@ -182,7 +183,7 @@ export default function Button({
       type={type}
       onClick={handleClick}
       {...props}
-      className={twMerge(buttonClassNames, className)}
+      className={twm(buttonClassNames, className)}
     >
       {!loading && ValidLeftIcon && <span className='flex shrink-0 items-center justify-center'>{ValidLeftIcon}</span>}
       {loading ? (

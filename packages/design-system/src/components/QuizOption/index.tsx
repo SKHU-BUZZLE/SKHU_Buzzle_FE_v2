@@ -1,3 +1,4 @@
+import Button from '@components/Button';
 import { ErrorIcon, SuccessIcon } from '@components/icons';
 import { twMerge } from 'tailwind-merge';
 
@@ -15,7 +16,7 @@ interface QuizOptionProps {
 }
 
 const VARIANT_CLASSNAME = {
-  default: 'bg-white-200 dark:bg-dm-black-600',
+  default: 'bg-white-200 dark:bg-dm-black-600 ds-text-normal',
   selected: 'bg-primary-alpha-10 dark:bg-primary-alpha-20 text-primary-500',
   correct: 'bg-correct-green-alpha text-correct-green-500',
   incorrect: 'bg-error-red-alpha text-error-red-500',
@@ -65,22 +66,18 @@ export default function QuizOption({ option, variant = 'default', disabled = fal
   }
 
   return (
-    <button
-      className={twMerge(
-        'bg-white-100 flex w-full cursor-pointer items-center justify-center gap-10 rounded-xl py-16',
-        'disabled:cursor-not-allowed disabled:opacity-30', // 비활성화 상태일 때
-        VARIANT_CLASSNAME[variant],
-      )}
+    <Button
+      className={twMerge('ds-typ-body-2 w-full', VARIANT_CLASSNAME[variant])}
       disabled={disabled}
-      type='button'
+      leftIcon={icon}
+      round='rounded'
       onClick={() => {
         // 눌린 선택지의 index를 외부로 반환
         if (index === undefined || index === null) return;
         onClick?.(index);
       }}
     >
-      {icon}
-      <p className='ds-typ-body-2'>{option}</p>
-    </button>
+      {option}
+    </Button>
   );
 }
