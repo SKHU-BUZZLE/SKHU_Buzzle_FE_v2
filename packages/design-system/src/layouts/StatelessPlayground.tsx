@@ -10,13 +10,15 @@ type Primitive = string | number | boolean;
  * - `select`  : 옵션 선택
  * - `boolean` : true/false 라디오
  * - `handler` : 스코프 내 식별자(함수) 바인딩
+ * - `node`    : 스코프 내 React 노드(컴포넌트) 바인딩
  */
 export type Spec =
   | { type: 'text'; propName: string; label?: string }
   | { type: 'number'; propName: string; label?: string }
   | { type: 'select'; propName: string; options: string[]; label?: string }
   | { type: 'boolean'; propName: string; label?: string }
-  | { type: 'handler'; propName: string; options: string[]; label?: string };
+  | { type: 'handler'; propName: string; options: string[]; label?: string }
+  | { type: 'node'; propName: string; options: string[]; label?: string };
 
 interface StatelessPlaygroundProps<T extends object> {
   /** 테스트할 실제 컴포넌트 */
@@ -85,6 +87,8 @@ export default function StatelessPlayground<T extends object>({
   /** handler 타입인 prop들의 이름만 뽑아서 Set으로 보관
    * (JSX 속성 문자열을 만들 때 중괄호로 함수 식별자를 구분하기 위함) */
   const handlerKeys = useMemo(() => new Set(specs.filter((s) => s.type === 'handler').map((s) => s.propName)), [specs]);
+
+  const nodeKeys = useMemo(() => new Set(specs.filter((s) => s.type === 'node').map((s) => s.propName)), [specs]);
 
   /** control form에서 값이 선택되면 componentProps 갱신 */
   function handlePropChange(key: string, value: Primitive | undefined) {
@@ -203,6 +207,26 @@ export default function StatelessPlayground<T extends object>({
             </select>
           </div>
         );
+
+      case 'node':
+        /** node를 사용할 때 */
+        return (
+          <div key={key} className={wrapperClass}>
+            <label className={labelClass}>{spec.label ?? key}</label>
+            <select
+              className={inputClass}
+              value={String((val as string) ?? '')}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => handlePropChange(key, e.target.value)}
+            >
+              <option value=''> (none) </option>
+              {spec.options.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+        );
     }
   });
 
@@ -213,6 +237,7 @@ export default function StatelessPlayground<T extends object>({
     const attrs = entries
       .map(([k, v]) => {
         if (v === undefined || v === '') return null;
+        if (nodeKeys.has(k)) return `${k}={<${v} />}`; // node prop은 JSX로 변환해 주입
         if (handlerKeys.has(k)) return `${k}={${v}}`; // 핸들러라면 식별자로 추가
         if (typeof v === 'boolean') return v ? k : null; // true만 포함
         if (typeof v === 'number') return `${k}={${v}}`; // 숫자는 중괄호
@@ -225,7 +250,7 @@ export default function StatelessPlayground<T extends object>({
     const compName = (Comp as any).displayName || (Comp as any).name || 'Component'; // 컴포넌트 이름을 문자열로 추출
     const tag = attrs ? `<${compName} ${attrs} />` : `<${compName} />`;
     setCode(tag);
-  }, [component, componentProps, handlerKeys]);
+  }, [component, componentProps, handlerKeys, nodeKeys]);
 
   /** react-live 실행 환경에서 제한할 스코프 범위 설정. 스코프는 변하지 않기 때문에 useMemo로 처리 */
   const scope = useMemo(() => {
