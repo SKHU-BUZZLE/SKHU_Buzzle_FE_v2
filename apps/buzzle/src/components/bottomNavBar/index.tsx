@@ -15,7 +15,7 @@ export default function BottomNavBar() {
   return (
     <nav
       aria-label='하단 네비게이션'
-      className='ds-theme-bg-base ds-theme-border-base layout-max-width bottom-nav-height fixed bottom-0 left-1/2 z-50 w-full -translate-x-1/2 border'
+      className='ds-theme-bg-base ds-theme-border-base ds-layout-max-width ds-bottom-nav-height fixed bottom-0 left-1/2 z-50 w-full -translate-x-1/2 border'
     >
       <div className='flex h-full items-center justify-around'>
         {navItems.map((item) => (
