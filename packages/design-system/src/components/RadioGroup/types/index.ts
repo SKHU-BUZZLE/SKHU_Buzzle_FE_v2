@@ -77,3 +77,23 @@ export interface RadioOptionProps {
   /** 비활성화 여부 */
   disabled?: boolean;
 }
+
+/**
+ * @description
+ * 카드형 라디오 Card 컴포넌트 Props입니다.
+ * - 아이콘/라벨을 세로 중앙 정렬 + gap-4로 자동 배치합니다.
+ * - icon과 label 중 원하는 것만 넘길 수 있으며, 일관된 카드 디자인을 보장합니다.
+ */
+/** 카드형 라디오 Card 컴포넌트 Props */
+export interface RadioCardProps {
+  /** 이 옵션의 값 */
+  value: string | number;
+  /** 아이콘 노드(없으면 아이콘 영역 미표시) */
+  icon?: React.ReactNode;
+  /** 텍스트 라벨(없으면 라벨 영역 미표시) */
+  label?: React.ReactNode;
+  /** 카드 컨테이너 클래스 */
+  className?: string;
+  /** 비활성화 여부(옵션) */
+  disabled?: boolean;
+}
