@@ -26,7 +26,7 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
     'active:bg-primary-500/10 dark:active:bg-[#0656D7]/10 active:text-primary-500'; // active 상태
 
   // state: 선택(checked) 상태
-  const state = isChecked ? 'bg-primary-500/10 dark:bg-[#0656D7]/10 text-primary-500' : '';
+  const state = isChecked ? 'bg-primary-500/10 dark:bg-[#0656D7]/10 text-primary-500 dark:text-primary-500' : '';
 
   // disabled: 비활성화 상태
   const disabledCls = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';
