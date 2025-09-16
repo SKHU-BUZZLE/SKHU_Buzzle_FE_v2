@@ -49,3 +49,13 @@ export interface RadioRootProps {
   /** Radio 내부에 렌더링될 컴포넌트들 */
   children: React.ReactNode;
 }
+
+/**
+ * @description 라디오 Title 컴포넌트 Props (aria-labelledby로 그룹 이름을 연결하는 시각/접근성 제목)
+ */
+export interface RadioTitleProps {
+  /** 제목 콘텐츠(텍스트/아이콘 등) */
+  children?: React.ReactNode;
+  /** 제목 요소의 추가 클래스 */
+  className?: string;
+}
