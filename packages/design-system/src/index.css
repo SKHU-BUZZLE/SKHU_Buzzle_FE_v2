@@ -122,13 +122,13 @@
     @apply text-[1rem] font-bold md:text-[1.125rem]; /* 16px / 18px */
   }
   .ds-typ-body-1 {
-    @apply text-[0.875rem] md:text-[1rem]; /* 14px / 16px */
+    @apply text-[1rem] md:text-[1.125rem]; /* 16px / 18px */
   }
   .ds-typ-body-2 {
-    @apply text-[0.75rem] md:text-[0.875rem]; /* 12px / 14px */
+    @apply text-[0.875rem] md:text-[1rem]; /* 14px / 16px */
   }
   .ds-typ-body-3 {
-    @apply text-[0.75rem] md:text-[0.75rem]; /* 12px / 12px */
+    @apply text-[0.75rem] md:text-[0.875rem]; /* 12px / 14px */
   }
 
   /* === Text Color === */
