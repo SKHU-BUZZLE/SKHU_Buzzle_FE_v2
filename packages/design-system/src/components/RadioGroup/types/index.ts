@@ -29,7 +29,7 @@ export interface RadioGroupContextType {
  * @description
  * 라디오 Root 컴포넌트의 Props입니다.
  * Root는 상태/접근성 컨텍스트를 제공하고, children으로 UI 컴포넌트를 조합합니다.
- * 외곽 스타일(className)과 자식 배치(containerClassName)는 Root에서 제어할 수 있습니다.
+ * 외곽 스타일(className)은 Root에서 제어할 수 있습니다.
  */
 export interface RadioRootProps {
   /** 현재 선택 값 */
