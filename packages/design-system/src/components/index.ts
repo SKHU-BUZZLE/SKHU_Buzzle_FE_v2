@@ -13,3 +13,4 @@ export { default as QuizOption } from './QuizOption';
 export { default as ProfileImage } from './ProfileImage';
 export { default as Avatar } from './Avatar';
 export { Counter } from './Counter';
+export { default as UserStatusBadge } from './UserStatusBadge';

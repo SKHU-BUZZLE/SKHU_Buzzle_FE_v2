@@ -78,7 +78,8 @@
   }
 }
 
-@layer components {
+/** twMerge에서 기본 tailwind 클래스와 동일한 우선순위를 주기 위해 utilities 계층 사용 */
+@layer utilities {
   /* === Typography === */
   .ds-typ-heading-1 {
     @apply text-[1.75rem] font-bold md:text-[2rem]; /* 28px / 32px */

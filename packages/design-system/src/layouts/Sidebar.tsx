@@ -15,6 +15,7 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'ProfileImage', to: '/docs/component/ProfileImage' },
     { label: 'Avatar', to: '/docs/component/Avatar' },
     { label: 'Counter', to: '/docs/component/Counter' },
+    { label: 'UserStatusBadge', to: '/docs/component/UserStatusBadge' },
   ],
 };
 
