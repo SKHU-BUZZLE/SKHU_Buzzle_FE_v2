@@ -1,4 +1,5 @@
 import { Card } from './RadioCard';
+import { Items } from './RadioItems';
 import { Option } from './RadioOption';
 import { Root } from './RadioRoot';
 import { Title } from './RadioTitle';
@@ -41,6 +42,7 @@ import { Title } from './RadioTitle';
 export const Radio = {
   Root,
   Title,
+  Items,
   Option,
   Card,
 };

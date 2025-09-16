@@ -42,8 +42,6 @@ export interface RadioRootProps {
   name?: string;
   /** 루트 외곽 래퍼 클래스 (섹션 여백/배경/테두리 등) */
   className?: string;
-  /** 자식 항목 컨테이너 클래스 (세로/가로/그리드/간격 등 배치 제어) */
-  containerClassName?: string;
   /** 제목이 없을 때 접근성 이름으로 사용되는 라벨(권장) */
   ariaLabel?: string;
   /** Radio 내부에 렌더링될 컴포넌트들 */
@@ -96,4 +94,12 @@ export interface RadioCardProps {
   className?: string;
   /** 비활성화 여부(옵션) */
   disabled?: boolean;
+}
+
+/** 옵션/카드 컨테이너 슬롯 Props */
+export interface RadioItemsProps {
+  /** 레이아웃(그리드/간격) 제어 */
+  className?: string;
+  /** 내부에 렌더링될 옵션/카드 컴포넌트들 */
+  children?: React.ReactNode;
 }

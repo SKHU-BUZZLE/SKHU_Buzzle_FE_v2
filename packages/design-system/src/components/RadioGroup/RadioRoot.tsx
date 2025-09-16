@@ -56,16 +56,7 @@ import type { RadioRootProps } from './types';
  *   </Radio.Option>
  * </Radio.Root>
  */
-function RadioRoot({
-  value,
-  onChange,
-  mode,
-  name,
-  className,
-  containerClassName,
-  ariaLabel,
-  children,
-}: RadioRootProps) {
+function RadioRoot({ value, onChange, mode, name, className, ariaLabel, children }: RadioRootProps) {
   const reactId = useId();
   const groupName = name || `radio-group-${reactId}`;
   const titleId = `radio-group-title-${reactId}`;
@@ -77,8 +68,8 @@ function RadioRoot({
 
   return (
     <RadioGroupContext.Provider value={{ name: groupName, value, onChange, titleId, mode }}>
-      <div role='radiogroup' {...ariaProps} className={className}>
-        <div className={twMerge('flex flex-col gap-16', containerClassName)}>{children}</div>
+      <div role='radiogroup' {...ariaProps} className={twMerge('flex flex-col gap-16', className)}>
+        {children}
       </div>
     </RadioGroupContext.Provider>
   );

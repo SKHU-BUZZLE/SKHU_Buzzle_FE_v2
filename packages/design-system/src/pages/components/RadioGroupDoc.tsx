@@ -239,9 +239,11 @@ function RadioCardDemo() {
     >
       <Radio.Title>카테고리</Radio.Title>
 
-      {categories.map((c) => (
-        <Radio.Card key={c.value} value={c.value} icon={c.icon} label={c.label} />
-      ))}
+      <Radio.Items className="grid grid-cols-4 gap-8">
+        {categories.map(c => (
+          <Radio.Card key={c.value} value={c.value} icon={c.icon} label={c.label} />
+        ))}
+      </Radio.Items>
     </Radio.Root>
   );
 }
