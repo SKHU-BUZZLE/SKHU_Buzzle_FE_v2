@@ -30,11 +30,11 @@ const categories = [
 
 export default function QuizCategory({ value, onChange }: QuizCategoryProps) {
   return (
-    <Radio.Root className='w-full' mode='card' value={value} onChange={onChange}>
-      <Radio.Title className='text-16 mb-12 font-semibold'>카테고리</Radio.Title>
+    <Radio.Root mode='card' value={value} onChange={onChange}>
+      <Radio.Title>카테고리</Radio.Title>
       <Radio.Items className='grid grid-cols-4 gap-12'>
-        {categories.map((c) => (
-          <Radio.Card key={c.value} icon={c.icon} label={c.label} value={c.value} />
+        {categories.map((category) => (
+          <Radio.Card key={category.value} icon={category.icon} label={category.label} value={category.value} />
         ))}
       </Radio.Items>
     </Radio.Root>
