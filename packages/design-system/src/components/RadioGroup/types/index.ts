@@ -60,7 +60,11 @@ export interface RadioTitleProps {
   className?: string;
 }
 
-/** 점형 라디오 Option 컴포넌트 Props */
+/**
+ * @description
+ * 점형 라디오 Option 컴포넌트 Props입니다.
+ * - 브라우저 기본 라디오 UI를 사용하며, children으로 라벨/아이콘을 자유롭게 구성할 수 있습니다.
+ */
 export interface RadioOptionProps {
   /** 이 옵션의 값 */
   value: string | number;

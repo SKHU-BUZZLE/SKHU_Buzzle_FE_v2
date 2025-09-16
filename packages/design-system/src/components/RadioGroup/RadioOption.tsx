@@ -16,12 +16,12 @@ function RadioOption({ value, children, className, inputClassName, disabled }: R
     throw new Error('Radio.Option은 Radio.Root(mode="option")에서만 사용할 수 있습니다.');
   }
 
-  const checked = selected === value;
+  const isChecked = selected === value;
 
   return (
     <label className={twMerge('cursor-pointer', disabled && 'cursor-not-allowed opacity-50', className)}>
       <input
-        checked={checked}
+        checked={isChecked}
         className={inputClassName}
         disabled={disabled}
         name={name}
