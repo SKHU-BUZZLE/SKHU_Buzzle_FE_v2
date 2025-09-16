@@ -20,9 +20,9 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
 
   // base: 카드 기본 상태
   const base =
-    'relative flex items-center justify-center rounded-16 px-16 py-14 ' + // 레이아웃, 모양
+    'relative flex items-center justify-center rounded-2xl px-16 py-14 ' + // 레이아웃, 모양
     'bg-white-100 dark:bg-dm-black-600 text-black-200 dark:text-black-100 ' + // 기본 배경/텍스트
-    'hover:bg-primary-500/5 dark:hover:bg-[#0656D7]/5 ' + // hover 상태
+    'hover:bg-primary-500/5 dark:hover:bg-[#0656D7]/20 ' + // hover 상태
     'active:bg-primary-500/10 dark:active:bg-[#0656D7]/10 active:text-primary-500'; // active 상태
 
   // state: 선택(checked) 상태
