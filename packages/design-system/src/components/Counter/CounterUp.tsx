@@ -5,7 +5,18 @@ import { useCounterContext } from './context';
 import clamp from './utils/clamp';
 
 /**
- * === Count Up Component ===
+ * CounterUp
+ * @description 카운터 값을 증가시키는 버튼 컴포넌트입니다.
+ * - `CounterContext` 내부에서만 동작합니다.
+ *
+ * @param {string} [props.className] - 아이콘 스타일의 추가 TailwindCSS 클래스
+ *
+ * @example
+ * ```tsx
+ * <Counter>
+ *   <CounterUp className="text-red-500" />
+ * </Counter>
+ * ```
  */
 export function CounterUp({ className }: { className?: string }) {
   const { count, onChange, step, max } = useCounterContext();
