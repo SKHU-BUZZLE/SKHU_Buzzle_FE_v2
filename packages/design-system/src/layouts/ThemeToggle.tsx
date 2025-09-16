@@ -1,3 +1,5 @@
+import Button from '@components/Button';
+import { MoonIcon, SunIcon } from '@components/icons';
 import { useEffect, useState } from 'react';
 
 export default function ThemeToggle() {
@@ -13,12 +15,25 @@ export default function ThemeToggle() {
     }
   }, [isDark]);
 
-  return (
-    <button
-      className='ds-theme-border-base bg-white-200 dark:bg-dm-black-600 size-32 cursor-pointer rounded-full border hover:opacity-80'
-      onClick={() => setIsDark(!isDark)}
-    >
-      <span className='ds-text-normal'>{isDark ? '🌙' : '☀️'}</span>
-    </button>
+  return isDark ? (
+    <Button
+      iconOnly
+      aria-label='라이트 모드로 전환'
+      leftIcon={<MoonIcon />}
+      round='circular'
+      size='md'
+      variant='outline'
+      onClick={() => setIsDark((v) => !v)}
+    />
+  ) : (
+    <Button
+      iconOnly
+      aria-label='다크 모드로 전환'
+      leftIcon={<SunIcon />}
+      round='circular'
+      size='md'
+      variant='outline'
+      onClick={() => setIsDark((v) => !v)}
+    />
   );
 }
