@@ -59,3 +59,17 @@ export interface RadioTitleProps {
   /** 제목 요소의 추가 클래스 */
   className?: string;
 }
+
+/** 점형 라디오 Option 컴포넌트 Props */
+export interface RadioOptionProps {
+  /** 이 옵션의 값 */
+  value: string | number;
+  /** 라벨/아이콘 등 자유 구성 */
+  children?: React.ReactNode;
+  /** 옵션 래퍼(label) 클래스 */
+  className?: string;
+  /** native input에 직접 적용할 클래스 (크기/색: accent-*, size-*) */
+  inputClassName?: string;
+  /** 비활성화 여부 */
+  disabled?: boolean;
+}
