@@ -24,3 +24,28 @@ export interface RadioGroupContextType {
   /** 어떤 UI 모드를 사용할지 지정 ('option' | 'card') */
   mode: RadioMode;
 }
+
+/**
+ * @description
+ * 라디오 Root 컴포넌트의 Props입니다.
+ * Root는 상태/접근성 컨텍스트를 제공하고, children으로 UI 컴포넌트를 조합합니다.
+ * 외곽 스타일(className)과 자식 배치(containerClassName)는 Root에서 제어할 수 있습니다.
+ */
+export interface RadioRootProps {
+  /** 현재 선택 값 */
+  value: string | number;
+  /** 선택 변경 콜백 */
+  onChange: (next: string | number) => void;
+  /** UI 모드 ('option' | 'card'): Option/Card 혼용 방지용 */
+  mode: RadioMode;
+  /** 같은 페이지에서 그룹 간 이름 충돌 방지용 name (미지정 시 자동 생성) */
+  name?: string;
+  /** 루트 외곽 래퍼 클래스 (섹션 여백/배경/테두리 등) */
+  className?: string;
+  /** 자식 항목 컨테이너 클래스 (세로/가로/그리드/간격 등 배치 제어) */
+  containerClassName?: string;
+  /** 제목이 없을 때 접근성 이름으로 사용되는 라벨(권장) */
+  ariaLabel?: string;
+  /** Radio 내부에 렌더링될 컴포넌트들 */
+  children: React.ReactNode;
+}
