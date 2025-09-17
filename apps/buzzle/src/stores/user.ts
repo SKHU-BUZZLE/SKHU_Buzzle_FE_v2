@@ -52,7 +52,10 @@ export const useUserStore = create<UserState>()(
     {
       name: 'user',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ user: state.user }),
+      partialize: (state) => ({
+        user: state.user,
+        life: state.life,
+      }),
     },
   ),
 );
