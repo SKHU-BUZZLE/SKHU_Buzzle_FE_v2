@@ -26,6 +26,7 @@ export function CounterUp({ className }: { className?: string }) {
   return (
     <Button
       iconOnly
+      aria-label='증가'
       className='border-none'
       disabled={disabled}
       leftIcon={<PlusIcon className={twMerge('text-black-100', className)} />}

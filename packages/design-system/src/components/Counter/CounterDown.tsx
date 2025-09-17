@@ -26,6 +26,7 @@ export function CounterDown({ className }: { className?: string }) {
   return (
     <Button
       iconOnly
+      aria-label='감소'
       className='border-none'
       disabled={disabled}
       leftIcon={<MinusIcon className={twMerge('text-black-100', className)} />}
