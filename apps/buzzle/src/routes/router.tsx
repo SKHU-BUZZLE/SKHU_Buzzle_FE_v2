@@ -1,6 +1,7 @@
 import HomeFrame from '@layouts/HomeFrame';
 import RootFrame from '@layouts/RootFrame';
 import HomePage from '@pages/home';
+import KakaoCallbackPage from '@pages/kakao-callback';
 import LoginPage from '@pages/login';
 import MultiPage from '@pages/multi';
 import NotFoundPage from '@pages/not-found';
@@ -28,6 +29,7 @@ export const router = createBrowserRouter(
             { path: 'ranking', element: <RankingPage /> },
             { path: 'review', element: <ReviewPage /> },
             { path: 'login', element: <LoginPage /> },
+            { path: 'api/oauth2/callback/kakao', element: <KakaoCallbackPage /> },
             { path: '*', element: <NotFoundPage /> },
           ],
         },
