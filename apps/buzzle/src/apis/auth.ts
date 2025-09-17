@@ -1,25 +1,6 @@
 import { axiosInstance } from './axiosInstance';
 
 /**
- * 서비스 토큰 페어 응답 형태
- * - 스웨거: { "accessToken": "string", "refreshToken": "string" }
- */
-export interface TokenPair {
-  accessToken: string;
-  refreshToken: string;
-}
-
-/**
- * 카카오 OAuth 콜백 응답 필드
- * - 스웨거: { "access_token": "string", "id_token": "string" }
- * - 백엔드 콜백 엔드포인트가 JSON을 반환하는 경우에 해당합니다.
- */
-export interface CallbackTokens {
-  access_token: string;
-  id_token: string;
-}
-
-/**
  * 카카오 OAuth 콜백 결과 조회
  * GET /oauth2/callback/kakao?code=...
  *
