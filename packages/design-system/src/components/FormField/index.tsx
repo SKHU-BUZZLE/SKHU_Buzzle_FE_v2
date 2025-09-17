@@ -8,6 +8,7 @@ interface FormFieldProps extends Omit<React.ComponentProps<'input'>, 'type'> {
   name: string;
   value?: string;
   defaultValue?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: () => void;
   onBlur?: () => void;
   fieldClassName?: string;
@@ -32,6 +33,7 @@ interface FormFieldProps extends Omit<React.ComponentProps<'input'>, 'type'> {
  * @param {string} [props.name] 입력 필드의 name/id. label과 aria 연결 기준
  * @param {string} [props.value] 입력 값 (controlled 방식)
  * @param {string} [props.defaultValue] 초기 값 (uncontrolled 방식)
+ * @param {(e: React.ChangeEvent<HTMLInputElement>) => void} [props.onChange] 값 변경 이벤트 핸들러
  * @param {() => void} [props.onFocus] 포커스 이벤트 핸들러
  * @param {() => void} [props.onBlur] 블러 이벤트 핸들러
  *
@@ -65,6 +67,7 @@ export default function FormField({
   name,
   value,
   defaultValue,
+  onChange,
   onFocus,
   onBlur,
   fieldClassName,
@@ -105,6 +108,7 @@ export default function FormField({
           type={type}
           value={value}
           onBlur={onBlur}
+          onChange={onChange}
           onFocus={onFocus}
           {...inputProps}
         />
