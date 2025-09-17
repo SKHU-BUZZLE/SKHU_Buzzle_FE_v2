@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import FormFieldDoc from '@pages/components/FormFieldDoc';
 import AvatarDoc from '@pages/components/AvatarDoc';
 import QuizOptionDoc from '@pages/components/QuizOptionDoc';
 import ProfileImageDoc from '@pages/components/ProfileImageDoc';
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
           { path: 'QuizOption', element: <QuizOptionDoc /> },
           { path: 'ProfileImage', element: <ProfileImageDoc /> },
           { path: 'Avatar', element: <AvatarDoc /> },
+          { path: 'FormField', element: <FormFieldDoc /> },
         ],
       },
     ],
