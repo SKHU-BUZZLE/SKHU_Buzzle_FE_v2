@@ -24,17 +24,14 @@ export const useAuth = () => {
   const fetchUser = useUserStore((state) => state.fetchUser);
   const fetchLife = useUserStore((state) => state.fetchLife);
 
-  // StrictMode 이펙트 2회 실행 방지
   const requestSentRef = useRef(false);
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: async (code: string) => {
-      // 1) 카카오 콜백에서 id_token
       const kakaoResponse = await getKakaoOAuthCallback(code);
       const idToken = kakaoResponse.data.id_token;
       if (!idToken) throw new Error('id_token을 받지 못했습니다.');
 
-      // 2) 서비스 토큰 교환 (래핑 응답 가정)
       const tokenResponse = await exchangeAuthCodeForTokens(idToken);
       const accessToken = tokenResponse.data.data.accessToken;
       const refreshToken = tokenResponse.data.data.refreshToken;
@@ -44,19 +41,16 @@ export const useAuth = () => {
     },
 
     onSuccess: async ({ accessToken, refreshToken }) => {
-      // 3) 토큰 저장
       setTokens(accessToken, refreshToken);
 
-      // 4) 프로필/라이프 선 로드 (하나 실패해도 전체 플로우 유지)
       await Promise.allSettled([fetchUser(), fetchLife()]);
 
-      // 5) 홈으로 이동
       navigate('/', { replace: true });
     },
 
     onError: (err) => {
       console.error('[useAuth] 인증 오류 발생:', err);
-      // 필요 시 navigate('/login') 등의 처리 추가 가능
+      // 에러시 로그인으로 보낼꺼면 여기 추가해야 함.
     },
   });
 
