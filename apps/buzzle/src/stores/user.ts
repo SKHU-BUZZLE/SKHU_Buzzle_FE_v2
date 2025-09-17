@@ -3,8 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface User {
-  // 이미지 없을 때 어떻게 넘어오는지 몰라서 null/undefined 둘 다 넣어둠
-  picture?: string | null;
+  picture: string;
   email: string;
   name: string;
   streak: number;
