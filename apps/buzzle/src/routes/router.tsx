@@ -1,4 +1,7 @@
 import AppLayout from '@layouts/AppLayout';
+import BackHeaderFrame from '@layouts/BackHeaderFrame';
+import BackNavFrame from '@layouts/BackNavFrame';
+import BottomBarFrame from '@layouts/BottomBarFrame';
 import HomeFrame from '@layouts/HomeFrame';
 import RootFrame from '@layouts/RootFrame';
 import HomePage from '@pages/home';
@@ -33,21 +36,48 @@ export const router = createBrowserRouter(
         {
           element: <RequireAuth />,
           children: [
-            // (A) 홈 전용 프레임: 바텀바/특화 레이아웃이 필요한 홈만 HomeFrame으로 감쌈
+            // 홈 전용 프레임: HomeHeader, BottomNavBar 포함된 레이아웃
             {
               element: <HomeFrame />,
               children: [{ path: 'home', element: <HomePage /> }],
             },
 
-            // (B) 그 외 인증 페이지들: 공통 레이아웃(AppLayout)로 감쌈
+            // 뒤로가기 헤더 프레임: BackHeader 포함된 레이아웃
             {
-              element: <AppLayout />,
+              element: <BackHeaderFrame />,
+              children: [
+                // 뒤로가기 헤더가 포함된 페이지들
+                { path: 'ranking', element: <RankingPage /> },
+                // 대부분 퀴즈 진행중인 페이지들
+              ],
+            },
+
+            // 바텀 네비게이션 바가 포함된 페이지들
+            {
+              element: <BottomBarFrame />,
+              children: [
+                // 바텀 네비게이션 바가 포함된 페이지들
+                // 생각보다 이 부분이 많지 않네요..? 최종때 사용 안하면 지우겠습니다.
+              ],
+            },
+
+            // 뒤로가기 헤더 & 바텀 네비게이션 바가 포함된 페이지들
+            {
+              element: <BackNavFrame />,
               children: [
                 { path: 'single', element: <SinglePage /> },
                 { path: 'multi', element: <MultiPage /> },
-                { path: 'ranking', element: <RankingPage /> },
                 { path: 'review', element: <ReviewPage /> },
-                { path: '*', element: <NotFoundPage /> }, // 404도 인증 구간에서 처리
+                // 퀴즈 결과 창페이지도 추가될 것 같습니다.
+              ],
+            },
+
+            // 헤더 및 바텀네비게이션 바가 없는 앱 기본 레이아웃 적용된 페이지들
+            {
+              element: <AppLayout />,
+              children: [
+                // 기본 레이아웃만 적용되어야하는 페이지들
+                { path: '*', element: <NotFoundPage /> },
               ],
             },
           ],
