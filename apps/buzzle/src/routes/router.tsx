@@ -29,7 +29,10 @@ export const router = createBrowserRouter(
         {
           element: <GuestOnly />,
           children: [
-            { path: 'login', element: <LoginPage /> },
+            {
+              element: <AppLayout />,
+              children: [{ path: 'login', element: <LoginPage /> }],
+            },
             { path: 'api/oauth2/callback/kakao', element: <KakaoCallbackPage /> },
           ],
         },
