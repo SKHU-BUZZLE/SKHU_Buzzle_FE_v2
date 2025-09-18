@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import ModalDoc from '@pages/components/ModalDoc';
 import OverlayDoc from '@pages/components/OverlayDoc';
 import SlotDoc from '@pages/components/SlotDoc';
 import PortalDoc from '@pages/components/PortalDoc';
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
           { path: 'Portal', element: <PortalDoc /> },
           { path: 'Slot', element: <SlotDoc /> },
           { path: 'Overlay', element: <OverlayDoc /> },
+          { path: 'Modal', element: <ModalDoc /> },
         ],
       },
     ],
