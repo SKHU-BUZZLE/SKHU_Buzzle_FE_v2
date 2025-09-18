@@ -47,7 +47,7 @@ type PortalProps = PropsWithChildren<{
  * </Portal>
  * ```
  */
-export function Portal({ container, children }: PortalProps) {
+export default function Portal({ container, children }: PortalProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
