@@ -2,7 +2,7 @@ import QuizCategory from '@components/quizCategory';
 import { useState } from 'react';
 
 export default function SinglePage() {
-  const [category, setCategory] = useState<string | number>('all');
+  const [category, setCategory] = useState<string>('all');
 
   return (
     <section className='space-y-8'>

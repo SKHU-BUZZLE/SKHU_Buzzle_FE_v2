@@ -16,9 +16,9 @@ export interface RadioGroupContextType {
   /** 같은 그룹을 식별하기 위한 native radio의 name 속성 */
   name: string;
   /** 현재 선택된 값 (문자열 또는 숫자) */
-  value: string | number;
+  value: string;
   /** 선택 변경 시 호출되는 콜백 */
-  onChange: (next: string | number) => void;
+  onChange: (next: string) => void;
   /** 라디오 그룹 제목 요소의 id (aria-labelledby 연결용) */
   titleId?: string;
   /** 어떤 UI 모드를 사용할지 지정 ('option' | 'card') */
@@ -33,9 +33,9 @@ export interface RadioGroupContextType {
  */
 export interface RadioRootProps {
   /** 현재 선택 값 */
-  value: string | number;
+  value: string;
   /** 선택 변경 콜백 */
-  onChange: (next: string | number) => void;
+  onChange: (next: string) => void;
   /** UI 모드 ('option' | 'card'): Option/Card 혼용 방지용 */
   mode: RadioMode;
   /** 같은 페이지에서 그룹 간 이름 충돌 방지용 name (미지정 시 자동 생성) */
@@ -65,7 +65,7 @@ export interface RadioTitleProps {
  */
 export interface RadioOptionProps {
   /** 이 옵션의 값 */
-  value: string | number;
+  value: string;
   /** 라벨/아이콘 등 자유 구성 */
   children?: React.ReactNode;
   /** 옵션 래퍼(label) 클래스 */
@@ -85,7 +85,7 @@ export interface RadioOptionProps {
 /** 카드형 라디오 Card 컴포넌트 Props */
 export interface RadioCardProps {
   /** 이 옵션의 값 */
-  value: string | number;
+  value: string;
   /** 아이콘 노드(없으면 아이콘 영역 미표시) */
   icon?: React.ReactNode;
   /** 텍스트 라벨(없으면 라벨 영역 미표시) */
