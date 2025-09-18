@@ -1,12 +1,11 @@
 import { useAuthStore } from '@stores/auth';
 import { useUserStore } from '@stores/user';
 
-export function useLogout() {
-  const clearTokens = useAuthStore((state) => state.clearTokens);
-  const clearUser = useUserStore((state) => state.clearUser);
+export function logout() {
+  useAuthStore.getState().clearTokens();
+  useUserStore.getState().clearUser();
+}
 
-  return () => {
-    clearTokens();
-    clearUser();
-  };
+export function useLogout() {
+  return logout;
 }

@@ -1,3 +1,4 @@
+import { logout } from '@hooks/useLogout';
 import { useAuthStore } from '@stores/auth';
 import axios, { AxiosError, HttpStatusCode, type InternalAxiosRequestConfig } from 'axios';
 
@@ -92,13 +93,13 @@ axiosInstance.interceptors.response.use(
 
     // 무한 루프 방지: 재발급 요청 자체가 401이면 즉시 중단
     if (originalRequest?.url?.startsWith('/token/access')) {
-      useAuthStore.getState().clearAuth();
+      logout();
       return Promise.reject(new Error(getErrorMessage(error)));
     }
 
     // 무한 루프 방지: 같은 원요청의 재시도는 1회만 허용
     if (originalRequest._retry) {
-      useAuthStore.getState().clearAuth();
+      logout();
       return Promise.reject(new Error(getErrorMessage(error)));
     }
     // 재시도 플래그 설정
@@ -108,7 +109,7 @@ axiosInstance.interceptors.response.use(
     const { refreshToken } = useAuthStore.getState();
     if (!refreshToken) {
       // 재발급 시도 자체가 불가능 → 인증 해제 후 에러 반환
-      useAuthStore.getState().clearAuth();
+      logout();
       return Promise.reject(new Error('인증이 만료되었습니다. 다시 로그인해 주세요.'));
     }
 
@@ -136,7 +137,7 @@ axiosInstance.interceptors.response.use(
       return axiosInstance(originalRequest);
     } catch (error) {
       // 재발급 실패 → 인증 해제 후 에러 반환
-      useAuthStore.getState().clearAuth();
+      logout();
       return Promise.reject(new Error(getErrorMessage(error)));
     }
   },
