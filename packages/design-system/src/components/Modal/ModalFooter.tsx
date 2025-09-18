@@ -18,7 +18,7 @@ import type { ModalFooterProps } from './types';
  * ```
  */
 function ModalFooter({ children, className }: ModalFooterProps) {
-  return <div className={twMerge('mt-18 flex justify-between gap-6', className)}>{children}</div>;
+  return <div className={twMerge('mt-18 flex gap-6', className)}>{children}</div>;
 }
 
 export const Footer = ModalFooter;
