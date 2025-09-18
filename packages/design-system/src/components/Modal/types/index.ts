@@ -75,3 +75,13 @@ export interface ModalFooterProps {
   /** 추가 CSS 클래스명 */
   className?: string;
 }
+
+/**
+ * @description Modal.CloseButton 컴포넌트의 Props
+ */
+export interface ModalCloseButtonProps {
+  /** 버튼 안에 들어갈 콘텐츠 (텍스트, 아이콘 등) */
+  children: React.ReactNode;
+  /** 사용자 정의 클래스명 (tailwind-merge로 병합) */
+  className?: string;
+}
