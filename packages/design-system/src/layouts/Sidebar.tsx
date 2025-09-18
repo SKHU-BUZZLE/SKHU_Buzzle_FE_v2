@@ -23,6 +23,7 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'QuizIntro', to: '/docs/component/QuizIntro' },
     { label: 'Portal', to: '/docs/component/Portal' },
   { label: 'Slot', to: '/docs/component/Slot' },
+  { label: 'Overlay', to: '/docs/component/Overlay' },
 ],
 };
 

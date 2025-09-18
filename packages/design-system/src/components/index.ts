@@ -21,3 +21,4 @@ export { default as MultiQuizRankingItem } from './MultiQuizRankingItem';
 export { default as QuizIntro } from './QuizIntro';
 export { default as Portal } from './Portal';
 export { default as Slot } from './Slot';
+export { default as Overlay } from './Overlay';
