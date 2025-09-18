@@ -1,3 +1,4 @@
+import Button from '@components/Button';
 import { PlusIcon } from '@components/icons';
 import { twMerge } from 'tailwind-merge';
 
@@ -22,15 +23,17 @@ export function CounterUp({ className }: { className?: string }) {
   const { count, onChange, step, max } = useCounterContext();
   const disabled = typeof max === 'number' && count >= max;
 
-  // todo: 공통 컴포넌트 Button으로 수정할 예정
   return (
-    <button
-      className='disabled:opacity-40'
+    <Button
+      iconOnly
+      aria-label='증가'
+      className='border-none'
       disabled={disabled}
+      leftIcon={<PlusIcon className={twMerge('text-black-100', className)} />}
+      size='sm'
+      variant='outline'
       onClick={() => onChange(clamp(count + step, null, max))}
-    >
-      <PlusIcon className={twMerge('text-black-100', className)} />
-    </button>
+    />
   );
 }
 

@@ -1,5 +1,5 @@
 import ProfileImage from '@components/ProfileImage';
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 type Variant = 'default' | 'score' | 'rank';
 const VARIANT_STYLES = {
@@ -101,18 +101,18 @@ export default function Avatar({
   const gap = variant === 'rank' ? 'gap-20' : 'gap-12';
 
   return (
-    <div className={twMerge(`flex w-fit items-center`, flexDirection, gap, layoutClassName)}>
+    <div className={twm(`flex w-fit items-center`, flexDirection, gap, layoutClassName)}>
       <ProfileImage
         alt={altText}
-        className={twMerge(VARIANT_STYLES.profileImage[variant], profileImageClassName)}
+        className={twm(VARIANT_STYLES.profileImage[variant], profileImageClassName)}
         src={src}
       />
 
-      <div className={twMerge('flex flex-col items-start gap-2', direction === 'vertical' && 'items-center')}>
-        <p className={twMerge(VARIANT_STYLES.name[variant], nameClassName)}>{name}</p>
+      <div className={twm('flex flex-col items-start gap-2', direction === 'vertical' && 'items-center')}>
+        <p className={twm(VARIANT_STYLES.name[variant], nameClassName)}>{name}</p>
 
         {variant !== 'default' && typeof metaValue === 'number' && metaValue > -1 && (
-          <p className={twMerge(VARIANT_STYLES.meta[variant], metaClassName)}>
+          <p className={twm(VARIANT_STYLES.meta[variant], metaClassName)}>
             {metaValue}
             {metaUnit}
           </p>

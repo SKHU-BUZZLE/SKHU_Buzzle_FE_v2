@@ -1,5 +1,9 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+
 import RankingItemDoc from '@pages/components/RankingItemDoc';
+import MultiQuizRankingItemDoc from '@pages/components/MultiQuizRankingItemDoc';
+import QuizIntroDoc from '@pages/components/QuizIntroDoc';
+import FormFieldDoc from '@pages/components/FormFieldDoc';
 import CounterDoc from '@pages/components/CounterDoc';
 import UserStatusBadgeDoc from '@pages/components/UserStatusBadgeDoc';
 import AvatarDoc from '@pages/components/AvatarDoc';
@@ -45,9 +49,12 @@ const router = createBrowserRouter([
           { path: 'QuizOption', element: <QuizOptionDoc /> },
           { path: 'ProfileImage', element: <ProfileImageDoc /> },
           { path: 'Avatar', element: <AvatarDoc /> },
+          { path: 'FormField', element: <FormFieldDoc /> },
           { path: 'Counter', element: <CounterDoc /> },
           { path: 'UserStatusBadge', element: <UserStatusBadgeDoc /> },
           { path: 'RankingItem', element: <RankingItemDoc /> },
+          { path: 'MultiQuizRankingItem', element: <MultiQuizRankingItemDoc /> },
+          { path: 'QuizIntro', element: <QuizIntroDoc /> },
         ],
       },
     ],
