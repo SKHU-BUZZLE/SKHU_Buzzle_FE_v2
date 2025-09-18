@@ -12,6 +12,8 @@ export { default as LifeCounter } from './LifeCounter';
 export { default as QuizOption } from './QuizOption';
 export { default as ProfileImage } from './ProfileImage';
 export { default as Avatar } from './Avatar';
+export { default as FormField } from './FormField';
 export { Counter } from './Counter';
 export { default as UserStatusBadge } from './UserStatusBadge';
 export { default as MultiQuizRankingItem } from './MultiQuizRankingItem';
+export { default as QuizIntro } from './QuizIntro';

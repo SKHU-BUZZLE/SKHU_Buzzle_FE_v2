@@ -14,9 +14,11 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'QuizOption', to: '/docs/component/QuizOption' },
     { label: 'ProfileImage', to: '/docs/component/ProfileImage' },
     { label: 'Avatar', to: '/docs/component/Avatar' },
+    { label: 'FormField', to: '/docs/component/FormField' },
     { label: 'Counter', to: '/docs/component/Counter' },
     { label: 'UserStatusBadge', to: '/docs/component/UserStatusBadge' },
     { label: 'MultiQuizRankingItem', to: '/docs/component/MultiQuizRankingItem' },
+    { label: 'QuizIntro', to: '/docs/component/QuizIntro' },
   ],
 };
 
