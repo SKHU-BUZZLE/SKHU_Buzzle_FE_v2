@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), visualizer() as PluginOption],
   resolve: {
     alias: [
-      { find: '@', replacement: path.resolve(__dirname, 'src') },
+      { find: '@apis', replacement: path.resolve(__dirname, 'src/apis') },
       { find: '@assets', replacement: path.resolve(__dirname, 'src/assets') },
       { find: '@components', replacement: path.resolve(__dirname, 'src/components') },
       { find: '@constants', replacement: path.resolve(__dirname, 'src/constants') },
@@ -26,4 +26,6 @@ export default defineConfig({
     port: 5173,
     open: true,
   },
+
+  base: process.env.VITE_BASE_URL || '/',
 });

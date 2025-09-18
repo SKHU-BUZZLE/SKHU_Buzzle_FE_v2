@@ -1,11 +1,55 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* === Tailwind v4 테마 설정 === */
 @theme {
-  --color-black: #000000;
+  --color-black: #070707;
   --color-white: #ffffff;
-
   --spacing: 0.0625rem;
+
+  /* Black scale */
+  --color-black-50: #f7f7f7;
+  --color-black-100: #b5b5b5;
+  --color-black-200: #919191;
+  --color-black-300: #5f5f5f;
+  --color-black-400: #404040;
+  --color-black-500: #101010;
+  --color-black-600: #0f0f0f;
+  --color-black-700: #0b0b0b;
+  --color-black-800: #090909;
+  --color-black-900: #070707;
+
+  /* Dark mode black scale (dm-black) */
+  --color-dm-black-900: #101013;
+  --color-dm-black-800: #17171c;
+  --color-dm-black-700: #202027;
+  --color-dm-black-600: #2c2c35;
+  --color-dm-black-500: #3f3f4b;
+  --color-dm-black-400: #62626d;
+
+  /* White scale */
+  --color-white-50: #fdfdfd;
+  --color-white-100: #f7f7f7;
+  --color-white-200: #f4f4f4;
+  --color-white-300: #eeeeee;
+  --color-white-400: #ebebeb;
+  --color-white-500: #e6e6e6;
+  --color-white-600: #d1d1d1;
+  --color-white-700: #a3a3a3;
+  --color-white-800: #7f7f7f;
+  --color-white-900: #616161;
+
+  /* Accent */
+  --color-primary-500: #0656d7;
+  --color-primary-alpha-10: rgba(6, 86, 215, 0.15);
+  --color-primary-alpha-20: rgba(6, 86, 215, 0.2);
+
+  --color-correct-green-500: #15c47e;
+  --color-correct-green-alpha: rgba(21, 196, 126, 0.15);
+
+  --color-error-red-500: #f04452;
+  --color-error-red-alpha: rgba(240, 68, 82, 0.15);
 }
 
 @layer base {
@@ -19,7 +63,129 @@
   html {
     font-family: 'Pretendard', system-ui, sans-serif;
     word-break: keep-all;
-    color: black;
-    background-color: white;
+  }
+
+  /* 라이트 모드 */
+  html {
+    color: var(--color-black-300);
+    background-color: var(--color-white-50);
+  }
+
+  /* 다크 모드 */
+  html.dark {
+    color: var(--color-white-300);
+    background-color: var(--color-dm-black-800);
+  }
+
+  /* 마크다운 코드블록 스타일 */
+  .prose pre {
+    background-color: transparent !important;
+    padding: 0 !important;
+    border-radius: 1rem !important;
+    line-height: normal !important;
+    overflow-x: auto !important;
+  }
+
+  .prose pre code {
+    padding: 1.5rem !important;
+  }
+
+  .prose code:not(pre code):not(.not-prose code) {
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+  }
+
+  .prose code:not(pre code):not(.not-prose code) {
+    background-color: var(--color-white-300);
+  }
+
+  .dark .prose code:not(pre code):not(.not-prose code) {
+    background-color: var(--color-dm-black-600);
+  }
+}
+
+/** twMerge에서 기본 tailwind 클래스와 동일한 우선순위를 주기 위해 utilities 계층 사용 */
+@layer utilities {
+  /* === Typography === */
+  .ds-typ-heading-1 {
+    @apply text-[1.75rem] font-bold md:text-[2rem]; /* 28px / 32px */
+  }
+  .ds-typ-heading-2 {
+    @apply text-[1.5rem] font-bold md:text-[1.75rem]; /* 24px / 28px */
+  }
+  .ds-typ-heading-3 {
+    @apply text-[1.25rem] font-bold md:text-[1.5rem]; /* 20px / 24px */
+  }
+  .ds-typ-title-1 {
+    @apply text-[1.125rem] font-bold md:text-[1.25rem]; /* 18px / 20px */
+  }
+  .ds-typ-title-2 {
+    @apply text-[1rem] font-bold md:text-[1.125rem]; /* 16px / 18px */
+  }
+  .ds-typ-body-1 {
+    @apply text-[1rem] md:text-[1.125rem]; /* 16px / 18px */
+  }
+  .ds-typ-body-2 {
+    @apply text-[0.875rem] md:text-[1rem]; /* 14px / 16px */
+  }
+  .ds-typ-body-3 {
+    @apply text-[0.75rem] md:text-[0.875rem]; /* 12px / 14px */
+  }
+
+  /* === Text Color === */
+  .ds-text-strong {
+    @apply text-black-600 dark:text-white-50;
+  }
+
+  .ds-text-normal {
+    @apply text-black-300 dark:text-white-300;
+  }
+
+  .ds-text-caption {
+    @apply text-black-100 dark:text-black-100;
+  }
+
+  /* === Background === */
+  .ds-theme-bg-base {
+    @apply bg-white-50 dark:bg-dm-black-800;
+  }
+
+  .ds-theme-bg-muted {
+    @apply bg-white-200 dark:bg-dm-black-600;
+  }
+
+  .ds-theme-bg-strong {
+    @apply bg-white-400 dark:bg-dm-black-800;
+  }
+
+  .ds-theme-bg-backdrop {
+    @apply md:bg-white-300 dark:md:bg-dm-black-900;
+  }
+
+  /* === Border === */
+  .ds-theme-border-base {
+    @apply border-white-300 dark:border-dm-black-700;
+  }
+
+  .ds-theme-border-focus {
+    @apply dark:focus:border-dm-black-500 focus:border-white-600;
+  }
+
+  /* === Layout Constants === */
+  .ds-layout-max-width {
+    @apply max-w-768;
+  }
+
+  .ds-layout-padding {
+    @apply px-16;
+  }
+
+  /* === Bottom Bar Constants (높이 수정시 전부 수정해야합니다.) === */
+  .ds-bottom-nav-height {
+    @apply h-64;
+  }
+
+  .ds-bottom-nav-padding {
+    @apply pb-64;
   }
 }

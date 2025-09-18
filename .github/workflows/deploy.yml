@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   filter:
-    name: 모노레포 변경 감지 (paths-filter)
+    name: 모노레포 변경 감지
     runs-on: ubuntu-latest
 
     outputs:
@@ -50,7 +50,7 @@ jobs:
       - name: PNPM 설치
         uses: pnpm/action-setup@v4
         with:
-          version: 10.11.1
+          version: 10.15.1
 
       - name: Node.js 설치 및 PNPM 캐시 설정
         uses: actions/setup-node@v4
@@ -66,6 +66,7 @@ jobs:
         env:
           VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
           VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
+          VITE_KAKAO_REDIRECT_URI: ${{ secrets.VITE_KAKAO_REDIRECT_URI }}
 
       - name: AWS 자격 증명 구성
         uses: aws-actions/configure-aws-credentials@v4
@@ -92,7 +93,7 @@ jobs:
       - name: PNPM 설치
         uses: pnpm/action-setup@v4
         with:
-          version: 10.11.1
+          version: 10.15.1
 
       - name: Node.js 설치 및 PNPM 캐시 설정
         uses: actions/setup-node@v4

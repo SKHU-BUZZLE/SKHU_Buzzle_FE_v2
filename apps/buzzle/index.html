@@ -1,6 +1,30 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="scheme-light-dark">
   <head>
+    <script>
+      (() => {
+        // 기본은 라이트모드
+        let t = 'light';
+        try {
+          // zustand persist로 저장해둔 값 읽기
+          const raw = localStorage.getItem('theme');
+          const saved = raw && JSON.parse(raw)?.state?.theme;
+          // 로컬 스토리지에 저장된 테마를 우선으로 하고, 첫 접속이라면 시스템 테마를 따라감
+          t =
+            saved === 'dark' || saved === 'light'
+              ? saved
+              : window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+        } catch {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        const root = document.documentElement;
+        // 테마 적용
+        root.classList.toggle('dark', t === 'dark');
+        root.style.colorScheme = t;
+      })();
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
