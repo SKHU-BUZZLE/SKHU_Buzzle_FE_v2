@@ -45,3 +45,13 @@ export interface ModalContentProps {
   /** 추가 CSS 클래스 (컨테이너 박스에 적용됨) */
   className?: string;
 }
+
+/**
+ * @description Modal.Title 컴포넌트의 Props
+ */
+export interface ModalTitleProps {
+  /** 제목 텍스트 혹은 React 노드 */
+  children: React.ReactNode;
+  /** 추가 CSS 클래스명 */
+  className?: string;
+}
