@@ -65,3 +65,13 @@ export interface ModalDescriptionProps {
   /** 추가 CSS 클래스명 */
   className?: string;
 }
+
+/**
+ * @description Modal.Footer 컴포넌트의 Props
+ */
+export interface ModalFooterProps {
+  /** Footer 내부에 들어갈 버튼들 */
+  children: React.ReactNode;
+  /** 추가 CSS 클래스명 */
+  className?: string;
+}
