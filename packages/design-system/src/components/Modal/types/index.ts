@@ -21,25 +21,6 @@ export interface ModalContextType {
 
 /**
  * @description
- * Modal Context에서 공유되는 상태와 함수들.
- */
-export interface ModalContextType {
-  /** 모달의 열림/닫힘 상태 */
-  open: boolean;
-  /** 모달을 닫는 함수 */
-  onClose: () => void;
-  /** 확인 버튼 콜백 (선택적) */
-  onConfirm?: () => void;
-  /** 모달 본문 영역 ref (외부 클릭 감지용) */
-  modalRef: React.RefObject<HTMLDivElement | null>;
-  /** Title 요소와 연결할 고유 ID */
-  titleId: string;
-  /** Description 요소와 연결할 고유 ID */
-  descriptionId: string;
-}
-
-/**
- * @description
  * Modal.Root 컴포넌트의 Props 정의입니다.
  * - 루트는 모달의 전역 상태(열림/닫힘), 닫기/확인 동작,
  *   그리고 ESC/외부 클릭/스크롤락 옵션을 제어합니다.
@@ -53,4 +34,14 @@ export interface ModalRootProps {
   onClose: () => void;
   /** 확인 버튼 클릭 시 실행되는 선택적 콜백 */
   onConfirm?: () => void;
+}
+
+/**
+ * @description Modal.Content 컴포넌트의 Props
+ */
+export interface ModalContentProps {
+  /** Modal Content 내부에 렌더링될 합성 컴포넌트들 */
+  children: React.ReactNode;
+  /** 추가 CSS 클래스 (컨테이너 박스에 적용됨) */
+  className?: string;
 }
