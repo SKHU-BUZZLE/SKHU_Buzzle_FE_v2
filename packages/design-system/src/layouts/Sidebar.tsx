@@ -17,6 +17,7 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'FormField', to: '/docs/component/FormField' },
     { label: 'Counter', to: '/docs/component/Counter' },
     { label: 'UserStatusBadge', to: '/docs/component/UserStatusBadge' },
+    { label: 'MultiQuizRankingItem', to: '/docs/component/MultiQuizRankingItem' },
     { label: 'QuizIntro', to: '/docs/component/QuizIntro' },
   ],
 };
