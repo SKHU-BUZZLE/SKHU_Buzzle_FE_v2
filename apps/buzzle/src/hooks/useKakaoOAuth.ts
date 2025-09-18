@@ -16,7 +16,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
  * 5) 사용자 프로필/라이프를 미리 로드 (하나 실패해도 이동은 진행) → 홈으로 이동
  *
  */
-export const useAuth = () => {
+export const useKakaoOAuth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 

@@ -1,8 +1,8 @@
 import { LoaderIcon } from '@buzzle/design';
-import { useAuth } from '@hooks/useAuth';
+import { useKakaoOAuth } from '@hooks/useKakaoOAuth';
 
 export default function KakaoCallback() {
-  const { error } = useAuth();
+  const { error } = useKakaoOAuth();
 
   return (
     <div className='flex h-screen w-screen items-center justify-center'>
