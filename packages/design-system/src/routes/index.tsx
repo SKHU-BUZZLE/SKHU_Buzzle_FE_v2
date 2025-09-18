@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
+import QuizIntroDoc from '@pages/components/QuizIntroDoc';
 import FormFieldDoc from '@pages/components/FormFieldDoc';
 import CounterDoc from '@pages/components/CounterDoc';
 import UserStatusBadgeDoc from '@pages/components/UserStatusBadgeDoc';
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
           { path: 'FormField', element: <FormFieldDoc /> },
           { path: 'Counter', element: <CounterDoc /> },
           { path: 'UserStatusBadge', element: <UserStatusBadgeDoc /> },
+          { path: 'QuizIntro', element: <QuizIntroDoc /> },
         ],
       },
     ],
