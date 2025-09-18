@@ -55,3 +55,13 @@ export interface ModalTitleProps {
   /** 추가 CSS 클래스명 */
   className?: string;
 }
+
+/**
+ * @description Modal.Description 컴포넌트의 Props
+ */
+export interface ModalDescriptionProps {
+  /** 설명 텍스트 혹은 React 노드 */
+  children: React.ReactNode;
+  /** 추가 CSS 클래스명 */
+  className?: string;
+}
