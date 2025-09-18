@@ -313,6 +313,14 @@ const ICON_ITEMS = [
       onClick: () => alert('텍스트 로고 클릭!'),
     },
   },
+  {
+    name: 'LoaderIcon',
+    Component: Icons.LoaderIcon,
+    className: 'animate-spin size-40',
+    props: {
+      onClick: () => alert('로더 클릭!'),
+    },
+  },
 ];
 
 const code = `
