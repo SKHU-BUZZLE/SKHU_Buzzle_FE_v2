@@ -142,18 +142,22 @@ export default function ButtonDoc() {
 
 - \`specs\`를 기반으로 자동 생성된 **control form**을 통해 props 값을 실시간으로 편집할 수 있습니다. 
   - _\`specs\`은 식별 유니온 타입이기 때문에 아래 예시처럼 별도의 상수로 사용하는 경우 \`satisfies ReadonlyArray<Spec>\`으로 리터럴 타입을 유지시켜야 합니다._
-- \`extraScope\`를 통해 외부에서 정의한 **이벤트 핸들러나 유틸 함수**를 주입하여 테스트할 수 있습니다.  
+- \`extraScope\`를 통해 외부에서 정의한 **이벤트 핸들러나 유틸 함수, 별도 컴포넌트(node)**를 주입하여 테스트할 수 있습니다.  
+  - 즉, 별도 컴포넌트(ex. icon)를 사용하고 싶은 경우 \`extraScope\`에 등록하여 사용할 수 있습니다.
 - 간단한 props 조합 테스트나 시각적 확인에 적합하며, 상태 관리가 필요하다면 \`StatefulPlayground\`를 사용해야 합니다.
 
 \`\`\`tsx
 import StatelessPlayground, { type Spec } from '@/layouts/StatelessPlayground';
 import Button from '@/components/Button';
+import CheckIcon from '@/components/icons';
+import ChevronRightIcon from '@/components/icons';
 
 const specs = [
   { type: 'select',  propName: 'variant', options: ['primary', 'secondary'], label: 'Variant' },
   { type: 'boolean', propName: 'disabled', label: 'Disabled' },
   { type: 'text',    propName: 'children', label: 'Label' },
   { type: 'handler', propName: 'onClick',  options: ['handleClick'], label: 'onClick' },
+  { type: 'node',    propName: 'leftIcon',  options: ['CheckIcon', 'ChevronRightIcon'], label: 'Left Icon' },
 ] satisfies ReadonlyArray<Spec>;
 
 function handleClick() { alert('clicked'); }
@@ -164,7 +168,7 @@ export default function ButtonDoc() {
       component={Button}
       initialProps={{ variant: 'primary', children: 'Click me' }}
       specs={specs}
-      extraScope={{ handleClick }}
+      extraScope={{ handleClick, CheckIcon, ChevronRightIcon }}
     />
   );
 }

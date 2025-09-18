@@ -15,7 +15,13 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'ProfileImage', to: '/docs/component/ProfileImage' },
     { label: 'Avatar', to: '/docs/component/Avatar' },
     { label: 'RadioGroup', to: '/docs/component/RadioGroup' },
-],
+    { label: 'FormField', to: '/docs/component/FormField' },
+    { label: 'Counter', to: '/docs/component/Counter' },
+    { label: 'UserStatusBadge', to: '/docs/component/UserStatusBadge' },
+    { label: 'RankingItem', to: '/docs/component/RankingItem' },
+    { label: 'MultiQuizRankingItem', to: '/docs/component/MultiQuizRankingItem' },
+    { label: 'QuizIntro', to: '/docs/component/QuizIntro' },
+  ],
 };
 
 /** 현재 URL 경로 중 해당하는 Section 타입(foundation | component | root)을 반환 */

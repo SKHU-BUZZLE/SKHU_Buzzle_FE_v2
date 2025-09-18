@@ -78,7 +78,8 @@
   }
 }
 
-@layer components {
+/** twMerge에서 기본 tailwind 클래스와 동일한 우선순위를 주기 위해 utilities 계층 사용 */
+@layer utilities {
   /* === Typography === */
   .ds-typ-heading-1 {
     @apply text-[1.75rem] font-bold md:text-[2rem]; /* 28px / 32px */
@@ -96,13 +97,13 @@
     @apply text-[1rem] font-bold md:text-[1.125rem]; /* 16px / 18px */
   }
   .ds-typ-body-1 {
-    @apply text-[0.875rem] md:text-[1rem]; /* 14px / 16px */
+    @apply text-[1rem] md:text-[1.125rem]; /* 16px / 18px */
   }
   .ds-typ-body-2 {
-    @apply text-[0.75rem] md:text-[0.875rem]; /* 12px / 14px */
+    @apply text-[0.875rem] md:text-[1rem]; /* 14px / 16px */
   }
   .ds-typ-body-3 {
-    @apply text-[0.75rem] md:text-[0.75rem]; /* 12px / 12px */
+    @apply text-[0.75rem] md:text-[0.875rem]; /* 12px / 14px */
   }
 
   /* === Text Color === */
@@ -115,7 +116,7 @@
   }
 
   .ds-text-caption {
-    @apply text-black-100 dark:text-white-100;
+    @apply text-black-100 dark:text-black-100;
   }
 
   /* === Background === */
