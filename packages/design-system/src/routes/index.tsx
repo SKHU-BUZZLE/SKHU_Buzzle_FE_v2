@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import MultiQuizRankingItemDoc from '@pages/components/MultiQuizRankingItemDoc';
 import CounterDoc from '@pages/components/CounterDoc';
 import UserStatusBadgeDoc from '@pages/components/UserStatusBadgeDoc';
 import AvatarDoc from '@pages/components/AvatarDoc';
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
           { path: 'Avatar', element: <AvatarDoc /> },
           { path: 'Counter', element: <CounterDoc /> },
           { path: 'UserStatusBadge', element: <UserStatusBadgeDoc /> },
+          { path: 'MultiQuizRankingItem', element: <MultiQuizRankingItemDoc /> },
         ],
       },
     ],
