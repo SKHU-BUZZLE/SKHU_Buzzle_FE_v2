@@ -5,29 +5,22 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
 
-  isAuthenticated: boolean;
+  isLoggedIn: boolean;
 
   setTokens: (accessToken: string, refreshToken: string) => void;
   clearTokens: () => void;
-
-  clearAuth: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       accessToken: null,
       refreshToken: null,
-      isAuthenticated: false,
+      isLoggedIn: false,
 
-      setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken, isAuthenticated: true }),
+      setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken, isLoggedIn: true }),
 
-      clearTokens: () => set({ accessToken: null, refreshToken: null, isAuthenticated: false }),
-
-      clearAuth: () => {
-        get().clearTokens();
-        // useUserStore.getState().clearUser();
-      },
+      clearTokens: () => set({ accessToken: null, refreshToken: null, isLoggedIn: false }),
     }),
     {
       name: 'auth',
@@ -35,7 +28,7 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
-        isAuthenticated: state.isAuthenticated,
+        isLoggedIn: state.isLoggedIn,
       }),
     },
   ),
