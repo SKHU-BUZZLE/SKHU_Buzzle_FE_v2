@@ -1,3 +1,5 @@
+import type { WithAsChild } from '@components/Slot';
+
 /**
  * @description
  * Modal Context에서 공유되는 상태와 함수들.
@@ -84,4 +86,26 @@ export interface ModalCloseButtonProps {
   children: React.ReactNode;
   /** 사용자 정의 클래스명 (tailwind-merge로 병합) */
   className?: string;
+}
+
+/**
+ * @description
+ * Modal.ActionButton 컴포넌트의 Props 정의입니다.
+ * - 디자인 시스템 `Button`을 기본으로 사용합니다.
+ * - `asChild`가 true이면 Slot 패턴을 통해 자식 요소(<a>, <Link> 등)에 props를 직접 주입합니다.
+ * - 클릭 이벤트 실행 순서: 외부 onClick → Context onConfirm
+ */
+export interface ModalActionButtonProps extends WithAsChild<React.ButtonHTMLAttributes<HTMLButtonElement>> {
+  /** 버튼에 표시될 텍스트 또는 요소 */
+  children: React.ReactNode;
+  /** 사용자 정의 클래스명 (tailwind-merge로 병합) */
+  className?: string;
+  /**
+   * 버튼 클릭 시 실행될 추가 핸들러
+   * - Context의 onConfirm보다 먼저 실행됩니다.
+   * - e.preventDefault()가 호출되면 onConfirm은 실행되지 않습니다.
+   */
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLElement>) => void;
+  /** 버튼 비활성화 여부 */
+  disabled?: boolean;
 }
