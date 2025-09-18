@@ -15,37 +15,14 @@ permissions:
   contents: read
 
 jobs:
-  filter:
-    name: 모노레포 변경 감지
-    runs-on: ubuntu-latest
-
-    outputs:
-      service: ${{ steps.filter.outputs.service }}
-      docs: ${{ steps.filter.outputs.docs }}
-
-    steps:
-      - name: 리포지토리 체크아웃
-        uses: actions/checkout@v4
-
-      - name: 변경 경로 필터링
-        uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            service:
-              - 'apps/buzzle/**'
-              - 'packages/design-system/src/components/**'
-            docs:
-              - 'packages/design-system/**'
-
   deploy-service:
     name: 서비스 배포 (apps/buzzle)
-    needs: filter
-    if: ${{ needs.filter.outputs.service == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: PNPM 설치
         uses: pnpm/action-setup@v4
@@ -83,12 +60,12 @@ jobs:
 
   deploy-docs:
     name: 디자인 시스템 문서 배포 (docs)
-    needs: filter
-    if: ${{ needs.filter.outputs.docs == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: PNPM 설치
         uses: pnpm/action-setup@v4
