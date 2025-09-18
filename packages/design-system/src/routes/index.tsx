@@ -1,5 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+
 import FormFieldDoc from '@pages/components/FormFieldDoc';
+import CounterDoc from '@pages/components/CounterDoc';
+import UserStatusBadgeDoc from '@pages/components/UserStatusBadgeDoc';
 import AvatarDoc from '@pages/components/AvatarDoc';
 import QuizOptionDoc from '@pages/components/QuizOptionDoc';
 import ProfileImageDoc from '@pages/components/ProfileImageDoc';
@@ -44,6 +47,8 @@ const router = createBrowserRouter([
           { path: 'ProfileImage', element: <ProfileImageDoc /> },
           { path: 'Avatar', element: <AvatarDoc /> },
           { path: 'FormField', element: <FormFieldDoc /> },
+          { path: 'Counter', element: <CounterDoc /> },
+          { path: 'UserStatusBadge', element: <UserStatusBadgeDoc /> },
         ],
       },
     ],
