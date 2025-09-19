@@ -1,6 +1,15 @@
 import type { WithAsChild } from '@components/Slot';
 
 /**
+ * Button/Link 등 asChild로 변형될 수 있는 타깃을 포괄하기 위한 속성 집합.
+ * - 원본 ButtonHTMLAttributes에서 onClick만 제거(Omit) 후,
+ *   HTMLElement 기반의 mouse 이벤트 시그니처로 재정의합니다.
+ */
+type ButtonLikeAttributes = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
+  onClick?: React.MouseEventHandler<HTMLElement>;
+};
+
+/**
  * @description
  * Modal Context에서 공유되는 상태와 함수들.
  * - 모든 모달 합성 컴포넌트(`Content`, `Title`, `Description`, `Footer`, 버튼 등)는
@@ -89,23 +98,15 @@ export interface ModalCloseButtonProps {
 }
 
 /**
- * @description
- * Modal.ActionButton 컴포넌트의 Props 정의입니다.
- * - 디자인 시스템 `Button`을 기본으로 사용합니다.
- * - `asChild`가 true이면 Slot 패턴을 통해 자식 요소(<a>, <Link> 등)에 props를 직접 주입합니다.
- * - 클릭 이벤트 실행 순서: 외부 onClick → Context onConfirm
+ * @description Modal.ActionButton 컴포넌트 Props
+ * - `asChild`를 통해 내부를 Slot으로 감싸 다른 요소(예: <a>)에 주입할 수 있습니다.
+ * - `onClick`은 HTMLElement 기반 시그니처로 통일되어 버튼/링크 모두 안전하게 수용합니다.
  */
-export interface ModalActionButtonProps extends WithAsChild<React.ButtonHTMLAttributes<HTMLButtonElement>> {
+export interface ModalActionButtonProps extends WithAsChild<ButtonLikeAttributes> {
   /** 버튼에 표시될 텍스트 또는 요소 */
   children: React.ReactNode;
   /** 사용자 정의 클래스명 (tailwind-merge로 병합) */
   className?: string;
-  /**
-   * 버튼 클릭 시 실행될 추가 핸들러
-   * - Context의 onConfirm보다 먼저 실행됩니다.
-   * - e.preventDefault()가 호출되면 onConfirm은 실행되지 않습니다.
-   */
-  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLElement>) => void;
   /** 버튼 비활성화 여부 */
   disabled?: boolean;
 }
