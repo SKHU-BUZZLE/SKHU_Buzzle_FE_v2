@@ -38,7 +38,7 @@ export default function EnterRoomPage() {
           }
         }}
       >
-        방 생성하기
+        입장하기
       </Button>
     </div>
   );
