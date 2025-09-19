@@ -18,14 +18,14 @@ interface QuizCategoryProps {
 }
 
 const categories = [
-  { value: 'all', icon: <BookIcon />, label: '전체' },
-  { value: 'economy', icon: <EconomyIcon />, label: '경제/사회' },
-  { value: 'science', icon: <ScienceIcon />, label: '과학/기술' },
-  { value: 'art', icon: <CultureIcon />, label: '문화/예술' },
-  { value: 'sports', icon: <SportsIcon />, label: '스포츠' },
-  { value: 'history', icon: <HistoryIcon />, label: '역사' },
-  { value: 'nature', icon: <NatureIcon />, label: '자연' },
-  { value: 'etc', icon: <TriviaIcon />, label: '잡학' },
+  { value: 'ALL', icon: <BookIcon />, label: '전체' },
+  { value: 'SOCIETY', icon: <EconomyIcon />, label: '경제/사회' },
+  { value: 'SCIENCE', icon: <ScienceIcon />, label: '과학/기술' },
+  { value: 'CULTURE', icon: <CultureIcon />, label: '문화/예술' },
+  { value: 'SPORTS', icon: <SportsIcon />, label: '스포츠' },
+  { value: 'HISTORY', icon: <HistoryIcon />, label: '역사' },
+  { value: 'NATURE', icon: <NatureIcon />, label: '자연' },
+  { value: 'MISC', icon: <TriviaIcon />, label: '잡학' },
 ];
 
 export default function QuizCategory({ value, onChange }: QuizCategoryProps) {

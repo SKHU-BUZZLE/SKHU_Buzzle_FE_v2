@@ -4,11 +4,18 @@ import BackNavFrame from '@layouts/BackNavFrame';
 import BottomBarFrame from '@layouts/BottomBarFrame';
 import HomeFrame from '@layouts/HomeFrame';
 import RootFrame from '@layouts/RootFrame';
+import CreateRoomPage from '@pages/create-room';
+import EnterRoomPage from '@pages/enter-room';
 import HomePage from '@pages/home';
 import KakaoCallbackPage from '@pages/kakao-callback';
 import LoginPage from '@pages/login';
 import MultiPage from '@pages/multi';
+import MultiRoomLayout from '@pages/multi-room/layout';
+import MultiRoomLobby from '@pages/multi-room/lobby';
+import MultiRoomPlay from '@pages/multi-room/play';
+import MultiRoomResult from '@pages/multi-room/result';
 import NotFoundPage from '@pages/not-found';
+import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
 import SinglePage from '@pages/single';
@@ -52,6 +59,9 @@ export const router = createBrowserRouter(
                 // 뒤로가기 헤더가 포함된 페이지들
                 { path: 'ranking', element: <RankingPage /> },
                 // 대부분 퀴즈 진행중인 페이지들
+                { path: 'multi/create-room', element: <CreateRoomPage /> },
+                { path: 'multi/random-matching', element: <RandomMatchingPage /> },
+                { path: 'multi/enter-room', element: <EnterRoomPage /> },
               ],
             },
 
@@ -72,6 +82,17 @@ export const router = createBrowserRouter(
                 { path: 'multi', element: <MultiPage /> },
                 { path: 'review', element: <ReviewPage /> },
                 // 퀴즈 결과 창페이지도 추가될 것 같습니다.
+              ],
+            },
+
+            // 웹소켓
+            {
+              path: 'multi-room/:code',
+              element: <MultiRoomLayout />, // 여기서 WebSocket 연결
+              children: [
+                { path: 'lobby', element: <MultiRoomLobby /> },
+                { path: 'play', element: <MultiRoomPlay /> },
+                { path: 'result', element: <MultiRoomResult /> },
               ],
             },
 
