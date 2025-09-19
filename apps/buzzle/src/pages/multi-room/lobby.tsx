@@ -8,12 +8,13 @@ import { useOutletContext } from 'react-router-dom';
 
 type MultiRoomContext = {
   handleLeave: () => void;
+  handleStartGame: () => void;
 };
 
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
   const { roomDetails } = useRoom();
-  const { handleLeave } = useOutletContext<MultiRoomContext>();
+  const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
   const isHost = useMemo(() => {
@@ -85,7 +86,7 @@ export default function MultiRoomLobby() {
 
       {/* 방장이라면 시작 버튼 or 참여자라면 나가기 버튼 */}
       {isHost ? (
-        <Button className='sticky bottom-16 w-full' onClick={async () => {}}>
+        <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
           퀴즈 시작하기
         </Button>
       ) : (
