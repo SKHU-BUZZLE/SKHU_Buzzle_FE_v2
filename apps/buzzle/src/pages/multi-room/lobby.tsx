@@ -24,15 +24,15 @@ export default function MultiRoomLobby() {
       <div className='flex items-center gap-32'>
         <img alt='멀티 대기방 아이콘' className='aspect-square size-92 object-cover' src={multiQuizGuide} />
         <div className='flex flex-1 flex-col gap-16'>
-          <h1 className='ds-typ-title-1 ds-text-strong'>홍길동님의 멀티 퀴즈</h1>
+          <h1 className='ds-typ-title-1 ds-text-strong'>{roomDetails?.hostName}님의 멀티 퀴즈</h1>
           <div className='dark:divide-dm-black-600 flex divide-x divide-gray-200'>
             <div className='flex flex-1 flex-col gap-4'>
               <p className='ds-typ-body-3 ds-text-caption whitespace-nowrap'>참여 인원</p>
-              <p className='ds-typ-body-2 ds-text-muted whitespace-nowrap'>10명</p>
+              <p className='ds-typ-body-2 ds-text-muted whitespace-nowrap'>{roomDetails?.maxPlayers}명</p>
             </div>
             <div className='flex flex-2 flex-col gap-4 pl-16'>
               <p className='ds-typ-body-3 ds-text-caption whitespace-nowrap'>카테고리</p>
-              <p className='ds-typ-body-2 ds-text-muted whitespace-nowrap'>문화/예술</p>
+              <p className='ds-typ-body-2 ds-text-muted whitespace-nowrap'>{roomDetails?.category}</p>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@ export default function MultiRoomLobby() {
         <img alt='참여 코드 대체 아이콘' className='h-auto w-60' src={multiQuiz} />
         <p className='ds-text-caption ds-typ-body-3'>같이할 친구에게 참여 코드를 보내주세요!</p>
         <div className='flex items-center gap-8'>
-          <h2 className='ds-typ-heading-2 text-primary-500'>CODE12</h2>
+          <h2 className='ds-typ-heading-2 text-primary-500'>{roomDetails?.inviteCode}</h2>
           <Button
             iconOnly
             className='bg-white-100 dark:bg-dm-black-700 border-none'
@@ -51,7 +51,10 @@ export default function MultiRoomLobby() {
             size='md'
             variant='outline'
             onClick={() => {
-              console.log('copy!');
+              if (!roomDetails?.inviteCode) return;
+              navigator.clipboard.writeText(roomDetails.inviteCode).catch((err) => {
+                console.error('복사 실패:', err);
+              });
             }}
           />
         </div>
@@ -62,20 +65,14 @@ export default function MultiRoomLobby() {
         <div className='flex items-end gap-12'>
           <h3 className='ds-typ-title-2 ds-text-strong'>참여 중인 친구</h3>
           <p className='ds-text-caption ds-typ-body-2'>
-            <span className='text-primary-500'>7</span> / 10명
+            <span className='text-primary-500'>{roomDetails?.players.length}</span> / 10명
           </p>
         </div>
         <div className='grid grid-cols-5 place-items-center gap-x-8 gap-y-12'>
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
-          <Avatar name='홍길동' />
+          {roomDetails?.players.map((player) => (
+            // ! 백엔드는 이때 사용자 프로필 사진도 넘겨줘야 함
+            <Avatar key={player.email} name={player.name} />
+          ))}
         </div>
       </div>
 
