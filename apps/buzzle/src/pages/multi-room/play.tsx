@@ -11,17 +11,24 @@ export default function MultiRoomPlay() {
   const { question, answerResult } = useRoom();
   const { handleAnswerSubmit } = useOutletContext<MultiRoomContext>();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
+  const [showResult, setShowResult] = useState<boolean>(false);
+  const [nextLoading, setNextLoading] = useState<boolean>(false);
 
-  // 1) 새 문제 오면 선택 초기화
+  // 새 문제 오면 선택 초기화
   useEffect(() => {
-    if (question) setSelectedIndex(null);
+    if (question) {
+      setSelectedIndex(null);
+      setNextLoading(false);
+    }
   }, [question, question?.questionIndex]);
 
-  // 2) 정답이면 선택 초기화 (다음 문제로 넘어가는 흐름 대비)
+  // 정답이면 선택 초기화 (다음 문제로 넘어가는 흐름 대비)
   useEffect(() => {
-    if (answerResult?.correct) setSelectedIndex(null);
-  }, [answerResult?.correct]);
+    if (answerResult?.correct) {
+      setSelectedIndex(null);
+      setNextLoading(true);
+    }
+  }, [answerResult, answerResult?.correct]);
 
   // 정답/오답 결과 들어왔을 때 3초간만 표시
   useEffect(() => {
@@ -34,7 +41,6 @@ export default function MultiRoomPlay() {
   }, [answerResult]);
 
   const handleClick = (idx: number) => {
-    if (selectedIndex != null) return;
     setSelectedIndex(idx);
     handleAnswerSubmit(idx); // 서버에 전송
   };
@@ -43,8 +49,6 @@ export default function MultiRoomPlay() {
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
-      <p>0초</p>
-
       <div className='flex flex-col gap-4'>
         <p className='ds-typ-body-2 ds-text-caption'>
           <span className='text-primary-500'>Q. {question?.questionIndex + 1}</span> / 3
@@ -53,14 +57,14 @@ export default function MultiRoomPlay() {
       </div>
 
       <div className='flex flex-col gap-12'>
-        {/* 서버에서는 인덱스 시작이 0임 */}
         {question?.options.map((option, index) => (
           <QuizOption
             key={option}
-            index={index + 1}
-            isCorrect={answerResult?.correct && Number(answerResult?.correctAnswer) === index + 1}
-            isIncorrect={!answerResult?.correct && selectedIndex === index + 1}
-            // isSelected={selectedIndex === index + 1}
+            disabled={nextLoading}
+            index={index}
+            isCorrect={answerResult?.correct && Number(answerResult?.correctAnswer) === index}
+            isIncorrect={!answerResult?.correct && selectedIndex === index}
+            isSelected={selectedIndex === index}
             option={option}
             onClick={handleClick}
           />
