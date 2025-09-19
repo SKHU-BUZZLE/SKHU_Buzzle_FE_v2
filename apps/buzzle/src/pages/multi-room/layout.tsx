@@ -3,8 +3,8 @@ import BackHeader from '@components/BackHeader';
 import { Client } from '@stomp/stompjs';
 import { useAuthStore } from '@stores/auth';
 import { RoomProvider, useRoom } from '@stores/room';
-import { useEffect, useState } from 'react';
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 
 interface Room {
@@ -21,22 +21,28 @@ export default function MultiRoomLayout() {
   // console.log('roomData', roomData);
 
   return (
-    <div className='ds-layout-padding flex min-h-dvh w-full flex-col'>
-      <BackHeader rightSlot={<LifeCounter life={50} />} to='/home' />
-      <RoomProvider /* (선택) initialRoom={roomData} 로 확장 가능 */>
-        <MultiRoomBody roomData={roomData} />
-      </RoomProvider>
-    </div>
+    // <div className='ds-layout-padding flex min-h-dvh w-full flex-col'>
+    //   <BackHeader rightSlot={<LifeCounter life={50} />} to='/home' />
+    <RoomProvider /* (선택) initialRoom={roomData} 로 확장 가능 */>
+      <MultiRoomBody roomData={roomData} />
+    </RoomProvider>
+    // </div>
   );
 }
 
 export function MultiRoomBody({ roomData }: { roomData?: Room }) {
-  const { room, setRoom, setRoomDetails } = useRoom();
+  const navigate = useNavigate();
+  const { room, setRoom, roomDetails, setRoomDetails } = useRoom();
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>(); // 참여 코드
 
   const [isConnected, setIsConnected] = useState(false);
   const [client, setClient] = useState<Client | null>(null);
+  // 최신 client를 담아두는 ref (subscribe 콜백에서도 안전)
+  const clientRef = useRef<Client | null>(null);
+  useEffect(() => {
+    clientRef.current = client;
+  }, [client]);
 
   useEffect(() => {
     // 네비게이션에서 넘어온 방정보를 컨텍스트에 먼저 저장
@@ -54,7 +60,6 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
       onConnect: () => {
         setIsConnected(true);
         setClient(client);
-        // console.log('✅ WebSocket 연결 성공!', client);
 
         // 개인 메시지를 받기 위해 개인 큐 구독 (초기 방 정보 획득)
         const personalQueue = client.subscribe('/user/queue/room', (message) => {
@@ -62,14 +67,13 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
           if (body.type === 'JOINED_ROOM') {
             const initialRoomDetails = body.data;
             setRoomDetails(initialRoomDetails);
-            // console.log('초기 방 정보: ', initialRoomDetails);
           }
         });
 
         // 전체 큐 구독
         client.subscribe(`/topic/room/${code}`, (message) => {
           const body = JSON.parse(message.body);
-          console.log(body);
+          console.log('📢 ============= 알립니다 ============= 📢', body);
 
           switch (body.type) {
             case 'PLAYER_JOINED':
@@ -87,7 +91,8 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
                   isHost: typeof isHost === 'boolean' ? isHost : name === prev.hostName,
                 };
 
-                const players = [...prev.players, newPlayer];
+                const players = [newPlayer, ...prev.players];
+                // console.log('PLAYER_JOINED 안에서 실행됨!!');
                 return {
                   ...prev,
                   players,
@@ -97,8 +102,23 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
               });
               break;
             case 'PLAYER_LEFT':
+              setRoomDetails((prev) => {
+                // ! 서버에 요청해서 나간사람은 이메일로 처리할 수 있도록 하기 (동명이인 가능성)
+                const { name } = body.data;
+                if (!prev) return prev;
+                const players = prev.players.filter((p) => p.name !== name);
+                return {
+                  ...prev,
+                  players,
+                  currentPlayers: players.length,
+                  canStartGame: players.length >= 2,
+                };
+              });
               break;
             case 'MESSAGE':
+              if (body.message === '방장이 퇴장하여 방이 해체되었습니다.') {
+                handleLeave();
+              }
               break;
             case 'GAME_START':
               break;
@@ -135,9 +155,40 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     };
   }, [room, accessToken, setRoomDetails, code]);
 
+  const handleLeave = () => {
+    const client = clientRef.current;
+    // if (!client || !roomDetails) return;
+
+    // 서버에 방 나가기 요청
+    // client.publish({
+    //   destination: `/app/room/${roomDetails.roomId}/leave`,
+    //   body: '',
+    // });
+    if (client && roomDetails) {
+      client.publish({
+        destination: `/app/room/${roomDetails.roomId}/leave`,
+        body: '',
+      });
+    }
+
+    // 로컬 상태 초기화
+    // client.deactivate();
+    client?.deactivate();
+    setClient(null);
+    setIsConnected(false);
+    setRoom(undefined);
+    setRoomDetails(undefined);
+
+    // 멀티 퀴즈 메인으로 이동
+    navigate('/multi');
+  };
+
   return (
-    <main className='flex flex-1 flex-col py-16'>
-      <Outlet />
-    </main>
+    <div className='ds-layout-padding flex min-h-dvh w-full flex-col'>
+      <BackHeader rightSlot={<LifeCounter life={50} />} to='/multi' onBeforeNavigate={handleLeave} />
+      <main className='flex flex-1 flex-col py-16'>
+        <Outlet context={{ handleLeave }} />
+      </main>
+    </div>
   );
 }

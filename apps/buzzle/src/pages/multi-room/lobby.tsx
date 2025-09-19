@@ -4,18 +4,24 @@ import { Avatar, Button, NoteIcon } from '@buzzle/design';
 import { useRoom } from '@stores/room';
 import { useUserStore } from '@stores/user';
 import { useMemo } from 'react';
+import { useOutletContext } from 'react-router-dom';
+
+type MultiRoomContext = {
+  handleLeave: () => void;
+};
 
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
-  const { room, roomDetails } = useRoom();
+  const { roomDetails } = useRoom();
+  const { handleLeave } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
   const isHost = useMemo(() => {
     if (!roomDetails) return false;
-    return roomDetails.players[0].email === user?.email;
+    const currentUser = roomDetails.players.find((p) => p.email === user?.email);
+    return currentUser?.isHost;
   }, [user, roomDetails]);
 
-  console.log('🤚🏻 room:', room);
   console.log('🤚🏻 roomDetails:', roomDetails);
 
   return (
@@ -69,7 +75,8 @@ export default function MultiRoomLobby() {
           </p>
         </div>
         <div className='grid grid-cols-5 place-items-center gap-x-8 gap-y-12'>
-          {roomDetails?.players.map((player) => (
+          {/* 서버 데이터상 새로운 참여자가 0번 인덱스에 추가돼서 역순으로 정렬 */}
+          {roomDetails?.players.reverse().map((player) => (
             // ! 백엔드는 이때 사용자 프로필 사진도 넘겨줘야 함
             <Avatar key={player.email} name={player.name} />
           ))}
@@ -82,7 +89,7 @@ export default function MultiRoomLobby() {
           퀴즈 시작하기
         </Button>
       ) : (
-        <Button className='sticky bottom-16 w-full' variant='danger' onClick={async () => {}}>
+        <Button className='sticky bottom-16 w-full' variant='danger' onClick={handleLeave}>
           방 나가기
         </Button>
       )}
