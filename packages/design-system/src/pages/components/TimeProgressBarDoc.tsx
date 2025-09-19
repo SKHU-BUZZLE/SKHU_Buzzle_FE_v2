@@ -147,7 +147,7 @@ function TimeProgressBarDemo() {
         <code>key: demo-\${keySeed}</code>
       </div>
 
-      // 여기서 duration을 바꿔서 테스트 해볼 수 있습니다!
+      {/* 여기서 duration을 바꿔서 테스트 해볼 수 있습니다! */}
       <TimeProgressBar
         key={\`demo-\${keySeed}\`}
         duration={10}
