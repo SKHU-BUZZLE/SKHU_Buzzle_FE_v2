@@ -139,8 +139,7 @@ const propsSpecs = [
   {
     propName: 'Footer.children',
     type: ['ReactNode'],
-    description:
-      '버튼 영역 컨텐츠(보통 CloseButton/ActionButton). \n현재 구현은 자식 수에 따라 폭 분배(1개=꽉 채움, 2개=반반).',
+    description: '버튼 영역 컨텐츠(보통 CloseButton/ActionButton). ',
     required: true,
   },
   {
