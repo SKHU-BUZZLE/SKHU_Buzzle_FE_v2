@@ -99,12 +99,35 @@ export default function TimeProgressBarDoc() {
 
 const description = `
 # TimeProgressBar
-진행 상황을 **막대(progress bar)** 형태로 시각화하는 카운트다운 컴포넌트입니다.  
+**막대(progress bar)** 형태로 남은 시간을 시각화하는 카운트다운 컴포넌트입니다.  
+\`requestAnimationFrame\` 기반으로 동작해 \`setInterval\`의 드리프트(시간 밀림)를 최소화합니다. 
 
-- requestAnimationFrame 기반으로 구현되어 드리프트(시간 밀림) 문제를 최소화했습니다.  
-- props로 \`duration\`(초 단위)을 받아 해당 시간 동안 점점 줄어드는 진행바를 보여줍니다.  
-- 퀴즈/테스트 문제 풀이, 제한 시간 있는 액션 UI 등에 활용할 수 있습니다.  
-- 시간이 종료되면 \`onTimerEnd\` 콜백이 호출됩니다.  
+## 동작 요약
+- 내부적으로 \`duration(초)\`을 ms로 환산해 기준 시각과 누적 일시정지 시간을 보정하며 진행률을 계산합니다.
+- 진행률은 막대의 \`width\`로만 반영됩니다(동적 값이므로 **inline style** 사용).
+- 시간이 0이 되면 \`onTimerEnd\`가 **단 한 번** 호출되고, \`onStateChange({ ended: true })\`도 함께 통지됩니다(구현되어 있다면).
+
+---
+
+## Props 핵심
+- **\`duration: number\`**  
+  총 시간(초). 0 미만이면 0으로 보정합니다.  
+  - \`duration\`이 **변경되면 자동으로 초기화**됩니다.
+  - 모든 문제에서 \`duration\`이 **동일**(예: 10초 고정)한 경우, 문제 전환 시 **\`key\`를 변경**해 리마운트를 유도하여 초기화하세요.
+
+- **\`isPaused?: boolean\`** (기본값: \`false\`)  
+  \`true\`면 카운트다운을 **일시정지**하고, \`false\`면 **재개**합니다.  
+  - **중요:** \`key\`로 새 타이머를 만들 때, **\`isPaused\`를 반드시 \`false\`로 내려** 새 타이머가 즉시 시작되도록 하세요.  
+    (예: \`setPaused(false); setKeySeed(k => k+1);\`)
+
+- **\`onTimerEnd?: () => void\`**  
+  남은 시간이 0이 되는 순간 **1회 호출**됩니다. 언마운트로 인한 취소 시에는 호출되지 않습니다.
+
+- **\`onStateChange?: (state: { ended: boolean }) => void\`**  
+  타이머의 종료 여부를 외부로 통지합니다. \`{ ended: true }\`는 종료 시 **한 번**만 전달됩니다.  
+  진행률을 상위로 매 프레임 올리는 용도로 사용하지 마세요(비권장).
+
+---  
 `;
 
 const propsSpecs = [
@@ -131,6 +154,13 @@ const propsSpecs = [
     required: false,
     defaultValue: '-',
     options: [],
+  },
+  {
+    propName: 'onStateChange',
+    type: ['(state: { ended: boolean }) => void'],
+    description: '`ended` 상태 변화를 외부로 통지합니다. 타이머 종료 시 `{ ended: true }`로 한 번 호출됩니다.',
+    required: false,
+    defaultValue: '-',
   },
 ];
 
