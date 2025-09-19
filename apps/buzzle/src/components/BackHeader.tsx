@@ -6,6 +6,7 @@ interface BackHeaderProps {
   to: string;
   preventBackNavigation?: boolean;
   rightSlot: ReactNode;
+  onBeforeNavigate?: () => void | Promise<void>;
 }
 
 /** beforeunload 가드: 새로고침/탭닫기/주소창 이동 방지 (기본 확인창만 가능) */
@@ -51,7 +52,12 @@ const useBeforeUnloadGuard = (preventBackNavigation: boolean) => {
  * />
  *
  */
-export default function BackHeader({ to, preventBackNavigation = false, rightSlot }: BackHeaderProps) {
+export default function BackHeader({
+  to,
+  preventBackNavigation = false,
+  rightSlot,
+  onBeforeNavigate,
+}: BackHeaderProps) {
   const navigate = useNavigate();
 
   // 현재 라우터에서 다른 모든 라우터로 이동을 차단
@@ -76,8 +82,12 @@ export default function BackHeader({ to, preventBackNavigation = false, rightSlo
         aria-label='뒤로가기'
         className='cursor-pointer'
         type='button'
-        onClick={() => {
-          navigate(to);
+        onClick={async () => {
+          try {
+            if (onBeforeNavigate) await onBeforeNavigate();
+          } finally {
+            navigate(to);
+          }
         }}
       >
         <ChevronIcon className='text-black-300 dark:text-black-100 size-28' />
