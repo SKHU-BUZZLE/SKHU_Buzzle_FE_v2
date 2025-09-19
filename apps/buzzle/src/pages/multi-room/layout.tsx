@@ -36,7 +36,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>(); // 참여 코드
 
-  const [isConnected, setIsConnected] = useState(false);
+  const [_, setIsConnected] = useState(false);
   const [client, setClient] = useState<Client | null>(null);
   // 최신 client를 담아두는 ref (subscribe 콜백에서도 안전)
   const clientRef = useRef<Client | null>(null);
