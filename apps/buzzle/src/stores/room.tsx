@@ -1,5 +1,5 @@
 /** ws에서 사용하는 정보들 */
-import { createContext, useContext, useState } from 'react';
+import { createContext, type Dispatch, type SetStateAction, useContext, useState } from 'react';
 
 /** @interface Room : 생성된 방 정보 저장 */
 export interface Room {
@@ -34,11 +34,11 @@ interface RoomDetails {
 interface RoomContextValue {
   /** 방 생성 직후 기본 정보 */
   room: Room | undefined;
-  setRoom: (room: Room | undefined) => void;
+  setRoom: Dispatch<SetStateAction<Room | undefined>>;
 
   /** 서버에서 내려준 방 상세 상태 */
   roomDetails: RoomDetails | undefined;
-  setRoomDetails: (details: RoomDetails | undefined) => void;
+  setRoomDetails: Dispatch<SetStateAction<RoomDetails | undefined>>;
 }
 
 const RoomContext = createContext<RoomContextValue | undefined>(undefined);
