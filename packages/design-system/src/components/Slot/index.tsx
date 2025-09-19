@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { Children, cloneElement, isValidElement } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
@@ -273,16 +274,8 @@ export const Slot = ({ children, ref, ...props }: SlotProps) => {
       ExtendedHTMLAttributes & { ref?: React.Ref<HTMLElement> }
     >;
 
-    // CASE: unwrap & hoist
-    // - children 배열에서 Slottable 자리를 target의 "원래 children"로 치환하여,
-    //   최종 출력에서 Slottable 래퍼가 사라지도록 만듭니다.
-    const hoistedChildren = arr.map((child) => {
-      if (child !== slottable) return child;
-      return isValidElement(target) ? target.props.children : null;
-    });
-
-    // CASE: 병합된 props를 타깃에 주입하고, hoistedChildren을 자식으로 전달
-    return cloneElement(
+    // Slottable 자신만 병합 타깃(mergedTarget)으로 치환, 나머지 형제는 그대로 유지
+    const mergedTarget = cloneElement(
       target,
       mergeProps(
         { ...(props as ExtendedHTMLAttributes), ref } as ExtendedHTMLAttributes & {
@@ -290,8 +283,12 @@ export const Slot = ({ children, ref, ...props }: SlotProps) => {
         },
         target.props as ExtendedHTMLAttributes & { ref?: React.Ref<HTMLElement> },
       ),
-      hoistedChildren,
     );
+
+    const mapped = arr.map((child) => (child === slottable ? mergedTarget : child));
+
+    // ESLint: react/jsx-no-useless-fragment 회피 (개수 분기)
+    return mapped.length === 1 ? (mapped[0] as React.ReactElement) : <>{mapped}</>;
   }
 
   // 2) Slottable이 없다면, 자동 타깃: 첫 번째 유효 ReactElement를 선택
@@ -333,6 +330,5 @@ export const Slot = ({ children, ref, ...props }: SlotProps) => {
   });
 
   // CASE: Fragment로 감싸서 동일한 레벨로 출력 (DOM 래퍼 추가 없음)
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{mapped}</>;
 };
