@@ -31,6 +31,21 @@ interface RoomDetails {
   roomId: string;
 }
 
+/** 퀴즈 */
+interface Question {
+  options: string[];
+  question: string;
+  questionIndex: number;
+}
+
+/** 채점 결과 */
+interface AnswerResult {
+  correct: boolean;
+  correctAnswer: string;
+  message: string;
+  userSelectedIndex: string;
+}
+
 interface RoomContextValue {
   /** 방 생성 직후 기본 정보 */
   room: Room | undefined;
@@ -39,6 +54,14 @@ interface RoomContextValue {
   /** 서버에서 내려준 방 상세 상태 */
   roomDetails: RoomDetails | undefined;
   setRoomDetails: Dispatch<SetStateAction<RoomDetails | undefined>>;
+
+  /** 퀴즈 */
+  question: Question | undefined;
+  setQuestion: Dispatch<SetStateAction<Question | undefined>>;
+
+  /** 채점 결과 */
+  answerResult: AnswerResult | undefined;
+  setAnswerResult: Dispatch<SetStateAction<AnswerResult | undefined>>;
 }
 
 const RoomContext = createContext<RoomContextValue | undefined>(undefined);
@@ -46,8 +69,16 @@ const RoomContext = createContext<RoomContextValue | undefined>(undefined);
 export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [room, setRoom] = useState<Room | undefined>(undefined);
   const [roomDetails, setRoomDetails] = useState<RoomDetails | undefined>(undefined);
+  const [question, setQuestion] = useState<Question | undefined>(undefined);
+  const [answerResult, setAnswerResult] = useState<AnswerResult | undefined>(undefined);
 
-  return <RoomContext.Provider value={{ room, setRoom, roomDetails, setRoomDetails }}>{children}</RoomContext.Provider>;
+  return (
+    <RoomContext.Provider
+      value={{ room, setRoom, roomDetails, setRoomDetails, question, setQuestion, answerResult, setAnswerResult }}
+    >
+      {children}
+    </RoomContext.Provider>
+  );
 }
 
 export function useRoom() {

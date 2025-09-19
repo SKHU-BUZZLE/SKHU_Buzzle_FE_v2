@@ -32,9 +32,10 @@ export default function MultiRoomLayout() {
 
 export function MultiRoomBody({ roomData }: { roomData?: Room }) {
   const navigate = useNavigate();
-  const { room, setRoom, roomDetails, setRoomDetails } = useRoom();
+  const { room, setRoom, roomDetails, setRoomDetails, question, setQuestion, setAnswerResult } = useRoom();
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>(); // 참여 코드
+  const startedRef = useRef(false);
 
   const [_, setIsConnected] = useState(false);
   const [client, setClient] = useState<Client | null>(null);
@@ -56,7 +57,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     const client = new Client({
       webSocketFactory: () => new SockJS(`${import.meta.env.VITE_WEBSOCKET_BACKEND_URL}?authorization=${accessToken}`),
       reconnectDelay: 3000,
-      debug: (str) => console.log('[STOMP DEBUG]', str),
+      // debug: (str) => console.log('[STOMP DEBUG]', str),
       onConnect: () => {
         setIsConnected(true);
         setClient(client);
@@ -121,11 +122,23 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
               }
               break;
             case 'GAME_START':
+              if (startedRef.current) break; // 중복 이동 방지
+              startedRef.current = true;
+              navigate('play', { replace: true }); // 상대 경로로 이동
               break;
-            case 'QUESTION':
+            case 'QUESTION': {
+              setAnswerResult(undefined);
+              const { questionIndex, question, options } = body;
+              setQuestion({ questionIndex, question, options }); // 새로운 문제는 덮어씌우며 최신화
               break;
-            case 'ANSWER_RESULT':
+            }
+            case 'TIMER':
               break;
+            case 'ANSWER_RESULT': {
+              const { correct, correctAnswer, message, userSelectedIndex } = body;
+              setAnswerResult({ correct, correctAnswer, message, userSelectedIndex });
+              break;
+            }
             case 'LEADERBOARD':
               break;
             case 'GAME_END':
@@ -155,15 +168,33 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     };
   }, [room, accessToken, setRoomDetails, code]);
 
+  // 게임 시작
+  const handleStartGame = () => {
+    if (client && roomDetails) {
+      client.publish({
+        destination: `/app/room/${roomDetails.roomId}/start`,
+        body: '',
+      });
+    }
+  };
+
+  // 정답 제출
+  const handleAnswerSubmit = (answerIndex: number) => {
+    if (client && roomDetails && question) {
+      client.publish({
+        destination: `/app/room/${roomDetails.roomId}/answer`,
+        body: JSON.stringify({
+          questionIndex: question.questionIndex,
+          index: answerIndex,
+        }),
+      });
+    }
+  };
+
+  // 퇴장
   const handleLeave = () => {
     const client = clientRef.current;
-    // if (!client || !roomDetails) return;
 
-    // 서버에 방 나가기 요청
-    // client.publish({
-    //   destination: `/app/room/${roomDetails.roomId}/leave`,
-    //   body: '',
-    // });
     if (client && roomDetails) {
       client.publish({
         destination: `/app/room/${roomDetails.roomId}/leave`,
@@ -172,7 +203,6 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     }
 
     // 로컬 상태 초기화
-    // client.deactivate();
     client?.deactivate();
     setClient(null);
     setIsConnected(false);
@@ -187,7 +217,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     <div className='ds-layout-padding flex min-h-dvh w-full flex-col'>
       <BackHeader rightSlot={<LifeCounter life={50} />} to='/multi' onBeforeNavigate={handleLeave} />
       <main className='flex flex-1 flex-col py-16'>
-        <Outlet context={{ handleLeave }} />
+        <Outlet context={{ handleLeave, handleStartGame, handleAnswerSubmit }} />
       </main>
     </div>
   );
