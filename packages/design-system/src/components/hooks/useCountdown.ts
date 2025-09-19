@@ -56,6 +56,14 @@ export function useCountdown(
   /** onEnd 중복 호출 방지용 플래그(Ref) — state와 별개로 즉시성 보장 */
   const endedRef = useRef(false);
 
+  /** 최신 onEnd 콜백을 보관하는 ref */
+  const latestOnEndRef = useRef<(() => void) | undefined>(onEnd);
+
+  /** onEnd가 바뀔 때마다 ref 업데이트 (타이머 로직은 그대로 유지) */
+  useEffect(() => {
+    latestOnEndRef.current = onEnd;
+  }, [onEnd]);
+
   /**
    * rAF 루프 중단기 — 현재 예약된 프레임이 있으면 취소
    */
