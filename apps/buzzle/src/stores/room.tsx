@@ -47,6 +47,18 @@ interface AnswerResult {
   userSelectedIndex: string;
 }
 
+/** 점수 현황 */
+interface LeaderBoard {
+  currentLeader: string;
+  scores: Record<string, number>;
+}
+
+/** 게임 결과 */
+interface QuizResult {
+  message: string;
+  winner: string;
+}
+
 interface RoomContextValue {
   /** 방 생성 직후 기본 정보 */
   room: Room | undefined;
@@ -63,6 +75,14 @@ interface RoomContextValue {
   /** 채점 결과 */
   answerResult: AnswerResult | undefined;
   setAnswerResult: Dispatch<SetStateAction<AnswerResult | undefined>>;
+
+  /** 점수 현황 (리더보드) */
+  leaderBoard: LeaderBoard | undefined;
+  setLeaderBoard: Dispatch<SetStateAction<LeaderBoard | undefined>>;
+
+  /** 게임 결과 */
+  quizResult: QuizResult | undefined;
+  setQuizResult: Dispatch<SetStateAction<QuizResult | undefined>>;
 }
 
 const RoomContext = createContext<RoomContextValue | undefined>(undefined);
@@ -72,10 +92,25 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [roomDetails, setRoomDetails] = useState<RoomDetails | undefined>(undefined);
   const [question, setQuestion] = useState<Question | undefined>(undefined);
   const [answerResult, setAnswerResult] = useState<AnswerResult | undefined>(undefined);
+  const [leaderBoard, setLeaderBoard] = useState<LeaderBoard | undefined>(undefined);
+  const [quizResult, setQuizResult] = useState<QuizResult | undefined>(undefined);
 
   return (
     <RoomContext.Provider
-      value={{ room, setRoom, roomDetails, setRoomDetails, question, setQuestion, answerResult, setAnswerResult }}
+      value={{
+        room,
+        setRoom,
+        roomDetails,
+        setRoomDetails,
+        question,
+        setQuestion,
+        answerResult,
+        setAnswerResult,
+        leaderBoard,
+        setLeaderBoard,
+        quizResult,
+        setQuizResult,
+      }}
     >
       {children}
     </RoomContext.Provider>

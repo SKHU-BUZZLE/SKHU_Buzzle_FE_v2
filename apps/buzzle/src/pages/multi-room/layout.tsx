@@ -18,29 +18,36 @@ interface Room {
 export default function MultiRoomLayout() {
   const { state } = useLocation();
   const roomData = (state as { room?: Room } | null)?.room;
-  // console.log('roomData', roomData);
 
   return (
-    // <div className='ds-layout-padding flex min-h-dvh w-full flex-col'>
-    //   <BackHeader rightSlot={<LifeCounter life={50} />} to='/home' />
-    <RoomProvider /* (선택) initialRoom={roomData} 로 확장 가능 */>
+    <RoomProvider>
       <MultiRoomBody roomData={roomData} />
     </RoomProvider>
-    // </div>
   );
 }
 
 export function MultiRoomBody({ roomData }: { roomData?: Room }) {
   const navigate = useNavigate();
-  const { room, setRoom, roomDetails, setRoomDetails, question, setQuestion, setAnswerResult } = useRoom();
+  const {
+    room,
+    setRoom,
+    roomDetails,
+    setRoomDetails,
+    question,
+    setQuestion,
+    setAnswerResult,
+    setLeaderBoard,
+    setQuizResult,
+  } = useRoom();
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>(); // 참여 코드
-  const startedRef = useRef(false);
+  const navGuardRef = useRef({ toPlay: false, toResult: false });
 
-  const [_, setIsConnected] = useState(false);
+  // const [_, setIsConnected] = useState(false);
   const [client, setClient] = useState<Client | null>(null);
   // 최신 client를 담아두는 ref (subscribe 콜백에서도 안전)
   const clientRef = useRef<Client | null>(null);
+
   useEffect(() => {
     clientRef.current = client;
   }, [client]);
@@ -59,7 +66,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
       reconnectDelay: 3000,
       // debug: (str) => console.log('[STOMP DEBUG]', str),
       onConnect: () => {
-        setIsConnected(true);
+        // setIsConnected(true);
         setClient(client);
 
         // 개인 메시지를 받기 위해 개인 큐 구독 (초기 방 정보 획득)
@@ -81,8 +88,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
               setRoomDetails((prev) => {
                 const { email, name, isHost, picture } = body.data;
                 if (!prev) return prev; // 아직 초기 상태 안 들어온 경우
-                // 중복 방지
-                if (prev.players.some((p) => p.email === email)) return prev;
+                if (prev.players.some((p) => p.email === email)) return prev; // 중복 방지
 
                 const newPlayer = {
                   email,
@@ -100,6 +106,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
                 };
               });
               break;
+
             case 'PLAYER_LEFT':
               setRoomDetails((prev) => {
                 // ! 서버에 요청해서 나간사람은 이메일로 처리할 수 있도록 하기 (동명이인 가능성)
@@ -114,33 +121,55 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
                 };
               });
               break;
+
             case 'MESSAGE':
               if (body.message === '방장이 퇴장하여 방이 해체되었습니다.') {
                 handleLeave();
               }
               break;
+
             case 'GAME_START':
-              if (startedRef.current) break; // 중복 이동 방지
-              startedRef.current = true;
-              navigate('play', { replace: true }); // 상대 경로로 이동
+              if (!navGuardRef.current.toPlay) {
+                navGuardRef.current.toPlay = true; // 중복 이동 방지
+                navigate('play', { replace: true });
+              }
               break;
+
             case 'QUESTION': {
               setAnswerResult(undefined);
               const { questionIndex, question, options } = body;
               setQuestion({ questionIndex, question, options }); // 새로운 문제는 덮어씌우며 최신화
               break;
             }
+
             case 'TIMER':
               break;
+
             case 'ANSWER_RESULT': {
               const { correct, correctAnswer, message, userSelectedIndex } = body;
               setAnswerResult({ correct, correctAnswer, message, userSelectedIndex });
               break;
             }
-            case 'LEADERBOARD':
+
+            case 'LEADERBOARD': {
+              const { currentLeader, scores } = body;
+              setLeaderBoard({ currentLeader, scores });
               break;
-            case 'GAME_END':
+            }
+
+            case 'GAME_END': {
+              const { message, winner } = body;
+              setQuizResult({ message, winner });
+
+              if (!navGuardRef.current.toResult) {
+                navGuardRef.current.toResult = true; // 중복 이동 방지
+                setTimeout(() => {
+                  navigate('result', { replace: true });
+                }, 3000); // 3초 뒤 이동
+              }
               break;
+            }
+
             default:
               break;
           }
@@ -203,7 +232,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     // 로컬 상태 초기화
     client?.deactivate();
     setClient(null);
-    setIsConnected(false);
+    // setIsConnected(false);
     setRoom(undefined);
     setRoomDetails(undefined);
 
