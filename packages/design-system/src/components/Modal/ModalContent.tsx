@@ -1,15 +1,15 @@
 import Overlay from '@components/Overlay';
 import Portal from '@components/Portal';
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 import { useModalContext } from './ModalContext';
 import type { ModalContentProps } from './types';
 
 const BASE_MODAL_CLASS =
-  'relative mx-20 w-full ds-layout-max-width p-20 ' +
+  'relative w-full max-w-md p-20 ' +
   'flex flex-col gap-12 ' +
   'rounded-4xl shadow-[0_0_10px_rgba(0,0,0,0.1)] ' +
-  'bg-white-50 dark:border-dm-black-600 ' +
+  'bg-white-50 dark:bg-dm-black-600 ' +
   'text-black-600 dark:text-white-300';
 
 /**
@@ -41,14 +41,14 @@ function ModalContent({ children, className }: ModalContentProps) {
     <Portal>
       <Overlay />
       {/* 중앙 정렬 레이어 */}
-      <div className='fixed inset-0 z-70 flex items-center justify-center'>
+      <div className='fixed inset-0 z-70 flex items-center justify-center p-40'>
         {/* 모달 컨테이너 */}
         <div
           ref={modalRef}
           aria-describedby={descriptionId}
           aria-labelledby={titleId}
           aria-modal='true'
-          className={twMerge(BASE_MODAL_CLASS, className)}
+          className={twm(BASE_MODAL_CLASS, className)}
           role='dialog'
         >
           {children}

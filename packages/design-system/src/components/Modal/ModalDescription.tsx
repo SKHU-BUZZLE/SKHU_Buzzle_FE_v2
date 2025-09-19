@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 import { useModalContext } from './ModalContext';
 import type { ModalDescriptionProps } from './types';
@@ -19,7 +19,7 @@ function ModalDescription({ children, className }: ModalDescriptionProps) {
   const { descriptionId } = useModalContext();
 
   return (
-    <p className={twMerge('ds-typ-body-2 ds-text-caption', className)} id={descriptionId}>
+    <p className={twm('ds-typ-body-2 ds-text-caption', className)} id={descriptionId}>
       {children}
     </p>
   );

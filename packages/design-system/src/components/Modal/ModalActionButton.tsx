@@ -1,5 +1,6 @@
 import Button from '@components/Button';
 import { Slot } from '@components/Slot';
+import { twm } from '@components/utils/twm';
 import { twMerge } from 'tailwind-merge';
 
 import { useModalContext } from './ModalContext';
@@ -55,8 +56,9 @@ function ModalActionButton({
   return (
     <Button
       aria-label='Confirm modal action'
-      className={twMerge('flex-1', className)}
+      className={twm('h-43 flex-1 rounded-2xl', className)}
       disabled={disabled}
+      size='md'
       onClick={handleClick}
       {...props}
     >

@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 import { useModalContext } from './ModalContext';
 import type { ModalTitleProps } from './types';
@@ -19,7 +19,7 @@ function ModalTitle({ children, className }: ModalTitleProps) {
   const { titleId } = useModalContext();
 
   return (
-    <h2 className={twMerge('ds-typ-title-2', className)} id={titleId}>
+    <h2 className={twm('ds-typ-title-2 mt-8', className)} id={titleId}>
       {children}
     </h2>
   );

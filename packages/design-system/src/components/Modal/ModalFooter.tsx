@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 import type { ModalFooterProps } from './types';
 
@@ -18,7 +18,7 @@ import type { ModalFooterProps } from './types';
  * ```
  */
 function ModalFooter({ children, className }: ModalFooterProps) {
-  return <div className={twMerge('mt-18 flex gap-6', className)}>{children}</div>;
+  return <div className={twm('ds-typ-body-2 mt-18 flex gap-6', className)}>{children}</div>;
 }
 
 export const Footer = ModalFooter;

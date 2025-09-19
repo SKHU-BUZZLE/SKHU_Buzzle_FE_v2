@@ -1,8 +1,11 @@
 import Button from '@components/Button';
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 import { useModalContext } from './ModalContext';
 import type { ModalCloseButtonProps } from './types';
+
+const BASE_CLOSEBUTTON_CLASS =
+  'h-43 flex-1 rounded-2xl ' + 'bg-white-200 dark:bg-dm-black-500 ' + 'text-black-300 dark:text-white-300';
 
 /**
  * @component ModalCloseButton
@@ -23,7 +26,7 @@ function ModalCloseButton({ children, className }: ModalCloseButtonProps) {
   const { onClose } = useModalContext();
 
   return (
-    <Button aria-label='Close modal' className={twMerge('flex-1', className)} onClick={onClose}>
+    <Button aria-label='Close modal' className={twm(BASE_CLOSEBUTTON_CLASS, className)} size='md' onClick={onClose}>
       {children}
     </Button>
   );

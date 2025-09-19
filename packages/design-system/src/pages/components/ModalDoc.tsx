@@ -207,17 +207,28 @@ const propsSpecs = [
 
 const code = `
 function ModalDemo() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);         // 2-버튼 모달
+  const [isSingleOpen, setIsSingleOpen] = useState(false); // 1-버튼 모달
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)} 
-        className="px-16 py-8 bg-blue-500 text-white rounded-md"
-      >
-        모달 열기
-      </button>
+      <div className="flex gap-12">
+        <button 
+          onClick={() => setIsOpen(true)} 
+          className="px-16 py-8 bg-blue-500 text-white rounded-md"
+        >
+          2버튼 모달 열기
+        </button>
 
+        <button 
+          onClick={() => setIsSingleOpen(true)} 
+          className="px-16 py-8 bg-gray-700 text-white rounded-md"
+        >
+          1버튼 모달 열기
+        </button>
+      </div>
+
+      {/* 예시 1: 취소/삭제 (버튼 2개) */}
       <Modal.Root open={isOpen} onClose={() => setIsOpen(false)}>
         <Modal.Content>
           <Modal.Title>정말 삭제하시겠어요?</Modal.Title>
@@ -227,6 +238,20 @@ function ModalDemo() {
           <Modal.Footer>
             <Modal.CloseButton>취소</Modal.CloseButton>
             <Modal.ActionButton>삭제</Modal.ActionButton>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal.Root>
+
+      {/* 예시 2: 확인만 있는 모달 (버튼 1개) */}
+      <Modal.Root open={isSingleOpen} onClose={() => setIsSingleOpen(false)}>
+        <Modal.Content>
+          <Modal.Title>참여할 수 없는 방입니다</Modal.Title>
+          <Modal.Description>모달 문구</Modal.Description>
+          <Modal.Footer>
+            {/* onClick에서 상태만 false로 바꿔 닫기 */}
+            <Modal.ActionButton onClick={() => setIsSingleOpen(false)}>
+              확인
+            </Modal.ActionButton>
           </Modal.Footer>
         </Modal.Content>
       </Modal.Root>
