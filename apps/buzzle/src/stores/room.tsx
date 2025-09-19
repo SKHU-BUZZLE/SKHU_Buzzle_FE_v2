@@ -15,6 +15,7 @@ interface Player {
   email: string;
   isHost: boolean;
   name: string;
+  picture: string;
 }
 
 /** 초기 방 정보 */

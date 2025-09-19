@@ -79,7 +79,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
           switch (body.type) {
             case 'PLAYER_JOINED':
               setRoomDetails((prev) => {
-                const { email, name, isHost } = body.data;
+                const { email, name, isHost, picture } = body.data;
                 if (!prev) return prev; // 아직 초기 상태 안 들어온 경우
                 // 중복 방지
                 if (prev.players.some((p) => p.email === email)) return prev;
@@ -87,13 +87,11 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
                 const newPlayer = {
                   email,
                   name,
-                  // picture: body.picture,
-                  // 서버가 isHost 내려주면 그 값 쓰고, 없으면 hostName으로 판정
+                  picture,
                   isHost: typeof isHost === 'boolean' ? isHost : name === prev.hostName,
                 };
 
                 const players = [newPlayer, ...prev.players];
-                // console.log('PLAYER_JOINED 안에서 실행됨!!');
                 return {
                   ...prev,
                   players,
@@ -166,7 +164,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     return () => {
       client.deactivate();
     };
-  }, [room, accessToken, setRoomDetails, code]);
+  }, [room, accessToken, setRoomDetails, code, navigate, setAnswerResult, setQuestion]);
 
   // 게임 시작
   const handleStartGame = () => {
