@@ -301,13 +301,15 @@ export const Slot = ({ children, ref, ...props }: SlotProps) => {
 
   // CASE: 유효 엘리먼트가 하나도 없을 때
   if (!firstValid) {
-    console.warn('[Slot] 유효한 ReactElement를 하나 이상 전달해 주세요.');
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[Slot] 유효한 ReactElement를 하나 이상 전달해 주세요.');
+    }
     return null;
   }
 
   // CASE: 유효 엘리먼트가 둘 이상일 때
   const moreThanOne = arr.filter(isValidElement).length > 1;
-  if (moreThanOne) {
+  if (moreThanOne && process.env.NODE_ENV === 'development') {
     console.warn(
       '[Slot] 자동 타깃 모드에서는 유효한 ReactElement를 하나만 전달하는 것을 권장합니다. ' +
         '복잡한 트리에서는 <Slottable>로 타깃을 명시하세요.',
