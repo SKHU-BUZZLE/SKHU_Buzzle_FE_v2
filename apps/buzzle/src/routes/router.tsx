@@ -87,7 +87,7 @@ export const router = createBrowserRouter(
 
             // 웹소켓
             {
-              path: 'multi-room/',
+              path: 'multi-room/:code',
               element: <MultiRoomLayout />, // 여기서 WebSocket 연결
               children: [
                 { path: 'lobby', element: <MultiRoomLobby /> },

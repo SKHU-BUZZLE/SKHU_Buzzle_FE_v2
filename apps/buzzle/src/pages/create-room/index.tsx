@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreateRoomPage() {
   const navigate = useNavigate();
-  const [maxPlayers, setMaxPlayers] = useState<number>(1);
+  const [maxPlayers, setMaxPlayers] = useState<number>(2);
   const [category, setCategory] = useState<string>('all');
 
   return (
@@ -37,8 +37,13 @@ export default function CreateRoomPage() {
         onClick={async () => {
           try {
             const res = await createMultiRoom({ maxPlayers, category, quizCount: 3 });
-            navigate('/multi-room/lobby');
             console.log('[방 생성 성공]', res.data);
+            const room = res.data.data;
+            // navigate(`/multi-room/${inviteCode}/lobby`);
+            navigate(`/multi-room/${room.inviteCode}/lobby`, {
+              state: { room },
+              replace: true, // 뒤로가기 시 생성 페이지 안 보이게
+            });
           } catch (err) {
             console.error('[방 생성 실패]', err);
           }
