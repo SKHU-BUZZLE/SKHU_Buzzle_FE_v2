@@ -23,6 +23,7 @@ export default function MultiRoomPlay() {
   const penaltyTimerRef = useRef<number | null>(null);
   const [penaltyRemaining, setPenaltyRemaining] = useState(0);
   const penaltyIntervalRef = useRef<number | null>(null);
+  const showPenaltyBanner = penalty && !answerResult?.correct;
 
   // 새 문제 오면 선택 초기화
   useEffect(() => {
@@ -65,6 +66,7 @@ export default function MultiRoomPlay() {
       penaltyTimerRef.current = window.setTimeout(() => {
         setPenalty(false);
         setPenaltyRemaining(0);
+        setSelectedIndex(null);
         penaltyTimerRef.current = null;
       }, 3000);
 
@@ -142,7 +144,7 @@ export default function MultiRoomPlay() {
         )}
 
         {/* 오답일 때 */}
-        {showResult && !answerResult?.correct && currentUser && (
+        {showPenaltyBanner && (
           <>
             <h1>아쉽지만 오답이에요</h1>
             <h1>
