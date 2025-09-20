@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import RankedAvatarDoc from '@pages/components/RankedAvatarDoc';
 
 import RadioGroupDoc from '@pages/components/RadioGroupDoc';
 import RankingItemDoc from '@pages/components/RankingItemDoc';
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
           { path: 'RankingItem', element: <RankingItemDoc /> },
           { path: 'MultiQuizRankingItem', element: <MultiQuizRankingItemDoc /> },
           { path: 'QuizIntro', element: <QuizIntroDoc /> },
+          { path: 'RankedAvatar', element: <RankedAvatarDoc /> },
         ],
       },
     ],
