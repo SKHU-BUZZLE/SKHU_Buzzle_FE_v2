@@ -1,6 +1,7 @@
 import RankedAvatar from '@components/RankedAvatar';
 import MarkdownViewer from '@layouts/MarkdownViewer';
 import PropsSpecTable from '@layouts/PropsSpecTable';
+import StatelessPlayground, { type Spec } from '@layouts/StatelessPlayground';
 
 export default function RankedAvatarDoc() {
   return (
@@ -19,6 +20,17 @@ export default function RankedAvatarDoc() {
       </div>
 
       {/* 4️⃣ 미리보기 (선택) : StatelessPlayground / StatefulPlayground */}
+      <StatelessPlayground
+        component={RankedAvatar}
+        initialProps={{
+          rank: 1,
+          name: '홍길동',
+          score: 100,
+          src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Kh3JzKZE_eLal790_KgEQ7Ss4-Wu0yvFgQ&s',
+          className: 'w-fit',
+        }}
+        specs={playgroundSpecs}
+      />
     </div>
   );
 }
@@ -94,3 +106,11 @@ const propsSpecs = [
     defaultValue: '-',
   },
 ];
+
+const playgroundSpecs = [
+  { type: 'number', propName: 'rank' },
+  { type: 'text', propName: 'src', label: 'src' },
+  { type: 'text', propName: 'name', label: 'name' },
+  { type: 'number', propName: 'score', label: 'score' },
+  { type: 'text', propName: 'className', label: 'className' },
+] satisfies ReadonlyArray<Spec>;
