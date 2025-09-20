@@ -22,6 +22,7 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'MultiQuizRankingItem', to: '/docs/component/MultiQuizRankingItem' },
     { label: 'QuizIntro', to: '/docs/component/QuizIntro' },
     { label: 'RankedAvatar', to: '/docs/component/RankedAvatar' },
+  { label: 'VictoryStand', to: '/docs/component/VictoryStand' },
 ],
 };
 

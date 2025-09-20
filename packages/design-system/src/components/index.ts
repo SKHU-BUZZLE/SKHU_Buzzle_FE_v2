@@ -20,3 +20,4 @@ export { default as RankingItem } from './RankingItem';
 export { default as MultiQuizRankingItem } from './MultiQuizRankingItem';
 export { default as QuizIntro } from './QuizIntro';
 export { default as RankedAvatar } from './RankedAvatar';
+export { default as VictoryStand } from './VictoryStand';
