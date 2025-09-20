@@ -13,9 +13,12 @@ export interface Room {
 /** 참여자 정보 */
 interface Player {
   email: string;
-  isHost: boolean;
+  isHost?: boolean;
   name: string;
   picture: string;
+  isWinner?: boolean;
+  rank?: number;
+  score?: number;
 }
 
 /** 초기 방 정보 */
@@ -45,6 +48,8 @@ interface AnswerResult {
   correctAnswer: string;
   message: string;
   userSelectedIndex: string;
+  userEmail: string;
+  userName: string;
 }
 
 /** 점수 현황 */
@@ -56,7 +61,7 @@ interface LeaderBoard {
 /** 게임 결과 */
 interface QuizResult {
   message: string;
-  winner: string;
+  rankings: Player[];
 }
 
 interface RoomContextValue {

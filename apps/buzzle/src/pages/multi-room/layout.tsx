@@ -97,7 +97,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
                   isHost: typeof isHost === 'boolean' ? isHost : name === prev.hostName,
                 };
 
-                const players = [newPlayer, ...prev.players];
+                const players = [...prev.players, newPlayer];
                 return {
                   ...prev,
                   players,
@@ -146,8 +146,8 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
               break;
 
             case 'ANSWER_RESULT': {
-              const { correct, correctAnswer, message, userSelectedIndex } = body;
-              setAnswerResult({ correct, correctAnswer, message, userSelectedIndex });
+              const { correct, correctAnswer, message, userSelectedIndex, userEmail, userName } = body;
+              setAnswerResult({ correct, correctAnswer, message, userSelectedIndex, userEmail, userName });
               break;
             }
 
@@ -157,9 +157,10 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
               break;
             }
 
-            case 'GAME_END': {
-              const { message, winner } = body;
-              setQuizResult({ message, winner });
+            case 'GAME_END_RANKING': {
+              const { message } = body;
+              const { rankings } = body.data;
+              setQuizResult({ message, rankings });
 
               if (!navGuardRef.current.toResult) {
                 navGuardRef.current.toResult = true; // 중복 이동 방지
