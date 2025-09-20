@@ -76,9 +76,7 @@ export default function MultiRoomLobby() {
           </p>
         </div>
         <div className='grid grid-cols-5 place-items-center gap-x-8 gap-y-12'>
-          {/* 서버 데이터상 새로운 참여자가 0번 인덱스에 추가돼서 역순으로 정렬 */}
-          {roomDetails?.players.reverse().map((player) => (
-            // ! 초기 방 정보에 방장의 프로필 이미지도 넣어줘야 함
+          {roomDetails?.players.map((player) => (
             <Avatar key={player.email} alt={`${player.name}의 프로필 이미지`} name={player.name} src={player.picture} />
           ))}
         </div>
