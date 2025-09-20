@@ -77,6 +77,10 @@ interface RoomContextValue {
   question: Question | undefined;
   setQuestion: Dispatch<SetStateAction<Question | undefined>>;
 
+  /** 타이머 */
+  remainingTime: number | undefined;
+  setRemainingTime: Dispatch<SetStateAction<number | undefined>>;
+
   /** 채점 결과 */
   answerResult: AnswerResult | undefined;
   setAnswerResult: Dispatch<SetStateAction<AnswerResult | undefined>>;
@@ -96,6 +100,7 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [room, setRoom] = useState<Room | undefined>(undefined);
   const [roomDetails, setRoomDetails] = useState<RoomDetails | undefined>(undefined);
   const [question, setQuestion] = useState<Question | undefined>(undefined);
+  const [remainingTime, setRemainingTime] = useState<number | undefined>(undefined);
   const [answerResult, setAnswerResult] = useState<AnswerResult | undefined>(undefined);
   const [leaderBoard, setLeaderBoard] = useState<LeaderBoard | undefined>(undefined);
   const [quizResult, setQuizResult] = useState<QuizResult | undefined>(undefined);
@@ -109,6 +114,8 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
         setRoomDetails,
         question,
         setQuestion,
+        remainingTime,
+        setRemainingTime,
         answerResult,
         setAnswerResult,
         leaderBoard,

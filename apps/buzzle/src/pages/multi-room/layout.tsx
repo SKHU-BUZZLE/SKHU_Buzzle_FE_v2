@@ -35,6 +35,7 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
     setRoomDetails,
     question,
     setQuestion,
+    setRemainingTime,
     setAnswerResult,
     setLeaderBoard,
     setQuizResult,
@@ -142,8 +143,11 @@ export function MultiRoomBody({ roomData }: { roomData?: Room }) {
               break;
             }
 
-            case 'TIMER':
+            case 'TIMER': {
+              const { remainingTime } = body;
+              setRemainingTime(remainingTime);
               break;
+            }
 
             case 'ANSWER_RESULT': {
               const { correct, correctAnswer, message, userSelectedIndex, userEmail, userName } = body;

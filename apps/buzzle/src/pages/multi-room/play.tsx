@@ -8,9 +8,11 @@ type MultiRoomContext = {
   handleAnswerSubmit: (answerIndex: number) => void;
 };
 
+const TOTAL_TIME = 10; // 10초라고 가정
+
 export default function MultiRoomPlay() {
   const { user } = useUserStore();
-  const { question, answerResult } = useRoom();
+  const { question, answerResult, remainingTime } = useRoom();
   const { handleAnswerSubmit } = useOutletContext<MultiRoomContext>();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
@@ -87,11 +89,25 @@ export default function MultiRoomPlay() {
     handleAnswerSubmit(idx); // 서버에 전송
   };
 
+  // 퍼센트 계산
+  if (!remainingTime) return;
+  const progress = (remainingTime / TOTAL_TIME) * 100;
+
+  // 색상 단계 (남은 시간 비율에 따라 색 바뀜)
+  let color = 'bg-black-300 dark:bg-white-300';
+  if (progress <= 30) {
+    color = 'bg-error-red-500';
+  }
+
   if (!question) return;
   const disabledAll = nextLoading || penalty;
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
+      <div className='dark:bg-dm-black-600 bg-white-200 relative h-10 w-full overflow-hidden rounded-full'>
+        <div className={`h-full transition-all duration-1000 ease-linear ${color}`} style={{ width: `${progress}%` }} />
+      </div>
+
       <div className='flex flex-col gap-4'>
         <p className='ds-typ-body-2 ds-text-caption'>
           <span className='text-primary-500'>Q. {question?.questionIndex + 1}</span> / 3
