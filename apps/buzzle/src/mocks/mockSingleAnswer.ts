@@ -10,10 +10,10 @@ export const mockSubmitSingleAnswer = async (body: {
   option4: string;
   correctAnswerNumber: '1' | '2' | '3' | '4';
   /** 미선택(타임아웃) 시 null */
-  userAnswerNumber: '1' | '2' | '3' | '4' | null;
+  userAnswerNumber: '1' | '2' | '3' | '4' | 'timeout';
   category: 'HISTORY' | 'SCIENCE' | 'SOCIETY' | 'CULTURE' | 'SPORTS' | 'NATURE' | 'MISC' | 'ALL';
 }) => {
-  const isCorrect = body.userAnswerNumber !== null && body.userAnswerNumber === body.correctAnswerNumber;
+  const isCorrect = body.userAnswerNumber !== 'timeout' && body.userAnswerNumber === body.correctAnswerNumber;
 
   return {
     status: 200,

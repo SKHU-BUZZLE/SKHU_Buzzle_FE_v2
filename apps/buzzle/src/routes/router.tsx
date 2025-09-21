@@ -3,6 +3,7 @@ import BackHeaderFrame from '@layouts/BackHeaderFrame';
 import BackNavFrame from '@layouts/BackNavFrame';
 import BottomBarFrame from '@layouts/BottomBarFrame';
 import HomeFrame from '@layouts/HomeFrame';
+import PreventBackHeaderFrame from '@layouts/PreventBackHeaderFrame';
 import RootFrame from '@layouts/RootFrame';
 import CreateRoomPage from '@pages/create-room';
 import EnterRoomPage from '@pages/enter-room';
@@ -65,7 +66,6 @@ export const router = createBrowserRouter(
                 { path: 'multi/create-room', element: <CreateRoomPage /> },
                 { path: 'multi/random-matching', element: <RandomMatchingPage /> },
                 { path: 'multi/enter-room', element: <EnterRoomPage /> },
-                { path: 'single/play', element: <SinglePlayPage /> },
               ],
             },
 
@@ -76,6 +76,12 @@ export const router = createBrowserRouter(
                 // 바텀 네비게이션 바가 포함된 페이지들
                 // 생각보다 이 부분이 많지 않네요..? 최종때 사용 안하면 지우겠습니다.
               ],
+            },
+
+            // 뒤로가기 방지가 필요한 헤더가 포함된 페이지들
+            {
+              element: <PreventBackHeaderFrame />,
+              children: [{ path: 'single/play', element: <SinglePlayPage /> }],
             },
 
             // 뒤로가기 헤더 & 바텀 네비게이션 바가 포함된 페이지들

@@ -41,9 +41,9 @@ export interface SubmitSingleAnswerBody {
   correctAnswerNumber: '1' | '2' | '3' | '4';
   /**
    * 유저가 선택한 답변 번호
-   * - 선택 안 하고 시간 초과 시 null
+   * - 선택 안 하고 시간 초과 시 'timeout'
    */
-  userAnswerNumber: '1' | '2' | '3' | '4' | null;
+  userAnswerNumber: '1' | '2' | '3' | '4' | 'timeout';
   /** 퀴즈 카테고리 */
   category: 'HISTORY' | 'SCIENCE' | 'SOCIETY' | 'CULTURE' | 'SPORTS' | 'NATURE' | 'MISC' | 'ALL';
 }
