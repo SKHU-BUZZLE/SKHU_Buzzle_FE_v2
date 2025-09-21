@@ -20,6 +20,7 @@ import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
 import SinglePage from '@pages/single';
+import SinglePlayPage from '@pages/single/play';
 import SingleResultPage from '@pages/single/result';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -64,6 +65,7 @@ export const router = createBrowserRouter(
                 { path: 'multi/create-room', element: <CreateRoomPage /> },
                 { path: 'multi/random-matching', element: <RandomMatchingPage /> },
                 { path: 'multi/enter-room', element: <EnterRoomPage /> },
+                { path: 'single/play', element: <SinglePlayPage /> },
               ],
             },
 

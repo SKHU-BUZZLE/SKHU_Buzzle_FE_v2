@@ -10,7 +10,6 @@ export default function SinglePage() {
 
   return (
     <div className='relative flex min-h-full flex-col'>
-      {/* 메인 콘텐츠 영역 - 버튼 높이만큼 아래 패딩 추가 */}
       <div className='flex-1 space-y-20 pb-100'>
         <QuizIntro
           guidelines={[
@@ -28,7 +27,6 @@ export default function SinglePage() {
         <QuizCategory value={category} onChange={setCategory} />
       </div>
 
-      {/* 바닥에 고정된 버튼 - 네비게이션 바 위 30px */}
       <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
         <Button className='w-full rounded-2xl'>퀴즈 생성</Button>
       </div>
