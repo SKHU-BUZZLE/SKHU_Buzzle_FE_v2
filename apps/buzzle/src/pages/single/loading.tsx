@@ -1,13 +1,13 @@
+import { createSingleQuiz } from '@apis/single';
 import QuizLoading from '@assets/images/quiz-creation.webp';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
-import { mockInstance } from '@mocks/mockInstance';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // Intro 페이지에서 전달받는 state의 타입 정의
 interface LoadingState {
-  category: string;
+  category: 'HISTORY' | 'SCIENCE' | 'SOCIETY' | 'CULTURE' | 'SPORTS' | 'NATURE' | 'MISC' | 'ALL';
   size: number;
 }
 
@@ -30,7 +30,7 @@ export default function QuizLoadingPage() {
 
     const fetchQuizData = async () => {
       try {
-        const response = await mockInstance.post('/quiz/multiple', {
+        const response = await createSingleQuiz({
           category: state.category,
           size: state.size,
         });

@@ -1,6 +1,6 @@
+import { submitSingleAnswer } from '@apis/single';
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
-import { mockInstance } from '@mocks/mockInstance';
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ interface QuizItem {
 interface PlayState {
   quizzes: QuizItem[];
   totalQuestions: number;
-  category: string;
+  category: 'HISTORY' | 'SCIENCE' | 'SOCIETY' | 'CULTURE' | 'SPORTS' | 'NATURE' | 'MISC' | 'ALL';
 }
 
 const NEXT_QUESTION_DELAY = 3000;
@@ -63,14 +63,14 @@ export default function SinglePlayPage() {
 
     try {
       // 정답 제출 API 호출
-      const response = await mockInstance.post('/quiz/answer', {
+      const response = await submitSingleAnswer({
         question: currentQuiz.question,
         option1: currentQuiz.option1,
         option2: currentQuiz.option2,
         option3: currentQuiz.option3,
         option4: currentQuiz.option4,
-        correctAnswerNumber: currentQuiz.answer,
-        userAnswerNumber: String(optionIndex + 1),
+        correctAnswerNumber: currentQuiz.answer as '1' | '2' | '3' | '4',
+        userAnswerNumber: String(optionIndex + 1) as '1' | '2' | '3' | '4',
         category: state.category,
       });
 
@@ -103,13 +103,13 @@ export default function SinglePlayPage() {
 
     try {
       // 타임아웃으로 정답 제출 (userAnswerNumber: 'timeout')
-      await mockInstance.post('/quiz/answer', {
+      await submitSingleAnswer({
         question: currentQuiz.question,
         option1: currentQuiz.option1,
         option2: currentQuiz.option2,
         option3: currentQuiz.option3,
         option4: currentQuiz.option4,
-        correctAnswerNumber: currentQuiz.answer,
+        correctAnswerNumber: currentQuiz.answer as '1' | '2' | '3' | '4',
         userAnswerNumber: 'timeout',
         category: state.category,
       });
