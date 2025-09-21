@@ -66,6 +66,7 @@ export const router = createBrowserRouter(
                 { path: 'multi/create-room', element: <CreateRoomPage /> },
                 { path: 'multi/random-matching', element: <RandomMatchingPage /> },
                 { path: 'multi/enter-room', element: <EnterRoomPage /> },
+                { path: 'single/play', element: <SinglePlayPage /> },
               ],
             },
 
@@ -81,7 +82,7 @@ export const router = createBrowserRouter(
             // 뒤로가기 방지가 필요한 헤더가 포함된 페이지들
             {
               element: <PreventBackHeaderFrame />,
-              children: [{ path: 'single/play', element: <SinglePlayPage /> }],
+              // children: [{ path: 'single/play', element: <SinglePlayPage /> }],
             },
 
             // 뒤로가기 헤더 & 바텀 네비게이션 바가 포함된 페이지들

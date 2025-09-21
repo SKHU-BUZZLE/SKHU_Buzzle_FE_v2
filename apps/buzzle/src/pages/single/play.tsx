@@ -1,6 +1,8 @@
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
+import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
 import { mockInstance } from '@mocks/mockInstance';
 import { useEffect, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface QuizItem {
@@ -33,6 +35,9 @@ export default function SinglePlayPage() {
   const [showResult, setShowResult] = useState(false);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const [questionKey, setQuestionKey] = useState(0); // 타이머 리셋용
+  const [guardEnabled, setGuardEnabled] = useState(true);
+
+  useRouteLeaveGuard(guardEnabled);
 
   // state가 없으면 single 페이지로 리다이렉트
   useEffect(() => {
@@ -126,10 +131,12 @@ export default function SinglePlayPage() {
   // 다음 문제로 이동
   const goToNextQuestion = () => {
     if (currentQuestionIndex + 1 >= state.quizzes.length) {
+      // 가드를 먼저 '즉시' 끕니다
+      flushSync(() => setGuardEnabled(false));
       // 모든 문제 완료 - 결과 페이지로 이동
       navigate('/single/result', {
         state: {
-          total: state.totalQuestions,
+          total: state.quizzes.length,
           correct: correctAnswers,
         },
         replace: true,
