@@ -1,5 +1,6 @@
 import SingleQuizResult from '@assets/images/single-quiz-result.webp';
 import { Button } from '@buzzle/design';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ResultState {
@@ -13,6 +14,12 @@ export default function SingleResultPage() {
 
   const total = state?.total ?? 0;
   const correct = state?.correct ?? 0;
+
+  useEffect(() => {
+    if (!state || state.total === undefined || state.correct === undefined) {
+      navigate('/single', { replace: true });
+    }
+  }, [state, navigate]);
 
   const handleRetry = () => {
     navigate('/single', { replace: true });
