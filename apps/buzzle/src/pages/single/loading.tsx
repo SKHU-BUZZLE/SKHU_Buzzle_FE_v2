@@ -1,7 +1,7 @@
 import QuizLoading from '@assets/images/quiz-creation.webp';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
 import { mockInstance } from '@mocks/mockInstance';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // Intro 페이지에서 전달받는 state의 타입 정의
@@ -14,6 +14,7 @@ export default function QuizLoadingPage() {
   const { state } = useLocation() as { state: LoadingState };
   const navigate = useNavigate();
   const [guardEnabled, setGuardEnabled] = useState(true);
+  const cancelledRef = useRef(false);
 
   useRouteLeaveGuard(guardEnabled);
 
@@ -24,12 +25,16 @@ export default function QuizLoadingPage() {
       return;
     }
 
+    cancelledRef.current = false;
+
     const fetchQuizData = async () => {
       try {
         const response = await mockInstance.post('/quiz/multiple', {
           category: state.category,
           size: state.size,
         });
+
+        if (cancelledRef.current) return;
 
         setGuardEnabled(false);
 
@@ -43,6 +48,7 @@ export default function QuizLoadingPage() {
           replace: true,
         });
       } catch (error) {
+        if (cancelledRef.current) return;
         console.error('퀴즈 생성 실패:', error);
         setGuardEnabled(false);
         // 에러 발생 시 single 페이지로 돌아가기
@@ -51,6 +57,10 @@ export default function QuizLoadingPage() {
     };
 
     fetchQuizData();
+
+    return () => {
+      cancelledRef.current = true;
+    };
   }, [state, navigate]);
 
   return (
