@@ -20,6 +20,7 @@ import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
 import SinglePage from '@pages/single';
+import SingleResultPage from '@pages/single/result';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { GuestOnly, IndexRedirect, RequireAuth } from './guards';
@@ -83,6 +84,7 @@ export const router = createBrowserRouter(
                 { path: 'multi', element: <MultiPage /> },
                 { path: 'review', element: <ReviewPage /> },
                 // 퀴즈 결과 창페이지도 추가될 것 같습니다.
+                { path: 'single/result', element: <SingleResultPage /> },
               ],
             },
 

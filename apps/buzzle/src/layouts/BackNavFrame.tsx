@@ -11,7 +11,7 @@ export default function BackNavFrame() {
         <BackHeader rightSlot={<LifeCounter life={50} />} to='/home' />
       </div>
 
-      <section className='ds-bottom-nav-padding min-h-0 flex-1 overflow-y-auto'>
+      <section className='ds-bottom-nav-padding flex min-h-0 flex-1 flex-col overflow-y-auto'>
         <Outlet />
       </section>
 

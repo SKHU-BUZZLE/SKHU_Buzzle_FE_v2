@@ -30,7 +30,7 @@ export default function SinglePage() {
 
       {/* 바닥에 고정된 버튼 - 네비게이션 바 위 30px */}
       <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
-        <Button className='w-full'>퀴즈 생성</Button>
+        <Button className='w-full rounded-2xl'>퀴즈 생성</Button>
       </div>
     </div>
   );
