@@ -1,7 +1,7 @@
-import { submitSingleAnswer } from '@apis/single';
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
+import { useSubmitSingleAnswer } from '@hooks/useLife';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -27,15 +27,20 @@ export default function SinglePlayPage() {
   const { state } = useLocation() as { state: PlayState };
   const navigate = useNavigate();
 
+  // 라이프 관리 뮤테이션
+  const submitAnswerMutation = useSubmitSingleAnswer();
+
   // 상태 관리
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const [questionKey, setQuestionKey] = useState(0); // 타이머 리셋용
   const [guardEnabled, setGuardEnabled] = useState(true);
+
+  // 정답 개수 추적 (클로저 문제 없는 ref 사용)
+  const correctAnswersRef = useRef(0);
 
   useRouteLeaveGuard(guardEnabled);
 
@@ -62,8 +67,8 @@ export default function SinglePlayPage() {
     setIsTimerPaused(true); // 타이머 정지
 
     try {
-      // 정답 제출 API 호출
-      const response = await submitSingleAnswer({
+      // 정답 제출 뮤테이션 실행 (라이프 자동 업데이트 포함)
+      const response = await submitAnswerMutation.mutateAsync({
         question: currentQuiz.question,
         option1: currentQuiz.option1,
         option2: currentQuiz.option2,
@@ -74,24 +79,26 @@ export default function SinglePlayPage() {
         category: state.category,
       });
 
-      const isCorrect = response.data.data;
-      if (isCorrect) {
-        setCorrectAnswers((prev) => prev + 1);
+      // 백엔드 응답 기반으로 정답 카운트 (권위있는 단일 진실의 원천)
+      if (response.data.data) {
+        correctAnswersRef.current += 1;
       }
-
-      setShowResult(true);
-
-      // 3초 후 다음 문제로 이동
-      setTimeout(() => {
-        goToNextQuestion();
-      }, NEXT_QUESTION_DELAY);
     } catch (error) {
       console.error('정답 제출 실패:', error);
-      // 에러 시에도 다음 문제로 진행
-      setTimeout(() => {
-        goToNextQuestion();
-      }, NEXT_QUESTION_DELAY);
+      // 네트워크 에러 시: 프론트엔드에서 임시로 정답 검증 (fallback)
+      const correctAnswerIndex = parseInt(currentQuiz.answer) - 1;
+      const isCorrectAnswer = optionIndex === correctAnswerIndex;
+      if (isCorrectAnswer) {
+        correctAnswersRef.current += 1;
+      }
     }
+
+    setShowResult(true);
+
+    // 3초 후 다음 문제로 이동
+    setTimeout(() => {
+      goToNextQuestion();
+    }, NEXT_QUESTION_DELAY);
   };
 
   // 타이머 종료 시 호출 (10초 타임아웃)
@@ -101,9 +108,11 @@ export default function SinglePlayPage() {
     setIsAnswered(true);
     setIsTimerPaused(true);
 
+    // 타임아웃은 무조건 오답이므로 정답 카운트 증가 없음
+
     try {
-      // 타임아웃으로 정답 제출 (userAnswerNumber: 'timeout')
-      await submitSingleAnswer({
+      // 타임아웃으로 정답 제출 뮤테이션 실행 (라이프 자동 업데이트 포함)
+      await submitAnswerMutation.mutateAsync({
         question: currentQuiz.question,
         option1: currentQuiz.option1,
         option2: currentQuiz.option2,
@@ -113,19 +122,17 @@ export default function SinglePlayPage() {
         userAnswerNumber: 'timeout',
         category: state.category,
       });
-
-      setShowResult(true);
-
-      // 3초 후 다음 문제로 이동
-      setTimeout(() => {
-        goToNextQuestion();
-      }, NEXT_QUESTION_DELAY);
     } catch (error) {
       console.error('타임아웃 처리 실패:', error);
-      setTimeout(() => {
-        goToNextQuestion();
-      }, NEXT_QUESTION_DELAY);
+      // 네트워크 에러 시에도 정답 카운트는 증가하지 않음 (타임아웃이므로)
     }
+
+    setShowResult(true);
+
+    // 3초 후 다음 문제로 이동
+    setTimeout(() => {
+      goToNextQuestion();
+    }, NEXT_QUESTION_DELAY);
   };
 
   // 다음 문제로 이동
@@ -137,7 +144,7 @@ export default function SinglePlayPage() {
       navigate('/single/result', {
         state: {
           total: state.quizzes.length,
-          correct: correctAnswers,
+          correct: correctAnswersRef.current, // ref 값 사용으로 최신 정답 개수 보장
         },
         replace: true,
       });
