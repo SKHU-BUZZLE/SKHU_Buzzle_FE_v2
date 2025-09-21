@@ -15,6 +15,7 @@ import MultiRoomLobby from '@pages/multi-room/lobby';
 import MultiRoomPlay from '@pages/multi-room/play';
 import MultiRoomResult from '@pages/multi-room/result';
 import NotFoundPage from '@pages/not-found';
+import QuizLoadingPage from '@pages/quiz-loading';
 import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
@@ -102,6 +103,7 @@ export const router = createBrowserRouter(
               children: [
                 // 기본 레이아웃만 적용되어야하는 페이지들
                 { path: '*', element: <NotFoundPage /> },
+                { path: 'single/loading', element: <QuizLoadingPage /> },
               ],
             },
           ],
