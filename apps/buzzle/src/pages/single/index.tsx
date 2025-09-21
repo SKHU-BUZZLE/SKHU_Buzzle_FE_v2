@@ -3,10 +3,22 @@ import { Button, QuizIntro } from '@buzzle/design';
 import QuestionCounter from '@components/QuestionCounter';
 import QuizCategory from '@components/quizCategory';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SinglePage() {
   const [count, setCount] = useState(1);
   const [category, setCategory] = useState<string>('ALL');
+  const navigate = useNavigate();
+
+  const handleStartQuiz = () => {
+    // 선택된 카테고리와 문제수를 state로 전달하여 loading 페이지로 이동
+    navigate('/single/loading', {
+      state: {
+        category,
+        size: count,
+      },
+    });
+  };
 
   return (
     <div className='relative flex min-h-full flex-col'>
@@ -28,7 +40,9 @@ export default function SinglePage() {
       </div>
 
       <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
-        <Button className='w-full rounded-2xl'>퀴즈 생성</Button>
+        <Button className='w-full rounded-2xl' onClick={handleStartQuiz}>
+          퀴즈 시작하기
+        </Button>
       </div>
     </div>
   );
