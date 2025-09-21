@@ -60,6 +60,12 @@
     font-display: swap;
   }
 
+  html,
+  body,
+  #root {
+    min-height: 100dvh; /* 모바일 주소창까지 고려한 dvh */
+  }
+
   html {
     font-family: 'Pretendard', system-ui, sans-serif;
     word-break: keep-all;
