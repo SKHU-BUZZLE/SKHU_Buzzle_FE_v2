@@ -1,14 +1,18 @@
 import SingleQuizResult from '@assets/images/single-quiz-result.webp';
 import { Button } from '@buzzle/design';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-interface SingleResultPageProps {
+interface ResultState {
   total?: number;
   correct?: number;
 }
 
-export default function SingleResultPage({ total = 0, correct = 0 }: SingleResultPageProps) {
+export default function SingleResultPage() {
+  const { state } = useLocation() as { state: ResultState };
   const navigate = useNavigate();
+
+  const total = state?.total ?? 0;
+  const correct = state?.correct ?? 0;
 
   const handleRetry = () => {
     navigate('/single', { replace: true });
