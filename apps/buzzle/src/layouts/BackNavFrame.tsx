@@ -5,10 +5,16 @@ import { Outlet } from 'react-router-dom';
 
 export default function BackNavFrame() {
   return (
-    <div className='ds-layout-padding ds-bottom-nav-padding h-full w-full'>
+    <div className='ds-layout-padding min-h-inherit flex flex-1 flex-col'>
       {/* 지우님이 해당 부분 동적 할당? 으로 수정해주시면 됩니다..!! */}
-      <BackHeader rightSlot={<LifeCounter life={50} />} to='/home' />
-      <Outlet />
+      <div className='flex-none'>
+        <BackHeader rightSlot={<LifeCounter life={50} />} to='/home' />
+      </div>
+
+      <section className='ds-bottom-nav-padding min-h-0 flex-1 overflow-y-auto'>
+        <Outlet />
+      </section>
+
       <BottomNavBar />
     </div>
   );

@@ -168,4 +168,8 @@
   .ds-bottom-nav-padding {
     @apply pb-64;
   }
+
+  .min-h-inherit {
+    min-height: inherit;
+  }
 }
