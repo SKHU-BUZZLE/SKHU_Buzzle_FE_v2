@@ -2,6 +2,7 @@ import QuizLoading from '@assets/images/quiz-creation.webp';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
 import { mockInstance } from '@mocks/mockInstance';
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // Intro 페이지에서 전달받는 state의 타입 정의
@@ -36,7 +37,8 @@ export default function QuizLoadingPage() {
 
         if (cancelledRef.current) return;
 
-        setGuardEnabled(false);
+        // state 업데이트가 바로 반영되지않기 때문에 강제로 업데이트
+        flushSync(() => setGuardEnabled(false));
 
         // 퀴즈 데이터를 받으면 play 페이지로 이동
         navigate('/single/play', {
