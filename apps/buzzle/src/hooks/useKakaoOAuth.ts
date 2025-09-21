@@ -1,9 +1,12 @@
 import { exchangeAuthCodeForTokens, getKakaoOAuthCallback } from '@apis/auth';
+import { getMyLife } from '@apis/user';
 import { useAuthStore } from '@stores/auth';
 import { useUserStore } from '@stores/user';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import { LIFE_QUERY_KEY } from './useLife';
 
 /**
  * 카카오 OAuth 콜백 전용 훅
@@ -13,7 +16,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
  * 2) GET /oauth2/callback/kakao → id_token 획득
  * 3) POST /kakao/token → access/refresh 토큰 발급  (서버 응답은 { data: { accessToken, refreshToken } } 형태로 온다고 가정)
  * 4) zustand auth 스토어에 토큰 저장
- * 5) 사용자 프로필/라이프를 미리 로드 (하나 실패해도 이동은 진행) → 홈으로 이동
+ * 5) 사용자 프로필 미리 로드 + 라이프 쿼리 prefetch → 홈으로 이동
  *
  */
 export const useKakaoOAuth = () => {
@@ -22,7 +25,7 @@ export const useKakaoOAuth = () => {
 
   const setTokens = useAuthStore((state) => state.setTokens);
   const fetchUser = useUserStore((state) => state.fetchUser);
-  const fetchLife = useUserStore((state) => state.fetchLife);
+  const queryClient = useQueryClient();
 
   const requestSentRef = useRef(false);
 
@@ -43,7 +46,25 @@ export const useKakaoOAuth = () => {
     onSuccess: async ({ accessToken, refreshToken }) => {
       setTokens(accessToken, refreshToken);
 
-      await Promise.allSettled([fetchUser(), fetchLife()]);
+      // 사용자 프로필 미리 로드
+      try {
+        await fetchUser();
+      } catch (error) {
+        console.warn('사용자 프로필 로드 실패:', error);
+      }
+
+      // 라이프 쿼리 prefetch (토큰 설정 후 바로 사용 가능하도록)
+      try {
+        await queryClient.prefetchQuery({
+          queryKey: LIFE_QUERY_KEY,
+          queryFn: async () => {
+            const response = await getMyLife();
+            return response.data.data.life as number;
+          },
+        });
+      } catch (error) {
+        console.warn('라이프 데이터 prefetch 실패:', error);
+      }
 
       navigate('/', { replace: true });
     },
