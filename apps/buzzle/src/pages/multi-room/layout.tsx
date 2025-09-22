@@ -10,10 +10,15 @@ import SockJS from 'sockjs-client';
 export default function MultiRoomBody() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const roomData = (state as { room?: Room } | null)?.room;
+  const roomData = state as { room?: Room; entry?: 'random' | 'invite'; roomId?: string } | null;
+  const entry = roomData?.entry ?? 'invite'; // 🔹 entry 추가 (random | invite)
+  const roomIdFromState = roomData?.roomId; // 🔹 랜덤 모드일 때 넘겨준 roomId
 
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>();
+
+  // 🔹 entry === 'random'이면 roomIdFromState 사용, 초대면 기존 code 사용
+  const effectiveRoomId = entry === 'random' ? roomIdFromState : code;
 
   const navigateRef = useRef(navigate);
   useEffect(() => {
@@ -28,14 +33,14 @@ export default function MultiRoomBody() {
     clientRef.current = client;
   }, [client]);
 
-  // 네비게이션에서 넘어온 방정보 저장
+  // 초대 모드일 때만 roomData(room) 저장
   useEffect(() => {
-    if (!roomData) return;
+    if (entry !== 'invite' || !roomData?.room) return;
     const prev = useRoomStore.getState().room;
-    if (prev?.inviteCode !== roomData.inviteCode) {
-      useRoomStore.getState().setRoom(roomData);
+    if (prev?.inviteCode !== roomData.room.inviteCode) {
+      useRoomStore.getState().setRoom(roomData.room);
     }
-  }, [roomData]);
+  }, [entry, roomData]);
 
   const connectedKeyRef = useRef<string | null>(null);
 
@@ -56,16 +61,25 @@ export default function MultiRoomBody() {
       onConnect: () => {
         setClient(c);
 
-        c.subscribe('/user/queue/room', (message: IMessage) => {
-          const body = JSON.parse(message.body);
-          if (body.type === 'JOINED_ROOM') {
-            const initialRoomDetails: RoomDetails = body.data;
-            setRoomDetails(initialRoomDetails);
-          }
-        });
+        if (entry === 'invite') {
+          // 🔹 초대 모드: /user/queue/room 구독 + join publish
+          c.subscribe('/user/queue/room', (message: IMessage) => {
+            const body = JSON.parse(message.body);
+            if (body.type === 'JOINED_ROOM') {
+              const initialRoomDetails: RoomDetails = body.data;
+              setRoomDetails(initialRoomDetails);
+            }
+          });
 
-        c.subscribe(`/topic/room/${code}`, (message: IMessage) => {
+          c.publish({ destination: '/app/room/join', body: JSON.stringify({ inviteCode: code }) });
+        }
+
+        // 🔹 랜덤: /topic/game/{roomId}, 초대: /topic/room/{roomId}
+        const topic = entry === 'random' ? `/topic/game/${effectiveRoomId}` : `/topic/room/${effectiveRoomId}`;
+
+        c.subscribe(topic, (message: IMessage) => {
           const body = JSON.parse(message.body);
+          console.log('📢 ============= 알립니다 ============= 📢', body);
 
           switch (body.type) {
             case 'PLAYER_JOINED':
@@ -167,13 +181,27 @@ export default function MultiRoomBody() {
     }
   };
 
-  // 정답 제출
+  // ✅ 정답 제출: 모드별로 destination 분기
   const handleAnswerSubmit = (answerIndex: number) => {
     const c = clientRef.current;
     const { roomDetails: rd, question: q } = useRoomStore.getState();
-    if (c && rd && q) {
+    if (!c || !q) return;
+    console.log(c, q);
+
+    if (entry === 'random') {
+      // 🔹 랜덤 매칭 채점 경로
+      console.log('랜덤 채점해줘');
+      const payload = { questionIndex: q.questionIndex, index: answerIndex };
       c.publish({
-        destination: `/app/room/${rd.roomId}/answer`,
+        destination: `/app/game/${code}/answer`,
+        body: JSON.stringify({ questionIndex: q.questionIndex, index: answerIndex }),
+      });
+      console.log('📤 정답 메시지 발행됨:', payload, 'to', `/app/game/${rd?.roomId}/answer`);
+    } else {
+      // 🔹 초대 매칭 채점 경로
+      console.log('친구 채점해줘');
+      c.publish({
+        destination: `/app/room/${rd?.roomId}/answer`,
         body: JSON.stringify({ questionIndex: q.questionIndex, index: answerIndex }),
       });
     }

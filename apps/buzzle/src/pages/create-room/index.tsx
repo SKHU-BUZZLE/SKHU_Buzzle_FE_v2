@@ -41,7 +41,7 @@ export default function CreateRoomPage() {
             const room = res.data.data;
             // navigate(`/multi-room/${inviteCode}/lobby`);
             navigate(`/multi-room/${room.inviteCode}/lobby`, {
-              state: { room },
+              state: { entry: 'invite', room },
               replace: true, // 뒤로가기 시 생성 페이지 안 보이게
             });
           } catch (err) {
