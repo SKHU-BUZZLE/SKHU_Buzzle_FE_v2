@@ -1,7 +1,6 @@
 import QuizOption from '@components/QuizOption';
 import MarkdownViewer from '@layouts/MarkdownViewer';
 import PropsSpecTable from '@layouts/PropsSpecTable';
-import { type Spec } from '@layouts/StatelessPlayground';
 
 export default function QuizOptionDoc() {
   const handleClick = (idx: number) => {
@@ -84,32 +83,32 @@ const propsSpecs = [
   },
 ];
 
-const specs = [
-  {
-    type: 'select',
-    propName: 'variant',
-    options: ['default', 'selected', 'correct', 'incorrect'],
-    label: 'Variant',
-  },
-  {
-    type: 'boolean',
-    propName: 'disabled',
-    label: 'Disabled',
-  },
-  {
-    type: 'text',
-    propName: 'option',
-    label: 'Option',
-  },
-  {
-    type: 'number',
-    propName: 'index',
-    label: 'Index',
-  },
-  {
-    type: 'handler',
-    propName: 'onClick',
-    options: ['handleClick'],
-    label: 'OnClick',
-  },
-] satisfies ReadonlyArray<Spec>;
+// const specs = [
+//   {
+//     type: 'select',
+//     propName: 'variant',
+//     options: ['default', 'selected', 'correct', 'incorrect'],
+//     label: 'Variant',
+//   },
+//   {
+//     type: 'boolean',
+//     propName: 'disabled',
+//     label: 'Disabled',
+//   },
+//   {
+//     type: 'text',
+//     propName: 'option',
+//     label: 'Option',
+//   },
+//   {
+//     type: 'number',
+//     propName: 'index',
+//     label: 'Index',
+//   },
+//   {
+//     type: 'handler',
+//     propName: 'onClick',
+//     options: ['handleClick'],
+//     label: 'OnClick',
+//   },
+// ] satisfies ReadonlyArray<Spec>;

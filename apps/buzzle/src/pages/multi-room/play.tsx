@@ -20,7 +20,7 @@ export default function MultiRoomPlay() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [nextLoading, setNextLoading] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<boolean>(false);
+  // const [currentUser, setCurrentUser] = useState<boolean>(false);
 
   // 오답 패널티 (3초간 클릭 금지)
   const [penalty, setPenalty] = useState<boolean>(false);
@@ -35,7 +35,7 @@ export default function MultiRoomPlay() {
   useEffect(() => {
     if (!question) return;
 
-    setCurrentUser(false);
+    // setCurrentUser(false);
     setSelectedIndex(null);
     setNextLoading(false);
 
@@ -56,7 +56,7 @@ export default function MultiRoomPlay() {
     if (!answerResult) return;
 
     const isMine = answerResult.userEmail === user?.email;
-    setCurrentUser(isMine);
+    // setCurrentUser(isMine);
 
     // 결과 배너 3초 표시
     setShowResult(true);
