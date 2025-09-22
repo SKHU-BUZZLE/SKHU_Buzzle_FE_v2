@@ -79,7 +79,7 @@ export default function SinglePlayPage() {
         category: state.category,
       });
 
-      // 백엔드 응답 기반으로 정답 카운트 (권위있는 단일 진실의 원천)
+      // 백엔드 응답 기반으로 정답 카운트
       if (response.data.data) {
         correctAnswersRef.current += 1;
       }
@@ -159,22 +159,6 @@ export default function SinglePlayPage() {
     }
   };
 
-  // 옵션 variant 결정
-  const getOptionVariant = (index: number) => {
-    if (!showResult) {
-      return selectedAnswer === index ? 'selected' : 'default';
-    }
-
-    const correctIndex = parseInt(currentQuiz.answer) - 1;
-    if (index === correctIndex) {
-      return 'correct';
-    }
-    if (selectedAnswer === index && index !== correctIndex) {
-      return 'incorrect';
-    }
-    return 'default';
-  };
-
   return (
     <div className='flex min-h-full flex-col'>
       <TimeProgressBar key={questionKey} duration={10} isPaused={isTimerPaused} onTimerEnd={handleTimerEnd} />
@@ -191,16 +175,21 @@ export default function SinglePlayPage() {
 
         {/* 선택지 */}
         <div className='space-y-16'>
-          {options.map((option, index) => (
-            <QuizOption
-              key={`quiz-${currentQuestionIndex}-option-${option}`}
-              disabled={isAnswered}
-              index={index}
-              option={option}
-              variant={getOptionVariant(index)}
-              onClick={handleOptionClick}
-            />
-          ))}
+          {options.map((option, index) => {
+            const correctIndex = parseInt(currentQuiz.answer) - 1;
+            return (
+              <QuizOption
+                key={`quiz-${currentQuestionIndex}-option-${option}`}
+                disabled={isAnswered}
+                index={index}
+                isCorrect={showResult && index === correctIndex}
+                isIncorrect={showResult && selectedAnswer === index && index !== correctIndex}
+                isSelected={!showResult && selectedAnswer === index}
+                option={option}
+                onClick={handleOptionClick}
+              />
+            );
+          })}
         </div>
 
         {/* 결과 메시지 */}
