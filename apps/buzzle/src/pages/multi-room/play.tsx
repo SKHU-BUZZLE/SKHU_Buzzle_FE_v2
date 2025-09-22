@@ -1,5 +1,5 @@
 import { QuizOption } from '@buzzle/design';
-import { useRoom } from '@stores/room';
+import { useRoomStore } from '@stores/room';
 import { useUserStore } from '@stores/user';
 import { useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
@@ -12,51 +12,73 @@ const TOTAL_TIME = 10; // 10초라고 가정
 
 export default function MultiRoomPlay() {
   const { user } = useUserStore();
-  const { question, answerResult, remainingTime } = useRoom();
+  const question = useRoomStore((s) => s.question);
+  const answerResult = useRoomStore((s) => s.answerResult);
+  const remainingTime = useRoomStore((s) => s.remainingTime);
   const { handleAnswerSubmit } = useOutletContext<MultiRoomContext>();
+
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [nextLoading, setNextLoading] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<boolean>(false);
+
   // 오답 패널티 (3초간 클릭 금지)
   const [penalty, setPenalty] = useState<boolean>(false);
-  const penaltyTimerRef = useRef<number | null>(null);
   const [penaltyRemaining, setPenaltyRemaining] = useState(0);
+  const penaltyTimerRef = useRef<number | null>(null);
   const penaltyIntervalRef = useRef<number | null>(null);
-  const showPenaltyBanner = penalty && !answerResult?.correct;
 
-  // 새 문제 오면 선택 초기화
+  // 내 오답일 때만 패널티 배너
+  const showPenaltyBanner = penalty && answerResult?.userEmail === user?.email && !answerResult?.correct;
+
+  // 새 문제 오면 선택/상태 초기화
   useEffect(() => {
-    if (question) {
-      setCurrentUser(false);
-      setSelectedIndex(null);
-      setNextLoading(false);
+    if (!question) return;
 
-      setPenalty(false);
-      if (penaltyTimerRef.current) {
-        clearTimeout(penaltyTimerRef.current);
-        penaltyTimerRef.current = null;
-      }
+    setCurrentUser(false);
+    setSelectedIndex(null);
+    setNextLoading(false);
+
+    setPenalty(false);
+    setPenaltyRemaining(0);
+    if (penaltyTimerRef.current) {
+      clearTimeout(penaltyTimerRef.current);
+      penaltyTimerRef.current = null;
+    }
+    if (penaltyIntervalRef.current) {
+      clearInterval(penaltyIntervalRef.current);
+      penaltyIntervalRef.current = null;
     }
   }, [question]);
 
-  // 정답이면 선택 초기화 (다음 문제로 넘어가는 흐름 대비)
+  // 정답/오답 결과 처리
   useEffect(() => {
-    const isMine = answerResult?.userEmail === user?.email;
+    if (!answerResult) return;
+
+    const isMine = answerResult.userEmail === user?.email;
     setCurrentUser(isMine);
 
-    if (answerResult?.correct) {
-      // 정답이면 다음 문제 이동 대비
+    // 결과 배너 3초 표시
+    setShowResult(true);
+    const resultTimer = window.setTimeout(() => setShowResult(false), 3000);
+
+    if (answerResult.correct) {
+      // 정답 → 다음 문제 이동 대비
       setSelectedIndex(null);
       setNextLoading(true);
-      // 정답일 땐 페널티 없음
+      // 패널티 초기화
       setPenalty(false);
+      setPenaltyRemaining(0);
       if (penaltyTimerRef.current) {
         clearTimeout(penaltyTimerRef.current);
         penaltyTimerRef.current = null;
       }
-    } else if (answerResult && isMine) {
-      // 내 오답이면 3초간 패널티
+      if (penaltyIntervalRef.current) {
+        clearInterval(penaltyIntervalRef.current);
+        penaltyIntervalRef.current = null;
+      }
+    } else if (isMine) {
+      // 내 오답 → 3초 패널티
       setPenalty(true);
       setPenaltyRemaining(3);
 
@@ -74,16 +96,17 @@ export default function MultiRoomPlay() {
         setPenaltyRemaining((prev) => (prev > 1 ? prev - 1 : 1));
       }, 1000);
     }
+
+    return () => clearTimeout(resultTimer);
   }, [answerResult, user?.email]);
 
-  // 정답/오답 결과 들어왔을 때 3초간만 표시
+  // 언마운트 시 타이머 정리
   useEffect(() => {
-    if (!answerResult) return;
-
-    setShowResult(true);
-    const timer = setTimeout(() => setShowResult(false), 3000);
-    return () => clearTimeout(timer);
-  }, [answerResult]);
+    return () => {
+      if (penaltyTimerRef.current) clearTimeout(penaltyTimerRef.current);
+      if (penaltyIntervalRef.current) clearInterval(penaltyIntervalRef.current);
+    };
+  }, []);
 
   const handleClick = (idx: number) => {
     if (nextLoading || penalty) return;
@@ -91,17 +114,16 @@ export default function MultiRoomPlay() {
     handleAnswerSubmit(idx); // 서버에 전송
   };
 
-  // 퍼센트 계산
-  if (!remainingTime) return;
-  const progress = (remainingTime / TOTAL_TIME) * 100;
+  // 진행 퍼센트 (0~100 clamp, 0도 유효)
+  const progress =
+    remainingTime == null ? 100 : Math.max(0, Math.min(100, (remainingTime / Math.max(1, TOTAL_TIME)) * 100));
 
-  // 색상 단계 (남은 시간 비율에 따라 색 바뀜)
+  // 색상 단계
   let color = 'bg-black-300 dark:bg-white-300';
-  if (progress <= 30) {
-    color = 'bg-error-red-500';
-  }
+  if (progress <= 30) color = 'bg-error-red-500';
 
-  if (!question) return;
+  if (!question) return null;
+
   const disabledAll = nextLoading || penalty;
 
   return (
@@ -112,19 +134,19 @@ export default function MultiRoomPlay() {
 
       <div className='flex flex-col gap-4'>
         <p className='ds-typ-body-2 ds-text-caption'>
-          <span className='text-primary-500'>Q. {question?.questionIndex + 1}</span> / 3
+          <span className='text-primary-500'>Q. {question.questionIndex + 1}</span> / 3
         </p>
-        <h1 className='ds-typ-heading-2 ds-text-strong'>{question?.question}</h1>
+        <h1 className='ds-typ-heading-2 ds-text-strong'>{question.question}</h1>
       </div>
 
       <div className='flex flex-col gap-12'>
-        {question?.options.map((option, index) => (
+        {question.options.map((option, index) => (
           <QuizOption
-            key={option}
+            key={`${option}`}
             disabled={disabledAll}
             index={index}
-            isCorrect={answerResult?.correct && Number(answerResult?.correctAnswer) === index}
-            isIncorrect={!answerResult?.correct && selectedIndex === index}
+            isCorrect={Boolean(answerResult?.correct) && Number(answerResult?.correctAnswer) === index}
+            isIncorrect={Boolean(answerResult && !answerResult.correct && selectedIndex === index)}
             isSelected={selectedIndex === index}
             option={option}
             onClick={handleClick}
@@ -143,7 +165,7 @@ export default function MultiRoomPlay() {
           </>
         )}
 
-        {/* 오답일 때 */}
+        {/* 오답일 때 (내 오답 + 패널티 중) */}
         {showPenaltyBanner && (
           <>
             <h1>아쉽지만 오답이에요</h1>

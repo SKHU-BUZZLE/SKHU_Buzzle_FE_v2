@@ -1,7 +1,7 @@
 import multiQuiz from '@assets/images/multi-quiz.webp';
 import multiQuizGuide from '@assets/images/multi-quiz-guide.webp';
 import { Avatar, Button, NoteIcon } from '@buzzle/design';
-import { useRoom } from '@stores/room';
+import { useRoomStore } from '@stores/room';
 import { useUserStore } from '@stores/user';
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
@@ -13,7 +13,7 @@ type MultiRoomContext = {
 
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
-  const { roomDetails } = useRoom();
+  const roomDetails = useRoomStore((s) => s.roomDetails);
   const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
@@ -23,7 +23,7 @@ export default function MultiRoomLobby() {
     return currentUser?.isHost;
   }, [user, roomDetails]);
 
-  console.log('🤚🏻 roomDetails:', roomDetails);
+  // console.log('🤚🏻 roomDetails:', roomDetails);
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
@@ -72,7 +72,7 @@ export default function MultiRoomLobby() {
         <div className='flex items-end gap-12'>
           <h3 className='ds-typ-title-2 ds-text-strong'>참여 중인 친구</h3>
           <p className='ds-text-caption ds-typ-body-2'>
-            <span className='text-primary-500'>{roomDetails?.players.length}</span> / 10명
+            <span className='text-primary-500'>{roomDetails?.players.length}</span> / {roomDetails?.maxPlayers}명
           </p>
         </div>
         <div className='grid grid-cols-5 place-items-center gap-x-8 gap-y-12'>
