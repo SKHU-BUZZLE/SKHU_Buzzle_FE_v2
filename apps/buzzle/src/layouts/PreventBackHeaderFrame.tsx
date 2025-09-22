@@ -8,9 +8,9 @@ export default function BackHeaderFrame() {
 
   return (
     <div className='ds-layout-padding min-h-inherit flex w-full flex-1 flex-col'>
-      <BackHeader rightSlot={<LifeCounter life={life} />} to='/home' />
+      <BackHeader preventBackNavigation rightSlot={<LifeCounter life={life} />} to='/single' />
       {/* Outlet 영역이 화면을 다 채우기 위해서 flex-1을 사용 / 여백을 위한 py 설정 */}
-      <section className='min-h-0 flex-1 overflow-y-auto'>
+      <section className='min-h-0 flex-1'>
         <Outlet />
       </section>
     </div>
