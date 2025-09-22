@@ -1,5 +1,5 @@
-/** ws에서 사용하는 정보들 */
-import { createContext, type Dispatch, type SetStateAction, useContext, useState } from 'react';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 /** @interface Room : 생성된 방 정보 저장 */
 export interface Room {
@@ -11,14 +11,18 @@ export interface Room {
 }
 
 /** 참여자 정보 */
-interface Player {
+export interface Player {
   email: string;
-  isHost: boolean;
+  isHost?: boolean;
   name: string;
+  picture: string;
+  isWinner?: boolean;
+  rank?: number;
+  score?: number;
 }
 
 /** 초기 방 정보 */
-interface RoomDetails {
+export interface RoomDetails {
   canStartGame: boolean;
   category: string;
   currentPlayers: number;
@@ -31,29 +35,125 @@ interface RoomDetails {
   roomId: string;
 }
 
-interface RoomContextValue {
-  /** 방 생성 직후 기본 정보 */
-  room: Room | undefined;
-  setRoom: Dispatch<SetStateAction<Room | undefined>>;
-
-  /** 서버에서 내려준 방 상세 상태 */
-  roomDetails: RoomDetails | undefined;
-  setRoomDetails: Dispatch<SetStateAction<RoomDetails | undefined>>;
+/** 퀴즈 */
+export interface Question {
+  options: string[];
+  question: string;
+  questionIndex: number;
 }
 
-const RoomContext = createContext<RoomContextValue | undefined>(undefined);
-
-export function RoomProvider({ children }: { children: React.ReactNode }) {
-  const [room, setRoom] = useState<Room | undefined>(undefined);
-  const [roomDetails, setRoomDetails] = useState<RoomDetails | undefined>(undefined);
-
-  return <RoomContext.Provider value={{ room, setRoom, roomDetails, setRoomDetails }}>{children}</RoomContext.Provider>;
+/** 채점 결과 */
+export interface AnswerResult {
+  correct: boolean;
+  correctAnswer: string;
+  message: string;
+  userSelectedIndex: string;
+  userEmail: string;
+  userName: string;
 }
 
-export function useRoom() {
-  const ctx = useContext(RoomContext);
-  if (!ctx) {
-    throw new Error('useRoom은 RoomProvider 내부에서만 사용할 수 있습니다.');
-  }
-  return ctx;
+/** 점수 현황 */
+export interface LeaderBoard {
+  currentLeader: string;
+  scores: Record<string, number>;
 }
+
+/** 게임 결과 */
+export interface QuizResult {
+  message: string;
+  rankings: Player[];
+}
+
+/** 값 또는 함수형 업데이터 타입 유틸 */
+type Updater<T> = T | ((prev: T) => T);
+
+/** zustand state 정의 (null을 사용해 초기 미세분기 용이) */
+interface RoomState {
+  room: Room | null;
+  roomDetails: RoomDetails | null;
+  question: Question | null;
+  remainingTime: number | null;
+  answerResult: AnswerResult | null;
+  leaderBoard: LeaderBoard | null;
+  quizResult: QuizResult | null;
+
+  // setters: 값 또는 함수형 업데이터 모두 허용
+  setRoom: (next: Updater<Room | null>) => void;
+  setRoomDetails: (next: Updater<RoomDetails | null>) => void;
+  setQuestion: (next: Updater<Question | null>) => void;
+  setRemainingTime: (next: Updater<number | null>) => void;
+  setAnswerResult: (next: Updater<AnswerResult | null>) => void;
+  setLeaderBoard: (next: Updater<LeaderBoard | null>) => void;
+  setQuizResult: (next: Updater<QuizResult | null>) => void;
+
+  // 전체 초기화
+  clear: () => void;
+}
+
+export const useRoomStore = create<RoomState>()(
+  persist(
+    (set) => ({
+      room: null,
+      roomDetails: null,
+      question: null,
+      remainingTime: null,
+      answerResult: null,
+      leaderBoard: null,
+      quizResult: null,
+
+      setRoom: (next) =>
+        set((s) => ({ room: typeof next === 'function' ? (next as (p: Room | null) => Room | null)(s.room) : next })),
+
+      setRoomDetails: (next) =>
+        set((s) => ({
+          roomDetails:
+            typeof next === 'function' ? (next as (p: RoomDetails | null) => RoomDetails | null)(s.roomDetails) : next,
+        })),
+
+      setQuestion: (next) =>
+        set((s) => ({
+          question: typeof next === 'function' ? (next as (p: Question | null) => Question | null)(s.question) : next,
+        })),
+
+      setRemainingTime: (next) =>
+        set((s) => ({
+          remainingTime:
+            typeof next === 'function' ? (next as (p: number | null) => number | null)(s.remainingTime) : next,
+        })),
+
+      setAnswerResult: (next) =>
+        set((s) => ({
+          answerResult:
+            typeof next === 'function'
+              ? (next as (p: AnswerResult | null) => AnswerResult | null)(s.answerResult)
+              : next,
+        })),
+
+      setLeaderBoard: (next) =>
+        set((s) => ({
+          leaderBoard:
+            typeof next === 'function' ? (next as (p: LeaderBoard | null) => LeaderBoard | null)(s.leaderBoard) : next,
+        })),
+
+      setQuizResult: (next) =>
+        set((s) => ({
+          quizResult:
+            typeof next === 'function' ? (next as (p: QuizResult | null) => QuizResult | null)(s.quizResult) : next,
+        })),
+
+      clear: () =>
+        set({
+          room: null,
+          roomDetails: null,
+          question: null,
+          remainingTime: null,
+          answerResult: null,
+          leaderBoard: null,
+          quizResult: null,
+        }),
+    }),
+    {
+      name: 'multi-room-storage',
+    },
+  ),
+);

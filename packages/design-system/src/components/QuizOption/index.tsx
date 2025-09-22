@@ -5,23 +5,26 @@ import { twMerge } from 'tailwind-merge';
 interface QuizOptionProps {
   /** 보기 텍스트 */
   option: string;
-  /** 보기의 상태 (기본, 선택됨, 정답, 오답) */
-  variant?: Variant;
-  /** 보기 비활성화 여부 */
+  /** 보기 선택 여부 */
+  isSelected?: boolean;
+  /** 정답 여부 */
+  isCorrect?: boolean;
+  /** 오답 여부 */
+  isIncorrect?: boolean;
+  /** 비활성화 여부 */
   disabled?: boolean;
   /** 보기의 인덱스 */
-  index?: number | undefined;
-  /** 클릭 시 호출되는 콜백. 눌린 보기의 인덱스를 반환 */
+  index?: number;
+  /** 클릭 시 호출되는 콜백 */
   onClick?: (index: number) => void;
 }
-
-const VARIANT_CLASSNAME = {
-  default: 'bg-white-200 dark:bg-dm-black-600 ds-text-normal',
-  selected: 'bg-primary-alpha-10 dark:bg-primary-alpha-20 text-primary-500',
-  correct: 'bg-correct-green-alpha text-correct-green-500',
-  incorrect: 'bg-error-red-alpha text-error-red-500',
-} as const;
-type Variant = keyof typeof VARIANT_CLASSNAME;
+// const VARIANT_CLASSNAME = {
+//   default: 'bg-white-200 dark:bg-dm-black-600 ds-text-normal',
+//   selected: 'bg-primary-alpha-10 dark:bg-primary-alpha-20 text-primary-500',
+//   correct: 'bg-correct-green-alpha text-correct-green-500',
+//   incorrect: 'bg-error-red-alpha text-error-red-500',
+// } as const;
+// type Variant = keyof typeof VARIANT_CLASSNAME;
 
 /**
  * QuizOption 컴포넌트
@@ -54,30 +57,62 @@ type Variant = keyof typeof VARIANT_CLASSNAME;
  * />
  * ```
  */
-export default function QuizOption({ option, variant = 'default', disabled = false, index, onClick }: QuizOptionProps) {
+export default function QuizOption({
+  option,
+  isSelected = false,
+  isCorrect = false,
+  isIncorrect = false,
+  disabled = false,
+  index,
+  onClick,
+}: QuizOptionProps) {
+  // let icon = null;
+  // switch (variant) {
+  //   case 'correct':
+  //     icon = <SuccessIcon />;
+  //     break;
+  //   case 'incorrect':
+  //     icon = <ErrorIcon />;
+  //     break;
+  // }
+  const baseClass = 'ds-typ-body-2 w-full bg-white-200 dark:bg-dm-black-600 ds-text-normal';
+
+  // dark: 클래스는 일반 bg- 보다 우선순위가 높다. twMerge 할 때 조심!
+  const stateClass = twMerge(
+    isSelected && 'bg-primary-alpha-10 dark:bg-primary-alpha-20 text-primary-500',
+    isCorrect && 'bg-correct-green-alpha dark:bg-correct-green-alpha text-correct-green-500',
+    isIncorrect && 'bg-error-red-alpha dark:bg-error-red-alpha text-error-red-500',
+  );
+
   let icon = null;
-  switch (variant) {
-    case 'correct':
-      icon = <SuccessIcon />;
-      break;
-    case 'incorrect':
-      icon = <ErrorIcon />;
-      break;
-  }
+  if (isCorrect) icon = <SuccessIcon />;
+  if (isIncorrect) icon = <ErrorIcon />;
 
   return (
     <Button
-      className={twMerge('ds-typ-body-2 w-full', VARIANT_CLASSNAME[variant])}
+      className={twMerge(baseClass, stateClass)}
       disabled={disabled}
       leftIcon={icon}
       round='rounded'
       onClick={() => {
-        // 눌린 선택지의 index를 외부로 반환
-        if (index === undefined || index === null) return;
+        if (index == null) return;
         onClick?.(index);
       }}
     >
       {option}
     </Button>
+    // <Button
+    //   className={twMerge('ds-typ-body-2 w-full', VARIANT_CLASSNAME[variant])}
+    //   disabled={disabled}
+    //   leftIcon={icon}
+    //   round='rounded'
+    //   onClick={() => {
+    //     // 눌린 선택지의 index를 외부로 반환
+    //     if (index === undefined || index === null) return;
+    //     onClick?.(index);
+    //   }}
+    // >
+    //   {option}
+    // </Button>
   );
 }
