@@ -22,10 +22,11 @@ const NAV_ITEMS: Record<Section, { label: string; to: string }[]> = {
     { label: 'MultiQuizRankingItem', to: '/docs/component/MultiQuizRankingItem' },
     { label: 'QuizIntro', to: '/docs/component/QuizIntro' },
     { label: 'Portal', to: '/docs/component/Portal' },
-  { label: 'Slot', to: '/docs/component/Slot' },
-  { label: 'Overlay', to: '/docs/component/Overlay' },
-  { label: 'Modal', to: '/docs/component/Modal' },
-],
+    { label: 'Slot', to: '/docs/component/Slot' },
+    { label: 'Overlay', to: '/docs/component/Overlay' },
+    { label: 'Modal', to: '/docs/component/Modal' },
+    { label: 'TimeProgressBar', to: '/docs/component/TimeProgressBar' },
+  ],
 };
 
 /** 현재 URL 경로 중 해당하는 Section 타입(foundation | component | root)을 반환 */

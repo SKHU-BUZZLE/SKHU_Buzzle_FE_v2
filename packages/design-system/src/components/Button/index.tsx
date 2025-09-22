@@ -25,7 +25,7 @@ const VARIANT_STYLES = {
   variant: {
     primary: 'bg-primary-500 text-white',
     secondary: 'bg-primary-alpha-10 dark:bg-primary-alpha-20 text-primary-500',
-    outline: 'border ds-theme-bg-base ds-theme-border-base',
+    outline: 'border bg-white-50 dark:bg-dm-black-800 border-white-300 dark:border-dm-black-700',
     ghost: 'ds-theme-bg-base',
     danger: 'bg-error-red-500 text-white',
   },

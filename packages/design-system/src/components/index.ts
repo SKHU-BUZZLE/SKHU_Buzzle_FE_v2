@@ -17,3 +17,4 @@ export { default as Portal } from './Portal';
 export { Slot, Slottable } from './Slot';
 export { default as Overlay } from './Overlay';
 export { default as Modal } from './Modal';
+export { default as TimeProgressBar } from './TimeProgressBar';

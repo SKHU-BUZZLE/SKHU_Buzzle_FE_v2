@@ -3,6 +3,7 @@ import ModalDoc from '@pages/components/ModalDoc';
 import OverlayDoc from '@pages/components/OverlayDoc';
 import SlotDoc from '@pages/components/SlotDoc';
 import PortalDoc from '@pages/components/PortalDoc';
+import TimeProgressBarDoc from '@pages/components/TimeProgressBarDoc';
 
 import RadioGroupDoc from '@pages/components/RadioGroupDoc';
 import RankingItemDoc from '@pages/components/RankingItemDoc';
@@ -65,6 +66,7 @@ const router = createBrowserRouter([
           { path: 'Slot', element: <SlotDoc /> },
           { path: 'Overlay', element: <OverlayDoc /> },
           { path: 'Modal', element: <ModalDoc /> },
+          { path: 'TimeProgressBar', element: <TimeProgressBarDoc /> },
         ],
       },
     ],

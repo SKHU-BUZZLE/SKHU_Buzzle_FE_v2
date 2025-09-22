@@ -28,4 +28,9 @@ export default defineConfig({
   },
 
   base: process.env.VITE_BASE_URL || '/',
+
+  // SockJS 라이브러리와 Vite가 global 객체를 같이 참조해서 충돌 발생
+  define: {
+    global: 'window',
+  },
 });
