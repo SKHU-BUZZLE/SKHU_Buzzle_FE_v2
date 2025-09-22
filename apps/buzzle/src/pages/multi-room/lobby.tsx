@@ -1,19 +1,20 @@
 import multiQuiz from '@assets/images/multi-quiz.webp';
 import multiQuizGuide from '@assets/images/multi-quiz-guide.webp';
 import { Avatar, Button, NoteIcon } from '@buzzle/design';
-import { useRoom } from '@stores/room';
+import { useRoomStore } from '@stores/room';
 import { useUserStore } from '@stores/user';
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 type MultiRoomContext = {
   handleLeave: () => void;
+  handleStartGame: () => void;
 };
 
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
-  const { roomDetails } = useRoom();
-  const { handleLeave } = useOutletContext<MultiRoomContext>();
+  const roomDetails = useRoomStore((s) => s.roomDetails);
+  const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
   const isHost = useMemo(() => {
@@ -22,7 +23,7 @@ export default function MultiRoomLobby() {
     return currentUser?.isHost;
   }, [user, roomDetails]);
 
-  console.log('🤚🏻 roomDetails:', roomDetails);
+  // console.log('🤚🏻 roomDetails:', roomDetails);
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
@@ -71,21 +72,19 @@ export default function MultiRoomLobby() {
         <div className='flex items-end gap-12'>
           <h3 className='ds-typ-title-2 ds-text-strong'>참여 중인 친구</h3>
           <p className='ds-text-caption ds-typ-body-2'>
-            <span className='text-primary-500'>{roomDetails?.players.length}</span> / 10명
+            <span className='text-primary-500'>{roomDetails?.players.length}</span> / {roomDetails?.maxPlayers}명
           </p>
         </div>
         <div className='grid grid-cols-5 place-items-center gap-x-8 gap-y-12'>
-          {/* 서버 데이터상 새로운 참여자가 0번 인덱스에 추가돼서 역순으로 정렬 */}
-          {roomDetails?.players.reverse().map((player) => (
-            // ! 백엔드는 이때 사용자 프로필 사진도 넘겨줘야 함
-            <Avatar key={player.email} name={player.name} />
+          {roomDetails?.players.map((player) => (
+            <Avatar key={player.email} alt={`${player.name}의 프로필 이미지`} name={player.name} src={player.picture} />
           ))}
         </div>
       </div>
 
       {/* 방장이라면 시작 버튼 or 참여자라면 나가기 버튼 */}
       {isHost ? (
-        <Button className='sticky bottom-16 w-full' onClick={async () => {}}>
+        <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
           퀴즈 시작하기
         </Button>
       ) : (

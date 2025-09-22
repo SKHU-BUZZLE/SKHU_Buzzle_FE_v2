@@ -1,4 +1,10 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import VictoryStandDoc from '@pages/components/VictoryStandDoc';
+import RankedAvatarDoc from '@pages/components/RankedAvatarDoc';
+import ModalDoc from '@pages/components/ModalDoc';
+import OverlayDoc from '@pages/components/OverlayDoc';
+import SlotDoc from '@pages/components/SlotDoc';
+import PortalDoc from '@pages/components/PortalDoc';
 import TimeProgressBarDoc from '@pages/components/TimeProgressBarDoc';
 
 import RadioGroupDoc from '@pages/components/RadioGroupDoc';
@@ -58,6 +64,12 @@ const router = createBrowserRouter([
           { path: 'RankingItem', element: <RankingItemDoc /> },
           { path: 'MultiQuizRankingItem', element: <MultiQuizRankingItemDoc /> },
           { path: 'QuizIntro', element: <QuizIntroDoc /> },
+          { path: 'RankedAvatar', element: <RankedAvatarDoc /> },
+          { path: 'VictoryStand', element: <VictoryStandDoc /> },
+          { path: 'Portal', element: <PortalDoc /> },
+          { path: 'Slot', element: <SlotDoc /> },
+          { path: 'Overlay', element: <OverlayDoc /> },
+          { path: 'Modal', element: <ModalDoc /> },
           { path: 'TimeProgressBar', element: <TimeProgressBarDoc /> },
         ],
       },

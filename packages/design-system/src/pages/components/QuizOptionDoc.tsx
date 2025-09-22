@@ -1,7 +1,6 @@
 import QuizOption from '@components/QuizOption';
 import MarkdownViewer from '@layouts/MarkdownViewer';
 import PropsSpecTable from '@layouts/PropsSpecTable';
-import StatelessPlayground, { type Spec } from '@layouts/StatelessPlayground';
 
 export default function QuizOptionDoc() {
   const handleClick = (idx: number) => {
@@ -23,8 +22,14 @@ export default function QuizOptionDoc() {
       <QuizOption index={4} option='여름보다 겨울이 덥다' variant='incorrect' onClick={handleClick} />
       <QuizOption disabled index={5} option='여름보다 겨울이 덥다' onClick={handleClick} /> */}
 
+      <QuizOption isCorrect index={5} option='여름보다 겨울이 덥다' onClick={handleClick} />
+      <QuizOption isIncorrect index={5} option='여름보다 겨울이 덥다' onClick={handleClick} />
+      <QuizOption disabled index={5} option='여름보다 겨울이 덥다' onClick={handleClick} />
+      <QuizOption isSelected index={5} option='여름보다 겨울이 덥다' onClick={handleClick} />
+      <QuizOption index={5} option='여름보다 겨울이 덥다' onClick={handleClick} />
+
       {/* 4️⃣ 미리보기 (선택) : StatelessPlayground / StatefulPlayground */}
-      <StatelessPlayground
+      {/* <StatelessPlayground
         component={QuizOption}
         extraScope={{ handleClick }}
         initialProps={{
@@ -34,7 +39,7 @@ export default function QuizOptionDoc() {
           index: 1,
         }}
         specs={specs}
-      />
+      /> */}
     </div>
   );
 }
@@ -78,32 +83,32 @@ const propsSpecs = [
   },
 ];
 
-const specs = [
-  {
-    type: 'select',
-    propName: 'variant',
-    options: ['default', 'selected', 'correct', 'incorrect'],
-    label: 'Variant',
-  },
-  {
-    type: 'boolean',
-    propName: 'disabled',
-    label: 'Disabled',
-  },
-  {
-    type: 'text',
-    propName: 'option',
-    label: 'Option',
-  },
-  {
-    type: 'number',
-    propName: 'index',
-    label: 'Index',
-  },
-  {
-    type: 'handler',
-    propName: 'onClick',
-    options: ['handleClick'],
-    label: 'OnClick',
-  },
-] satisfies ReadonlyArray<Spec>;
+// const specs = [
+//   {
+//     type: 'select',
+//     propName: 'variant',
+//     options: ['default', 'selected', 'correct', 'incorrect'],
+//     label: 'Variant',
+//   },
+//   {
+//     type: 'boolean',
+//     propName: 'disabled',
+//     label: 'Disabled',
+//   },
+//   {
+//     type: 'text',
+//     propName: 'option',
+//     label: 'Option',
+//   },
+//   {
+//     type: 'number',
+//     propName: 'index',
+//     label: 'Index',
+//   },
+//   {
+//     type: 'handler',
+//     propName: 'onClick',
+//     options: ['handleClick'],
+//     label: 'OnClick',
+//   },
+// ] satisfies ReadonlyArray<Spec>;
