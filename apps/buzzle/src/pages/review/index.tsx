@@ -1,10 +1,9 @@
 import { Button } from '@buzzle/design';
+import ReviewNoteItem from '@components/ReviewNoteItem';
+import useIntersectionObserver from '@hooks/useIntersectionObserver';
+import { useInfiniteIncorrectNotes } from '@hooks/useReview';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import ReviewNoteItem from '../../components/ReviewNoteItem';
-import useIntersectionObserver from '../../hooks/useIntersectionObserver';
-import { useInfiniteIncorrectNotes } from '../../hooks/useReview';
 
 export default function ReviewPage() {
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ export default function ReviewPage() {
         <div ref={observerRef} className='h-1' />
 
         <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
-          <Button className='w-full rounded-2xl' onClick={() => navigate('/single')}>
+          <Button className='w-full rounded-2xl' onClick={() => navigate('/review-quiz')}>
             오답 퀴즈 도전하기
           </Button>
         </div>
