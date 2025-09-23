@@ -11,10 +11,21 @@ type MultiRoomContext = {
   handleStartGame: () => void;
 };
 
+const CATEGORY_MAP: Record<string, string> = {
+  ALL: '전체',
+  SOCIETY: '경제/사회',
+  SCIENCE: '과학/기술',
+  CULTURE: '문화/예술',
+  SPORTS: '스포츠',
+  HISTORY: '역사',
+  NATURE: '자연',
+  MISC: '잡학',
+};
+
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
   const roomDetails = useRoomStore((s) => s.roomDetails);
-  const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
+  const { handleStartGame } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
   const isHost = useMemo(() => {
@@ -22,8 +33,6 @@ export default function MultiRoomLobby() {
     const currentUser = roomDetails.players.find((p) => p.email === user?.email);
     return currentUser?.isHost;
   }, [user, roomDetails]);
-
-  // console.log('🤚🏻 roomDetails:', roomDetails);
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
@@ -39,7 +48,9 @@ export default function MultiRoomLobby() {
             </div>
             <div className='flex flex-2 flex-col gap-4 pl-16'>
               <p className='ds-typ-body-3 ds-text-caption whitespace-nowrap'>카테고리</p>
-              <p className='ds-typ-body-2 ds-text-muted whitespace-nowrap'>{roomDetails?.category}</p>
+              <p className='ds-typ-body-2 ds-text-muted whitespace-nowrap'>
+                {roomDetails?.category && CATEGORY_MAP[roomDetails.category]}
+              </p>
             </div>
           </div>
         </div>
@@ -82,14 +93,10 @@ export default function MultiRoomLobby() {
         </div>
       </div>
 
-      {/* 방장이라면 시작 버튼 or 참여자라면 나가기 버튼 */}
-      {isHost ? (
+      {/* 방장이라면 시작 버튼 */}
+      {isHost && (
         <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
           퀴즈 시작하기
-        </Button>
-      ) : (
-        <Button className='sticky bottom-16 w-full' variant='danger' onClick={handleLeave}>
-          방 나가기
         </Button>
       )}
     </div>

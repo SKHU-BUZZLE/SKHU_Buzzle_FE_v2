@@ -1,11 +1,13 @@
 import { validateInviteCode } from '@apis/multi';
-import { Button, FormField, KeyboardIcon } from '@buzzle/design';
-import { useRef } from 'react';
+import { Button, FormField, KeyboardIcon, Modal } from '@buzzle/design';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function EnterRoomPage() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalDescription, setModalDescription] = useState('');
 
   const handleEnterRoom = async () => {
     try {
@@ -22,16 +24,13 @@ export default function EnterRoomPage() {
         });
       } else {
         // 유효하지 않은 초대 코드일 때
-        // TODO: 모달로 변경
-        // TODO: 메시지 수정
-        console.warn('[유효하지 않은 코드]', res);
-        alert('유효하지 않은 초대 코드입니다.');
+        setModalDescription('올바른 초대 코드를 입력해주세요');
+        setIsOpen(true);
       }
     } catch (err) {
-      // TODO: 모달로 변경
-      // TODO: 메시지 수정
-      console.error('[방 입장 실패]', err);
-      alert('초대 코드가 잘못되었거나 방이 존재하지 않습니다.');
+      console.error(err);
+      setModalDescription('초대 코드가 잘못되었거나 방이 없어요');
+      setIsOpen(true);
     }
   };
 
@@ -41,7 +40,6 @@ export default function EnterRoomPage() {
 
       <FormField
         ref={inputRef}
-        // errorMessage='올바른 참여 코드를 입력해주세요'
         inputClassName='ds-typ-title-1 text-primary-500'
         inputWrapperClassName='py-20 px-24 ds-theme-bg-muted rounded-2xl gap-12'
         label='참여 코드를 입력해주세요'
@@ -55,6 +53,17 @@ export default function EnterRoomPage() {
       <Button className='mt-auto w-full' onClick={handleEnterRoom}>
         입장하기
       </Button>
+
+      <Modal.Root open={isOpen} onClose={() => setIsOpen(false)}>
+        <Modal.Content>
+          <Modal.Title>앗! 입장할 수 없어요</Modal.Title>
+          <Modal.Description>{modalDescription}</Modal.Description>
+
+          <Modal.Footer>
+            <Modal.ActionButton onClick={() => setIsOpen(false)}>확인</Modal.ActionButton>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal.Root>
     </div>
   );
 }

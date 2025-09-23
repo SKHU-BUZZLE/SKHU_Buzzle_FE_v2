@@ -1,8 +1,10 @@
-import { QuizOption } from '@buzzle/design';
+import { ProfileImage, QuizOption } from '@buzzle/design';
+import { useRefreshLife } from '@hooks/useLife';
 import { useRoomStore } from '@stores/room';
 import { useUserStore } from '@stores/user';
 import { useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 type MultiRoomContext = {
   handleAnswerSubmit: (answerIndex: number) => void;
@@ -12,6 +14,8 @@ const TOTAL_TIME = 10; // 10초라고 가정
 
 export default function MultiRoomPlay() {
   const { user } = useUserStore();
+  const refreshLife = useRefreshLife();
+  const roomDetails = useRoomStore((s) => s.roomDetails);
   const question = useRoomStore((s) => s.question);
   const answerResult = useRoomStore((s) => s.answerResult);
   const remainingTime = useRoomStore((s) => s.remainingTime);
@@ -20,7 +24,6 @@ export default function MultiRoomPlay() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [nextLoading, setNextLoading] = useState<boolean>(false);
-  // const [currentUser, setCurrentUser] = useState<boolean>(false);
 
   // 오답 패널티 (3초간 클릭 금지)
   const [penalty, setPenalty] = useState<boolean>(false);
@@ -35,7 +38,6 @@ export default function MultiRoomPlay() {
   useEffect(() => {
     if (!question) return;
 
-    // setCurrentUser(false);
     setSelectedIndex(null);
     setNextLoading(false);
 
@@ -56,7 +58,6 @@ export default function MultiRoomPlay() {
     if (!answerResult) return;
 
     const isMine = answerResult.userEmail === user?.email;
-    // setCurrentUser(isMine);
 
     // 결과 배너 3초 표시
     setShowResult(true);
@@ -78,6 +79,9 @@ export default function MultiRoomPlay() {
         penaltyIntervalRef.current = null;
       }
     } else if (isMine) {
+      // life 최신화
+      refreshLife();
+
       // 내 오답 → 3초 패널티
       setPenalty(true);
       setPenaltyRemaining(3);
@@ -128,13 +132,41 @@ export default function MultiRoomPlay() {
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
-      <div className='dark:bg-dm-black-600 bg-white-200 relative h-10 w-full overflow-hidden rounded-full'>
-        <div className={`h-full transition-all duration-1000 ease-linear ${color}`} style={{ width: `${progress}%` }} />
+      <div className='flex flex-col gap-12'>
+        <div className='dark:bg-dm-black-600 bg-white-200 relative h-10 w-full overflow-hidden rounded-full'>
+          <div
+            className={`h-full transition-all duration-1000 ease-linear ${color}`}
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+
+        <div className='ml-auto flex -space-x-10'>
+          {roomDetails?.players.slice(0, 5).map((player, idx, arr) => (
+            <ProfileImage
+              key={player.email}
+              alt={player.name}
+              className={twMerge(
+                'ds-theme-border-base relative size-24 rounded-full border',
+                idx !== arr.length - 1 && 'brightness-75',
+              )}
+              src={player.picture}
+            />
+          ))}
+
+          {(roomDetails?.players.length ?? 0) > 5 && (
+            <div
+              className='ds-theme-bg-base relative ml-12 flex size-24 items-center justify-center rounded-full'
+              style={{ zIndex: 3 }}
+            >
+              +{(roomDetails?.players.length ?? 0) - 5}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className='flex flex-col gap-4'>
         <p className='ds-typ-body-2 ds-text-caption'>
-          <span className='text-primary-500'>Q. {question.questionIndex + 1}</span> / 3
+          <span className='text-primary-500'>Q. {question.questionIndex + 1}</span> / 5
         </p>
         <h1 className='ds-typ-heading-2 ds-text-strong'>{question.question}</h1>
       </div>

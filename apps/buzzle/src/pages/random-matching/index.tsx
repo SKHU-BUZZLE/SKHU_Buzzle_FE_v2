@@ -1,14 +1,34 @@
-// pages/multi/random-matching.tsx
-
 import { createMatchingStream, joinMatchingQueue } from '@apis/multi';
+import multiMatchingLoading from '@assets/images/multi-matching-loading.webp';
+import { Button } from '@buzzle/design';
 import { useAuthStore } from '@stores/auth';
 import type { EventSourcePolyfill } from 'event-source-polyfill';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const messages = {
+  connecting: {
+    title: '서버에 연결하는 중이에요',
+    description: '퀴즈 대결을 위한 준비를 하고 있어요.',
+  },
+  joining: {
+    title: '매칭 대기열에 참여했어요',
+    description: '비슷한 실력의 상대를 찾고 있어요.',
+  },
+  waiting: {
+    title: '상대를 찾고 있어요',
+    description: '재밌는 퀴즈 대결이 곧 시작돼요!',
+  },
+  error: {
+    title: '매칭에 실패했어요',
+    description: '네트워크 상태를 확인하시고 다시 시도해주세요.',
+  },
+};
+
 export default function RandomMatchingPage() {
   const navigate = useNavigate();
   const [phase, setPhase] = useState<'connecting' | 'joining' | 'waiting' | 'error'>('connecting');
+  const { title, description } = messages[phase];
   const { accessToken } = useAuthStore();
   const esRef = useRef<EventSourcePolyfill | null>(null);
   const closeRef = useRef<null | (() => void)>(null);
@@ -45,7 +65,6 @@ export default function RandomMatchingPage() {
           state: { entry: 'random', roomId },
           replace: true, // 뒤로가기 시 생성 페이지 안 보이게
         });
-        // nav('/room/lobby', { replace: true, state: { entry: 'quick', roomId } });
       } catch (e) {
         console.error(e);
         if (!disposed) setPhase('error');
@@ -64,15 +83,15 @@ export default function RandomMatchingPage() {
   };
 
   return (
-    <section className='mx-auto max-w-640 px-16 py-32 text-center'>
-      <h1 className='ds-typ-title-2'>랜덤 매칭 중…</h1>
-      {phase === 'connecting' && <p className='ds-typ-body-2 mt-8'>SSE 서버와 연결 중…</p>}
-      {phase === 'joining' && <p className='ds-typ-body-2 mt-8'>큐에 참여하고 있어요</p>}
-      {phase === 'waiting' && <p className='ds-typ-body-2 mt-8'>상대를 찾는 중…</p>}
-      {phase === 'error' && <p className='ds-typ-body-2 ds-text-danger mt-8'>매칭에 실패했어요.</p>}
-      <button className='mt-24 rounded-xl border px-16 py-10' onClick={handleCancel}>
-        취소
-      </button>
-    </section>
+    <div className='flex min-h-0 flex-1 flex-col items-center gap-36'>
+      <div className='flex flex-1 flex-col items-center justify-center gap-12'>
+        <img alt='랜덤 매칭 아이콘' className='mb-20 size-200 object-contain' src={multiMatchingLoading} />
+        <h1 className='ds-typ-title-1'>{title}</h1>
+        <p className='ds-typ-body-2 ds-text-caption'>{description}</p>
+      </div>
+      <Button className='mt-auto w-full' variant='outline' onClick={handleCancel}>
+        취소하기
+      </Button>
+    </div>
   );
 }
