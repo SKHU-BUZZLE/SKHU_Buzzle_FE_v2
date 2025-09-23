@@ -1,4 +1,4 @@
-import { ProfileImage } from '@buzzle/design';
+import { Avatar } from '@buzzle/design';
 
 interface MyRankingCardProps {
   src: string;
@@ -19,19 +19,13 @@ export default function MyRankingCard({ src, name, rank, score }: MyRankingCardP
       {/* 안전영역 + 바깥 여백 */}
       <div className='ds-layout-max-width mx-auto'>
         {/* 카드 본체 */}
-        <div className='bg-white-50 dark:bg-dm-black-700 border-white-300 dark:border-dm-black-600 flex h-100 items-center gap-20 rounded-t-3xl border px-24 shadow-lg'>
-          {/* 프로필 이미지 */}
-          <ProfileImage alt={`${name} 프로필`} className='size-56 shrink-0' src={src} />
+        <div className='bg-white-50 dark:bg-dm-black-700 border-white-100 dark:border-dm-black-500 flex h-100 items-center justify-between rounded-t-4xl border px-24 shadow-[0_-4px_10px_0_rgba(0,0,0,0.08)] shadow-lg'>
+          {/* 좌측: Avatar 컴포넌트 */}
+          <Avatar direction='horizontal' metaValue={rank} name={name} src={src} variant='rank' />
 
-          {/* 사용자 정보 */}
-          <div className='min-w-0 flex-1'>
-            <p className='ds-typ-title-2 ds-text-strong mb-2 truncate'>{name}</p>
-            <p className='ds-typ-body-2 ds-text-muted'>{rank}등</p>
-          </div>
-
-          {/* 점수 */}
-          <div className='text-right'>
-            <p className='ds-typ-title-1 text-primary-500 font-bold'>{score}점</p>
+          {/* 우측: 점수 표시 */}
+          <div className='bg-white-200 dark:bg-dm-black-600 rounded-xl px-12 py-8'>
+            <p className='ds-typ-body-2 ds-text-normal'>{score}점</p>
           </div>
         </div>
       </div>
