@@ -1,5 +1,6 @@
 import { LifeCounter } from '@buzzle/design';
 import BackHeader from '@components/BackHeader';
+import { useLife, useRefreshLife } from '@hooks/useLife';
 import { Client, type IMessage } from '@stomp/stompjs';
 import { useAuthStore } from '@stores/auth';
 import { type Player, type Room, type RoomDetails, useRoomStore } from '@stores/room';
@@ -9,6 +10,8 @@ import SockJS from 'sockjs-client';
 
 export default function MultiRoomBody() {
   const navigate = useNavigate();
+  const { data: life = 0 } = useLife();
+  const refreshLife = useRefreshLife();
   const { state } = useLocation();
   const roomData = state as { room?: Room; entry?: 'random' | 'invite'; roomId?: string } | null;
   const entry = roomData?.entry ?? 'invite'; // 🔹 entry 추가 (random | invite)
@@ -116,7 +119,10 @@ export default function MultiRoomBody() {
             case 'GAME_START':
               if (!navGuardRef.current.toPlay) {
                 navGuardRef.current.toPlay = true;
-                navigateRef.current('play', { replace: true });
+                navigateRef.current('play', {
+                  replace: true,
+                  state: { __bypassGuard: true }, // 가드 우회
+                });
               }
               break;
 
@@ -127,6 +133,10 @@ export default function MultiRoomBody() {
 
             case 'TIMER':
               setRemainingTime(body.remainingTime);
+              break;
+
+            case 'TIME_UP':
+              refreshLife(); // life 최신화
               break;
 
             case 'ANSWER_RESULT':
@@ -149,7 +159,10 @@ export default function MultiRoomBody() {
               if (!navGuardRef.current.toResult) {
                 navGuardRef.current.toResult = true;
                 setTimeout(() => {
-                  navigateRef.current('result', { replace: true });
+                  navigateRef.current('result', {
+                    replace: true,
+                    state: { __bypassGuard: true }, // 가드 우회
+                  });
                 }, 3000);
               }
               break;
@@ -186,20 +199,15 @@ export default function MultiRoomBody() {
     const c = clientRef.current;
     const { roomDetails: rd, question: q } = useRoomStore.getState();
     if (!c || !q) return;
-    console.log(c, q);
 
     if (entry === 'random') {
-      // 🔹 랜덤 매칭 채점 경로
-      console.log('랜덤 채점해줘');
-      const payload = { questionIndex: q.questionIndex, index: answerIndex };
+      // 랜덤 매칭 채점 경로
       c.publish({
-        destination: `/app/game/${code}/answer`,
+        destination: `/app/game/${effectiveRoomId}/answer`,
         body: JSON.stringify({ questionIndex: q.questionIndex, index: answerIndex }),
       });
-      console.log('📤 정답 메시지 발행됨:', payload, 'to', `/app/game/${rd?.roomId}/answer`);
     } else {
-      // 🔹 초대 매칭 채점 경로
-      console.log('친구 채점해줘');
+      // 초대 매칭 채점 경로
       c.publish({
         destination: `/app/room/${rd?.roomId}/answer`,
         body: JSON.stringify({ questionIndex: q.questionIndex, index: answerIndex }),
@@ -226,7 +234,13 @@ export default function MultiRoomBody() {
 
   return (
     <div className='ds-layout-padding flex min-h-dvh w-full flex-col'>
-      <BackHeader rightSlot={<LifeCounter life={50} />} to='/multi' onBeforeNavigate={handleLeave} />
+      <BackHeader
+        preventBackNavigation
+        bypassPaths={[/\/multi-room\/[^/]+\/result$/]}
+        rightSlot={<LifeCounter life={life} />}
+        to='/multi'
+        onBeforeNavigate={handleLeave}
+      />
       <main className='flex flex-1 flex-col py-16'>
         <Outlet context={{ handleLeave, handleStartGame, handleAnswerSubmit }} />
       </main>

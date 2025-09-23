@@ -1,4 +1,5 @@
 import { QuizOption } from '@buzzle/design';
+import { useRefreshLife } from '@hooks/useLife';
 import { useRoomStore } from '@stores/room';
 import { useUserStore } from '@stores/user';
 import { useEffect, useRef, useState } from 'react';
@@ -12,6 +13,7 @@ const TOTAL_TIME = 10; // 10초라고 가정
 
 export default function MultiRoomPlay() {
   const { user } = useUserStore();
+  const refreshLife = useRefreshLife();
   const question = useRoomStore((s) => s.question);
   const answerResult = useRoomStore((s) => s.answerResult);
   const remainingTime = useRoomStore((s) => s.remainingTime);
@@ -20,7 +22,6 @@ export default function MultiRoomPlay() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [nextLoading, setNextLoading] = useState<boolean>(false);
-  // const [currentUser, setCurrentUser] = useState<boolean>(false);
 
   // 오답 패널티 (3초간 클릭 금지)
   const [penalty, setPenalty] = useState<boolean>(false);
@@ -56,7 +57,6 @@ export default function MultiRoomPlay() {
     if (!answerResult) return;
 
     const isMine = answerResult.userEmail === user?.email;
-    // setCurrentUser(isMine);
 
     // 결과 배너 3초 표시
     setShowResult(true);
@@ -78,6 +78,9 @@ export default function MultiRoomPlay() {
         penaltyIntervalRef.current = null;
       }
     } else if (isMine) {
+      // life 최신화
+      refreshLife();
+
       // 내 오답 → 3초 패널티
       setPenalty(true);
       setPenaltyRemaining(3);
@@ -134,7 +137,7 @@ export default function MultiRoomPlay() {
 
       <div className='flex flex-col gap-4'>
         <p className='ds-typ-body-2 ds-text-caption'>
-          <span className='text-primary-500'>Q. {question.questionIndex + 1}</span> / 3
+          <span className='text-primary-500'>Q. {question.questionIndex + 1}</span> / 5
         </p>
         <h1 className='ds-typ-heading-2 ds-text-strong'>{question.question}</h1>
       </div>

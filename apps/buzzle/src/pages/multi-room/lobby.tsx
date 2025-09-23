@@ -14,7 +14,8 @@ type MultiRoomContext = {
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
   const roomDetails = useRoomStore((s) => s.roomDetails);
-  const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
+  // const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
+  const { handleStartGame } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
   const isHost = useMemo(() => {
@@ -83,13 +84,18 @@ export default function MultiRoomLobby() {
       </div>
 
       {/* 방장이라면 시작 버튼 or 참여자라면 나가기 버튼 */}
-      {isHost ? (
+      {/* {isHost ? (
         <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
           퀴즈 시작하기
         </Button>
       ) : (
         <Button className='sticky bottom-16 w-full' variant='danger' onClick={handleLeave}>
           방 나가기
+        </Button>
+      )} */}
+      {isHost && (
+        <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
+          퀴즈 시작하기
         </Button>
       )}
     </div>
