@@ -22,6 +22,7 @@ export default function HomePage() {
 
             <Button
               iconOnly
+              aria-label='로그아웃'
               className='bg-transparent hover:bg-transparent active:bg-transparent'
               leftIcon={<LogoutIcon className='ds-text-caption size-18' />}
               round='circular'
