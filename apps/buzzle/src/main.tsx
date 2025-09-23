@@ -1,5 +1,6 @@
 import './index.css';
 
+import { Toaster } from '@buzzle/design';
 import QueryProvider from '@libs/queryProvider';
 import { router } from '@routes/router';
 import { StrictMode } from 'react';
@@ -9,6 +10,7 @@ import { RouterProvider } from 'react-router-dom';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryProvider>
+      <Toaster />
       <RouterProvider router={router} />
     </QueryProvider>
   </StrictMode>,

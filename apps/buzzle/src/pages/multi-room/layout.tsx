@@ -1,6 +1,6 @@
 // import NextQuizLoading from '@assets/images/multi-quiz-ready.webp';
 import QuizLoading from '@assets/images/quiz-creation.webp';
-import { LifeCounter } from '@buzzle/design';
+import { LifeCounter, useToast } from '@buzzle/design';
 import BackHeader from '@components/BackHeader';
 import { useLife, useRefreshLife } from '@hooks/useLife';
 import { Client, type IMessage } from '@stomp/stompjs';
@@ -12,6 +12,7 @@ import SockJS from 'sockjs-client';
 
 export default function MultiRoomBody() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { data: life = 0 } = useLife();
   const refreshLife = useRefreshLife();
   const { state } = useLocation();
@@ -110,7 +111,7 @@ export default function MultiRoomBody() {
           console.log('📢 ============= 알립니다 ============= 📢', body);
 
           switch (body.type) {
-            case 'PLAYER_JOINED':
+            case 'PLAYER_JOINED': {
               setRoomDetails((prev) => {
                 if (!prev) return prev;
                 const { email, name, isHost, picture } = body.data as Player;
@@ -124,19 +125,43 @@ export default function MultiRoomBody() {
                 const players = [...prev.players, newPlayer];
                 return { ...prev, players, currentPlayers: players.length, canStartGame: players.length >= 2 };
               });
-              break;
 
-            case 'PLAYER_LEFT':
+              const playerName =
+                entry === 'random' ? '상대 플레이어가' : `${(body.data as Player).name ?? '상대 플레이어'}님이`;
+
+              toast({
+                description: `${playerName} 입장했어요`,
+                type: 'default',
+              });
+
+              break;
+            }
+
+            case 'PLAYER_LEFT': {
               setRoomDetails((prev) => {
                 if (!prev) return prev;
                 const { name } = body.data as { name: string };
                 const players = prev.players.filter((p) => p.name !== name);
                 return { ...prev, players, currentPlayers: players.length, canStartGame: players.length >= 2 };
               });
+
+              const playerName =
+                entry === 'random' ? '상대 플레이어가' : `${(body.data as Player).name ?? '상대 플레이어'}님이`;
+
+              toast({
+                description: `${playerName} 나갔어요`,
+                type: 'default',
+              });
               break;
+            }
 
             case 'MESSAGE':
               if (body.message === '방장이 퇴장하여 방이 해체되었습니다.') {
+                toast({
+                  description: '방장이 나가서 더 이상 참여할 수 없어요',
+                  type: 'default',
+                });
+
                 handleLeave();
               }
               break;
@@ -293,7 +318,7 @@ export default function MultiRoomBody() {
         <div
           aria-busy='true'
           aria-live='polite'
-          className='ds-theme-bg-base fixed inset-0 z-50 flex h-screen w-screen items-center justify-center'
+          className='ds-theme-bg-base fixed inset-0 z-10 flex h-screen w-screen items-center justify-center'
         >
           <div className='flex flex-col items-center justify-center gap-12'>
             <img alt='Quiz Loading' className='mb-20 size-200 object-contain' src={QuizLoading} />
