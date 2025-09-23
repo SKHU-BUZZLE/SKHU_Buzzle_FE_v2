@@ -19,7 +19,7 @@ export default function MyRankingCard({ src, name, rank, score }: MyRankingCardP
       {/* 안전영역 + 바깥 여백 */}
       <div className='ds-layout-max-width mx-auto'>
         {/* 카드 본체 */}
-        <div className='bg-white-50 dark:bg-dm-black-700 border-white-100 dark:border-dm-black-500 flex h-100 items-center justify-between rounded-t-4xl border px-24 shadow-[0_-4px_10px_0_rgba(0,0,0,0.08)] shadow-lg'>
+        <div className='bg-white-50 dark:bg-dm-black-700 border-white-100 dark:border-dm-black-500 flex h-100 items-center justify-between rounded-t-4xl border px-24 shadow-[0_-4px_10px_0_rgba(0,0,0,0.08)]'>
           {/* 좌측: Avatar 컴포넌트 */}
           <Avatar direction='horizontal' metaValue={rank} name={name} src={src} variant='rank' />
 
