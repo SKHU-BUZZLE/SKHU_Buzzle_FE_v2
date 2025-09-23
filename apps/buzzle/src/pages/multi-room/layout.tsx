@@ -1,3 +1,4 @@
+// import NextQuizLoading from '@assets/images/multi-quiz-ready.webp';
 import QuizLoading from '@assets/images/quiz-creation.webp';
 import { LifeCounter } from '@buzzle/design';
 import BackHeader from '@components/BackHeader';
@@ -22,6 +23,8 @@ export default function MultiRoomBody() {
   const { code } = useParams<{ code: string }>();
 
   const [gameLoading, setGameLoading] = useState(false);
+  // const [betweenQuestionLoading, setBetweenQuestionLoading] = useState(false);
+  // const [countdown, setCountdown] = useState<number | null>(null);
 
   // 🔹 entry === 'random'이면 roomIdFromState 사용, 초대면 기존 code 사용
   const effectiveRoomId = entry === 'random' ? roomIdFromState : code;
@@ -56,6 +59,18 @@ export default function MultiRoomBody() {
   }, [entry]);
 
   const connectedKeyRef = useRef<string | null>(null);
+
+  // useEffect(() => {
+  //   if (countdown == null) return;
+
+  //   if (countdown > 0) {
+  //     const timer = setTimeout(() => {
+  //       setCountdown((prev) => (prev != null ? prev - 1 : null));
+  //     }, 1000);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [countdown]);
 
   // 소켓 연결
   useEffect(() => {
@@ -143,12 +158,25 @@ export default function MultiRoomBody() {
 
             case 'QUESTION':
               setGameLoading(false);
+              // setBetweenQuestionLoading(false);
+              // setCountdown(null);
               setAnswerResult(null);
               setQuestion({ questionIndex: body.questionIndex, question: body.question, options: body.options });
               break;
 
             case 'TIMER':
               setRemainingTime(body.remainingTime);
+              break;
+
+            case 'TIMER_STOP':
+              // 서버에서 "정답! 다음 문제로 이동" 이벤트 오면 바로 로딩 시작
+              // setCountdown(3);
+              // setBetweenQuestionLoading(true);
+              break;
+
+            case 'LOADING':
+              // 서버 메시지 내용 활용해서 UI 업데이트 가능
+              // setBetweenQuestionLoading(true);
               break;
 
             case 'TIME_UP':
@@ -274,6 +302,23 @@ export default function MultiRoomBody() {
           </div>
         </div>
       )}
+
+      {/* 정답 이후 다음 퀴즈로 넘어갈 때 로딩 => 3초 안에 로딩창과 정답자 공개를 같이 하려니 바빠서 보류 */}
+      {/* {betweenQuestionLoading && (
+        <div
+          aria-busy='true'
+          aria-live='polite'
+          className='ds-theme-bg-base fixed inset-0 z-50 flex h-screen w-screen items-center justify-center'
+        >
+          <div className='flex flex-col items-center justify-center gap-12'>
+            <img alt='다음 문제 준비 중' className='mb-20 size-200 object-contain' src={NextQuizLoading} />
+            <h1 className='ds-typ-title-1'>준비해 주세요</h1>
+            <p className='ds-typ-body-2 ds-text-caption'>
+              <span className='text-primary-500'>{countdown ?? 0}초</span> 뒤 다음 퀴즈가 시작됩니다
+            </p>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 }
