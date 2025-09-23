@@ -3,15 +3,26 @@ import BackHeaderFrame from '@layouts/BackHeaderFrame';
 import BackNavFrame from '@layouts/BackNavFrame';
 import BottomBarFrame from '@layouts/BottomBarFrame';
 import HomeFrame from '@layouts/HomeFrame';
+import PreventBackHeaderFrame from '@layouts/PreventBackHeaderFrame';
 import RootFrame from '@layouts/RootFrame';
+import CreateRoomPage from '@pages/create-room';
+import EnterRoomPage from '@pages/enter-room';
 import HomePage from '@pages/home';
 import KakaoCallbackPage from '@pages/kakao-callback';
 import LoginPage from '@pages/login';
 import MultiPage from '@pages/multi';
+import MultiRoomLayout from '@pages/multi-room/layout';
+import MultiRoomLobby from '@pages/multi-room/lobby';
+import MultiRoomPlay from '@pages/multi-room/play';
+import MultiRoomResult from '@pages/multi-room/result';
 import NotFoundPage from '@pages/not-found';
+import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
 import SinglePage from '@pages/single';
+import QuizLoadingPage from '@pages/single/loading';
+import SinglePlayPage from '@pages/single/play';
+import SingleResultPage from '@pages/single/result';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { GuestOnly, IndexRedirect, RequireAuth } from './guards';
@@ -52,6 +63,10 @@ export const router = createBrowserRouter(
                 // 뒤로가기 헤더가 포함된 페이지들
                 { path: 'ranking', element: <RankingPage /> },
                 // 대부분 퀴즈 진행중인 페이지들
+                { path: 'multi/create-room', element: <CreateRoomPage /> },
+                { path: 'multi/random-matching', element: <RandomMatchingPage /> },
+                { path: 'multi/enter-room', element: <EnterRoomPage /> },
+                { path: 'single/play', element: <SinglePlayPage /> },
               ],
             },
 
@@ -64,6 +79,12 @@ export const router = createBrowserRouter(
               ],
             },
 
+            // 뒤로가기 방지가 필요한 헤더가 포함된 페이지들
+            {
+              element: <PreventBackHeaderFrame />,
+              // children: [{ path: 'single/play', element: <SinglePlayPage /> }],
+            },
+
             // 뒤로가기 헤더 & 바텀 네비게이션 바가 포함된 페이지들
             {
               element: <BackNavFrame />,
@@ -72,6 +93,18 @@ export const router = createBrowserRouter(
                 { path: 'multi', element: <MultiPage /> },
                 { path: 'review', element: <ReviewPage /> },
                 // 퀴즈 결과 창페이지도 추가될 것 같습니다.
+                { path: 'single/result', element: <SingleResultPage /> },
+              ],
+            },
+
+            // 웹소켓
+            {
+              path: 'multi-room/:code',
+              element: <MultiRoomLayout />, // 여기서 WebSocket 연결
+              children: [
+                { path: 'lobby', element: <MultiRoomLobby /> },
+                { path: 'play', element: <MultiRoomPlay /> },
+                { path: 'result', element: <MultiRoomResult /> },
               ],
             },
 
@@ -81,6 +114,7 @@ export const router = createBrowserRouter(
               children: [
                 // 기본 레이아웃만 적용되어야하는 페이지들
                 { path: '*', element: <NotFoundPage /> },
+                { path: 'single/loading', element: <QuizLoadingPage /> },
               ],
             },
           ],

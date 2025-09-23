@@ -8,7 +8,7 @@ const navItems = [
   { to: '/single', Icon: UserIcon, label: '싱글 퀴즈' },
   { to: '/multi', Icon: MultiUserIcon, label: '멀티 퀴즈' },
   { to: '/ranking', Icon: RankingIcon, label: '랭킹' },
-  { to: '/note', Icon: NoteIcon, label: '오답 노트' },
+  { to: '/review', Icon: NoteIcon, label: '오답 노트' },
 ];
 
 export default function BottomNavBar() {

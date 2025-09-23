@@ -15,6 +15,7 @@ export default defineConfig({
       { find: '@hooks', replacement: path.resolve(__dirname, 'src/hooks') },
       { find: '@layouts', replacement: path.resolve(__dirname, 'src/layouts') },
       { find: '@libs', replacement: path.resolve(__dirname, 'src/libs') },
+      { find: '@mocks', replacement: path.resolve(__dirname, 'src/mocks') },
       { find: '@pages', replacement: path.resolve(__dirname, 'src/pages') },
       { find: '@routes', replacement: path.resolve(__dirname, 'src/routes') },
       { find: '@stores', replacement: path.resolve(__dirname, 'src/stores') },
@@ -28,4 +29,9 @@ export default defineConfig({
   },
 
   base: process.env.VITE_BASE_URL || '/',
+
+  // SockJS 라이브러리와 Vite가 global 객체를 같이 참조해서 충돌 발생
+  define: {
+    global: 'window',
+  },
 });
