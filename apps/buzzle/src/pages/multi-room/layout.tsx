@@ -1,3 +1,4 @@
+import QuizLoading from '@assets/images/quiz-creation.webp';
 import { LifeCounter } from '@buzzle/design';
 import BackHeader from '@components/BackHeader';
 import { useLife, useRefreshLife } from '@hooks/useLife';
@@ -19,6 +20,8 @@ export default function MultiRoomBody() {
 
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>();
+
+  const [gameLoading, setGameLoading] = useState(false);
 
   // 🔹 entry === 'random'이면 roomIdFromState 사용, 초대면 기존 code 사용
   const effectiveRoomId = entry === 'random' ? roomIdFromState : code;
@@ -44,6 +47,13 @@ export default function MultiRoomBody() {
       useRoomStore.getState().setRoom(roomData.room);
     }
   }, [entry, roomData]);
+
+  useEffect(() => {
+    // 랜덤 모드에서 play 화면이면: 첫 QUESTION 전까지 로딩
+    if (entry === 'random' && location.pathname.endsWith('/play')) {
+      setGameLoading(true);
+    }
+  }, [entry]);
 
   const connectedKeyRef = useRef<string | null>(null);
 
@@ -116,7 +126,12 @@ export default function MultiRoomBody() {
               }
               break;
 
+            case 'GAME_START_NOTIFICATION':
+              setGameLoading(true);
+              break;
+
             case 'GAME_START':
+              setGameLoading(false);
               if (!navGuardRef.current.toPlay) {
                 navGuardRef.current.toPlay = true;
                 navigateRef.current('play', {
@@ -127,6 +142,7 @@ export default function MultiRoomBody() {
               break;
 
             case 'QUESTION':
+              setGameLoading(false);
               setAnswerResult(null);
               setQuestion({ questionIndex: body.questionIndex, question: body.question, options: body.options });
               break;
@@ -244,6 +260,20 @@ export default function MultiRoomBody() {
       <main className='flex flex-1 flex-col py-16'>
         <Outlet context={{ handleLeave, handleStartGame, handleAnswerSubmit }} />
       </main>
+
+      {gameLoading && (
+        <div
+          aria-busy='true'
+          aria-live='polite'
+          className='ds-theme-bg-base fixed inset-0 z-50 flex h-screen w-screen items-center justify-center'
+        >
+          <div className='flex flex-col items-center justify-center gap-12'>
+            <img alt='Quiz Loading' className='mb-20 size-200 object-contain' src={QuizLoading} />
+            <h1 className='ds-typ-title-1'>게임을 준비하고 있어요</h1>
+            <p className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다…</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
