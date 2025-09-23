@@ -17,3 +17,11 @@ export const getIncorrectNoteDetail = (quizResultId: number) => {
 export const deleteIncorrectNote = (quizResultId: number) => {
   return axiosInstance.delete(`/quiz/incorrect-notes/${quizResultId}`);
 };
+
+export const getChallengeQuiz = () => {
+  return axiosInstance.get('/quiz/incorrect-notes/challenge');
+};
+
+export const submitChallengeAnswers = (answers: { quizResultId: number; userAnswerNumber: string }[]) => {
+  return axiosInstance.post('/quiz/incorrect-notes/challenge', { answers });
+};
