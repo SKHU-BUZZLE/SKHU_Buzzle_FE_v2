@@ -1,5 +1,5 @@
 import multiQuizGuide from '@assets/images/multi-quiz-guide.webp';
-import { Modal, MoonIcon, QuizIntro } from '@buzzle/design';
+import { CreateRoomIcon, EnterRoomIcon, Modal, QuickMatchIcon, QuizIntro } from '@buzzle/design';
 import { useLife } from '@hooks/useLife';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -34,28 +34,28 @@ export default function MultiPage() {
 
         <div className='flex gap-8'>
           <Link
-            className='ds-theme-bg-muted flex-1 rounded-2xl p-16'
+            className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
             to='/multi/random-matching'
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>랜덤 매칭하기</p>
-            <MoonIcon className='text-primary-500 mt-24 ml-auto size-60' />
+            <QuickMatchIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-120' />
           </Link>
           <Link
-            className='ds-theme-bg-muted flex-1 rounded-2xl p-16'
+            className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
             to='/multi/enter-room'
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>방 입장하기</p>
-            <MoonIcon className='text-primary-500 mt-24 ml-auto size-60' />
+            <EnterRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-120' />
           </Link>
           <Link
-            className='ds-theme-bg-muted flex-1 rounded-2xl p-16'
+            className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
             to='/multi/create-room'
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>방 만들기</p>
-            <MoonIcon className='text-primary-500 mt-24 ml-auto size-60' />
+            <CreateRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-120' />
           </Link>
         </div>
       </div>
