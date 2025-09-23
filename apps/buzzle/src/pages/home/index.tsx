@@ -3,11 +3,13 @@ import MultiQuiz from '@assets/images/multi-quiz.webp';
 import NoteQuiz from '@assets/images/note-quiz.webp';
 import SingleQuiz from '@assets/images/single-quiz.webp';
 import { Button, CalendarIcon, LogoutIcon, MedalIcon, ProfileImage, UserStatusBadge } from '@buzzle/design';
+import { useLogout } from '@hooks/useLogout';
 import { useUserStore } from '@stores/user';
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const { user } = useUserStore();
+  const logout = useLogout();
 
   return (
     <div className='flex min-h-0 flex-1 flex-col gap-16'>
@@ -25,7 +27,7 @@ export default function HomePage() {
               round='circular'
               size='sm'
               variant='ghost'
-              onClick={() => {}}
+              onClick={logout}
             />
           </div>
           <p className='ds-typ-body-2 ds-text-caption'>{user?.email}</p>
