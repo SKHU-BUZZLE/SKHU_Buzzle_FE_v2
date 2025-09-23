@@ -11,6 +11,7 @@ export { default as GoldMedalIcon } from './GoldMedalIcon';
 export { default as HeartIcon } from './HeartIcon';
 export { default as HistoryIcon } from './HistoryIcon';
 export { default as HomeIcon } from './HomeIcon';
+export { default as KakaoIcon } from './KakaoIcon';
 export { default as KeyboardIcon } from './KeyboardIcon';
 export { default as LoaderIcon } from './LoaderIcon';
 export { default as LogoutIcon } from './LogoutIcon';
