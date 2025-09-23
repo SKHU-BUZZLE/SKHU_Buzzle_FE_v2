@@ -40,7 +40,6 @@ export default function EnterRoomPage() {
 
       <FormField
         ref={inputRef}
-        // errorMessage='올바른 참여 코드를 입력해주세요'
         inputClassName='ds-typ-title-1 text-primary-500'
         inputWrapperClassName='py-20 px-24 ds-theme-bg-muted rounded-2xl gap-12'
         label='참여 코드를 입력해주세요'

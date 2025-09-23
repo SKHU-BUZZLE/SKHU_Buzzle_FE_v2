@@ -25,7 +25,6 @@ const CATEGORY_MAP: Record<string, string> = {
 export default function MultiRoomLobby() {
   const { user } = useUserStore();
   const roomDetails = useRoomStore((s) => s.roomDetails);
-  // const { handleLeave, handleStartGame } = useOutletContext<MultiRoomContext>();
   const { handleStartGame } = useOutletContext<MultiRoomContext>();
 
   // 방장 여부
@@ -34,8 +33,6 @@ export default function MultiRoomLobby() {
     const currentUser = roomDetails.players.find((p) => p.email === user?.email);
     return currentUser?.isHost;
   }, [user, roomDetails]);
-
-  // console.log('🤚🏻 roomDetails:', roomDetails);
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
@@ -96,16 +93,7 @@ export default function MultiRoomLobby() {
         </div>
       </div>
 
-      {/* 방장이라면 시작 버튼 or 참여자라면 나가기 버튼 */}
-      {/* {isHost ? (
-        <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
-          퀴즈 시작하기
-        </Button>
-      ) : (
-        <Button className='sticky bottom-16 w-full' variant='danger' onClick={handleLeave}>
-          방 나가기
-        </Button>
-      )} */}
+      {/* 방장이라면 시작 버튼 */}
       {isHost && (
         <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
           퀴즈 시작하기

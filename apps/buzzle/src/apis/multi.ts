@@ -56,7 +56,6 @@ export function createMatchingStream(accessToken: string | null) {
   // 연결 오픈 확인용
   const openPromise = new Promise<void>((resolve, reject) => {
     es.addEventListener('open', () => {
-      console.log('✅ SSE 연결 성공');
       resolve();
     });
     es.addEventListener('error', (err) => {
@@ -84,11 +83,10 @@ export function createMatchingStream(accessToken: string | null) {
         const payload = JSON.parse(ev.data) as { roomId?: string };
         if (!settled && payload?.roomId) {
           settled = true;
-          console.log('✅ roomId:', payload.roomId);
           resolve(payload.roomId);
         }
       } catch {
-        // 서버가 문자열로만 보낼 수도 있다면 여기서 추가 파싱
+        /* empty */
       }
     });
   });

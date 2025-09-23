@@ -38,7 +38,6 @@ export default function MultiRoomPlay() {
   useEffect(() => {
     if (!question) return;
 
-    // setCurrentUser(false);
     setSelectedIndex(null);
     setNextLoading(false);
 

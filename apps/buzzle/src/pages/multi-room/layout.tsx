@@ -17,8 +17,8 @@ export default function MultiRoomBody() {
   const refreshLife = useRefreshLife();
   const { state } = useLocation();
   const roomData = state as { room?: Room; entry?: 'random' | 'invite'; roomId?: string } | null;
-  const entry = roomData?.entry ?? 'invite'; // 🔹 entry 추가 (random | invite)
-  const roomIdFromState = roomData?.roomId; // 🔹 랜덤 모드일 때 넘겨준 roomId
+  const entry = roomData?.entry ?? 'invite'; // 진입 모드 : random | invite
+  const roomIdFromState = roomData?.roomId; // 랜덤 모드일 때 넘겨준 roomId
 
   const { accessToken } = useAuthStore();
   const { code } = useParams<{ code: string }>();
@@ -27,7 +27,7 @@ export default function MultiRoomBody() {
   // const [betweenQuestionLoading, setBetweenQuestionLoading] = useState(false);
   // const [countdown, setCountdown] = useState<number | null>(null);
 
-  // 🔹 entry === 'random'이면 roomIdFromState 사용, 초대면 기존 code 사용
+  // entry === 'random'이면 roomIdFromState 사용, 초대면 기존 code 사용
   const effectiveRoomId = entry === 'random' ? roomIdFromState : code;
 
   const navigateRef = useRef(navigate);
@@ -91,7 +91,7 @@ export default function MultiRoomBody() {
         setClient(c);
 
         if (entry === 'invite') {
-          // 🔹 초대 모드: /user/queue/room 구독 + join publish
+          // 초대 모드: /user/queue/room 구독 + join publish
           c.subscribe('/user/queue/room', (message: IMessage) => {
             const body = JSON.parse(message.body);
             if (body.type === 'JOINED_ROOM') {
@@ -103,12 +103,12 @@ export default function MultiRoomBody() {
           c.publish({ destination: '/app/room/join', body: JSON.stringify({ inviteCode: code }) });
         }
 
-        // 🔹 랜덤: /topic/game/{roomId}, 초대: /topic/room/{roomId}
+        // 랜덤 모드 : /topic/game/{roomId}, 초대 모드 : /topic/room/{roomId}
         const topic = entry === 'random' ? `/topic/game/${effectiveRoomId}` : `/topic/room/${effectiveRoomId}`;
 
         c.subscribe(topic, (message: IMessage) => {
           const body = JSON.parse(message.body);
-          console.log('📢 ============= 알립니다 ============= 📢', body);
+          // console.log('📢 ============= 알립니다 ============= 📢', body);
 
           switch (body.type) {
             case 'PLAYER_JOINED': {
