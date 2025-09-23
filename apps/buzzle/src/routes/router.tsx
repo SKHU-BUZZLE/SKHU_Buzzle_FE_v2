@@ -19,6 +19,7 @@ import NotFoundPage from '@pages/not-found';
 import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
+import ReviewDetailPage from '@pages/review/detail';
 import SinglePage from '@pages/single';
 import QuizLoadingPage from '@pages/single/loading';
 import SinglePlayPage from '@pages/single/play';
@@ -115,6 +116,7 @@ export const router = createBrowserRouter(
                 // 기본 레이아웃만 적용되어야하는 페이지들
                 { path: '*', element: <NotFoundPage /> },
                 { path: 'single/loading', element: <QuizLoadingPage /> },
+                { path: 'review/:id', element: <ReviewDetailPage /> },
               ],
             },
           ],
