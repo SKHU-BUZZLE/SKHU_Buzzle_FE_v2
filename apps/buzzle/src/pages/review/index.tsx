@@ -1,3 +1,4 @@
+import { Button } from '@buzzle/design';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +37,7 @@ export default function ReviewPage() {
   }
 
   return (
-    <div className='mt-40 space-y-8'>
+    <div className='mt-40 space-y-8 pb-80'>
       <h1 className='ds-typ-heading-1 ds-text-strong'>오답 노트</h1>
       <p className='ds-typ-body-1 ds-text-caption mb-32'>7문제를 풀고, 나만의 기록을 만들어보세요</p>
 
@@ -47,6 +48,12 @@ export default function ReviewPage() {
 
         {/* 무한 스크롤 트리거 */}
         <div ref={observerRef} className='h-1' />
+
+        <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
+          <Button className='w-full rounded-2xl' onClick={() => navigate('/single')}>
+            오답 퀴즈 도전하기
+          </Button>
+        </div>
 
         {/* 로딩 상태 */}
         {isFetchingNextPage && (
