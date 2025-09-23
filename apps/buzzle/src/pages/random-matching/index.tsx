@@ -87,7 +87,7 @@ export default function RandomMatchingPage() {
       <div className='flex flex-1 flex-col items-center justify-center gap-12'>
         <img alt='랜덤 매칭 아이콘' className='mb-20 size-200 object-contain' src={multiMatchingLoading} />
         <h1 className='ds-typ-title-1'>{title}</h1>
-        <p className='ds-typ-body-2'>{description}</p>
+        <p className='ds-typ-body-2 ds-text-caption'>{description}</p>
       </div>
       <Button className='mt-auto w-full' variant='outline' onClick={handleCancel}>
         취소하기
