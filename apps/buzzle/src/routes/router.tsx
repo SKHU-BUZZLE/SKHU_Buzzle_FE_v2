@@ -3,7 +3,6 @@ import BackHeaderFrame from '@layouts/BackHeaderFrame';
 import BackNavFrame from '@layouts/BackNavFrame';
 import BottomBarFrame from '@layouts/BottomBarFrame';
 import HomeFrame from '@layouts/HomeFrame';
-import PreventBackHeaderFrame from '@layouts/PreventBackHeaderFrame';
 import RootFrame from '@layouts/RootFrame';
 import CreateRoomPage from '@pages/create-room';
 import EnterRoomPage from '@pages/enter-room';
@@ -19,6 +18,10 @@ import NotFoundPage from '@pages/not-found';
 import RandomMatchingPage from '@pages/random-matching';
 import RankingPage from '@pages/ranking';
 import ReviewPage from '@pages/review';
+import ReviewDetailPage from '@pages/review/detail';
+import ReviewQuizIntroPage from '@pages/review-quiz';
+import ReviewQuizPlayPage from '@pages/review-quiz/play';
+import ReviewQuizResultPage from '@pages/review-quiz/result';
 import SinglePage from '@pages/single';
 import QuizLoadingPage from '@pages/single/loading';
 import SinglePlayPage from '@pages/single/play';
@@ -62,11 +65,13 @@ export const router = createBrowserRouter(
               children: [
                 // 뒤로가기 헤더가 포함된 페이지들
                 { path: 'ranking', element: <RankingPage /> },
+                { path: 'review/:id', element: <ReviewDetailPage /> },
                 // 대부분 퀴즈 진행중인 페이지들
                 { path: 'multi/create-room', element: <CreateRoomPage /> },
                 { path: 'multi/random-matching', element: <RandomMatchingPage /> },
                 { path: 'multi/enter-room', element: <EnterRoomPage /> },
                 { path: 'single/play', element: <SinglePlayPage /> },
+                { path: 'review-quiz/play', element: <ReviewQuizPlayPage /> },
               ],
             },
 
@@ -80,10 +85,9 @@ export const router = createBrowserRouter(
             },
 
             // 뒤로가기 방지가 필요한 헤더가 포함된 페이지들
-            {
-              element: <PreventBackHeaderFrame />,
-              // children: [{ path: 'single/play', element: <SinglePlayPage /> }],
-            },
+            // {
+            //   element: <PreventBackHeaderFrame />,
+            // },
 
             // 뒤로가기 헤더 & 바텀 네비게이션 바가 포함된 페이지들
             {
@@ -92,6 +96,8 @@ export const router = createBrowserRouter(
                 { path: 'single', element: <SinglePage /> },
                 { path: 'multi', element: <MultiPage /> },
                 { path: 'review', element: <ReviewPage /> },
+                { path: 'review-quiz', element: <ReviewQuizIntroPage /> },
+                { path: 'review-quiz/result', element: <ReviewQuizResultPage /> },
                 // 퀴즈 결과 창페이지도 추가될 것 같습니다.
                 { path: 'single/result', element: <SingleResultPage /> },
               ],
