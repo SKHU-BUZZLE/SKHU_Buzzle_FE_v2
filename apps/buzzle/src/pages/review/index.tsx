@@ -58,7 +58,7 @@ export default function ReviewPage() {
         <div ref={observerRef} className='h-1' />
 
         {notes.length > 0 && !isLoading && (
-          <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto py-20'>
+          <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto pt-30 pb-20'>
             <Button className='w-full rounded-2xl' onClick={() => navigate('/review-quiz')}>
               오답 퀴즈 도전하기
             </Button>

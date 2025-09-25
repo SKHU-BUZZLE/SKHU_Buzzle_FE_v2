@@ -199,7 +199,7 @@ export default function MultiRoomPlay() {
           <motion.div {...fadeRiseIn} className='flex w-full flex-col items-center gap-4'>
             <h1>축하합니다!</h1>
             <h1>
-              <span className='text-primary-500'>{answerResult.userName}</span>님이 정답을 맞혔어요
+              <span className='text-primary-500'>{answerResult.userName}</span>님이 정답을 맞혔어요 👏🏻
             </h1>
           </motion.div>
         )}
@@ -207,7 +207,7 @@ export default function MultiRoomPlay() {
         {/* 오답일 때 (내 오답 + 패널티 중) */}
         {showPenaltyBanner && (
           <motion.div {...fadeRiseIn} className='flex w-full flex-col items-center gap-4'>
-            <h1>아쉽지만 오답이에요</h1>
+            <h1>아쉽지만 오답이에요 🥲</h1>
             <h1>
               <span className='text-error-red-500'>{penaltyRemaining}초</span> 뒤에 다시 시도해주세요
             </h1>

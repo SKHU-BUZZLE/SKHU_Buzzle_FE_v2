@@ -47,13 +47,13 @@ export default function SingleResultPage() {
             initial='initial'
             variants={listStagger}
           >
-            <motion.p variants={fadeRiseIn}>멋져요! 좋은 기록을 세웠네요</motion.p>
+            <motion.p variants={fadeRiseIn}>한 문제 한 문제, 점점 나아지고 있어요</motion.p>
             <motion.p variants={fadeRiseIn}>계속 도전해서 더 높은 점수를 만들어보세요</motion.p>
           </motion.div>
         </div>
       </div>
 
-      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto py-20'>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto pt-30 pb-20'>
         <Button className='w-full rounded-2xl' onClick={handleRetry}>
           다시 도전하기
         </Button>

@@ -28,6 +28,15 @@ export default function ReviewQuizPlayPage() {
   const [questionKey, setQuestionKey] = useState(0); // 타이머 리셋용
   const [guardEnabled, setGuardEnabled] = useState(true);
 
+  // 마지막 문제 인덱스 확인
+  const isLastQuestion = currentQuestionIndex === quizData?.quizzes.length - 1;
+  let resultMessage: string;
+  if (selectedAnswer !== null) {
+    resultMessage = isLastQuestion ? '결과를 확인해보세요 🎉' : '다음 문제로 넘어갑니다!';
+  } else {
+    resultMessage = '시간이 다 되었어요 ⏰';
+  }
+
   // 모든 답안 저장용
   const answersRef = useRef<{ quizResultId: number; userAnswerNumber: string }[]>([]);
 
@@ -56,8 +65,8 @@ export default function ReviewQuizPlayPage() {
               src={QuizLoading}
               variants={bounceLoop}
             />
-            <h1 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h1>
-            <p className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</p>
+            <h1 className='ds-typ-title-1'>두근두근, 퀴즈 준비 중...</h1>
+            <p className='ds-typ-body-2 ds-text-caption'>곧 시작하니 잠시만 기다려주세요!</p>
           </div>
         </div>
       </div>
@@ -167,7 +176,7 @@ export default function ReviewQuizPlayPage() {
           {...fadeRiseIn}
           className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'
         >
-          {selectedAnswer !== null ? <p>다음 문제를 준비하세요</p> : <p>시간 초과입니다!</p>}
+          <p>{resultMessage}</p>
         </motion.div>
       )}
     </div>

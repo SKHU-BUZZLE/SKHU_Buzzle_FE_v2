@@ -77,8 +77,8 @@ export default function QuizLoadingPage() {
         variants={bounceLoop}
       />
       <div className='flex flex-col gap-12'>
-        <h2 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h2>
-        <h3 className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</h3>
+        <h2 className='ds-typ-title-1'>두근두근, 퀴즈 준비 중...</h2>
+        <h3 className='ds-typ-body-2 ds-text-caption'>곧 시작하니 잠시만 기다려주세요!</h3>
       </div>
     </section>
   );

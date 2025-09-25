@@ -32,7 +32,7 @@ export default function CreateRoomPage() {
 
       <QuizCategory value={category} onChange={setCategory} />
 
-      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-0 left-0 mx-auto py-20'>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-0 left-0 mx-auto pt-30 pb-20'>
         <Button
           className='mt-auto w-full'
           onClick={async () => {

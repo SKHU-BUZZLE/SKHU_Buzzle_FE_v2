@@ -144,7 +144,7 @@
 
   /* 아래 → 위 그라데이션 버전 */
   .ds-theme-bg-base-gradient {
-    @apply from-white-50 dark:from-dm-black-800 bg-gradient-to-t to-transparent dark:to-transparent;
+    @apply from-white-50/95 via-white-50/95 to-white-50/0 dark:from-dm-black-800/95 dark:via-dm-black-800/95 dark:to-dm-black-800/0 bg-gradient-to-t;
   }
 
   /* === Border === */

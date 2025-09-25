@@ -28,18 +28,17 @@ export default function MultiPage() {
     <section className='space-y-8'>
       <QuizIntro
         guidelines={[
-          '빠른 시작은 무작위 1:1 대결을 해요.',
-          '방을 생성하고 친구를 초대해보세요.',
-          '친구가 준 참여 코드로 함께 할 수 있어요.',
+          '랜덤 매칭은 무작위 1:1 대결을 해요.',
+          '방을 생성하고 참여 코드로 친구와 함께 할 수 있어요.',
+          '한 문제를 틀릴 때마다 하트가 2개 줄어들어요.',
+          '우승하면 하트 50개를 보상으로 받아요.',
         ]}
         src={multiQuizGuide}
-        subtitle='7문제를 풀고, 나만의 기록을 만들어보세요'
+        subtitle='친구나 랜덤 상대와 5문제로 대결해보세요'
         title='다같이 풀어보는 상식 퀴즈'
       />
 
       <div className='mt-48 flex flex-col gap-12'>
-        <p className='ds-typ-body-1 ds-text-caption'>원하는 방식으로 시작하세요</p>
-
         <div className='flex gap-8'>
           <MotionLink
             {...cardMotion}

@@ -59,13 +59,13 @@ export default function ReviewQuizResultPage() {
             initial='initial'
             variants={listStagger}
           >
-            <motion.p variants={fadeRiseIn}>실력이 점점 늘고있어요!</motion.p>
+            <motion.p variants={fadeRiseIn}>실력이 점점 늘고있어요</motion.p>
             <motion.p variants={fadeRiseIn}>다시 도전하면서 새로운 문제도 만나보세요</motion.p>
           </motion.div>
         </div>
       </div>
 
-      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto py-20'>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto pt-30 pb-20'>
         <Button className='w-full rounded-2xl' onClick={handleRetry}>
           다시 도전하기
         </Button>

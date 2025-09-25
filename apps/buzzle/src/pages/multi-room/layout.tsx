@@ -331,8 +331,8 @@ export default function MultiRoomBody() {
                 src={QuizLoading}
                 variants={bounceLoop}
               />
-              <h1 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h1>
-              <p className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</p>
+              <h1 className='ds-typ-title-1'>두근두근, 퀴즈 준비 중...</h1>
+              <p className='ds-typ-body-2 ds-text-caption'>곧 시작하니 잠시만 기다려주세요!</p>
             </div>
           </div>
         </div>

@@ -22,12 +22,16 @@ export default function SinglePage() {
 
   return (
     <div className='relative flex min-h-full flex-col'>
-      <div className='flex flex-col gap-36 pb-100'>
+      <div className='flex flex-col gap-36 pb-120'>
         <QuizIntro
-          guidelines={['문제당 제한 시간은 10초예요.', '틀린 문제는 오답 노트에서 다시 확인할 수 있어요.']}
+          guidelines={[
+            '문제당 제한 시간은 10초예요.',
+            '틀린 문제는 오답 노트에서 다시 확인할 수 있어요.',
+            '한 문제를 틀릴 때마다 하트가 2개 줄어들어요.',
+          ]}
           src={singleQuizGuide}
-          subtitle='문제를 풀고, 나만의 기록을 만들어보세요'
-          title='혼자서 즐기는 상식 퀴즈'
+          subtitle='혼자서 도전하며 기록을 세워보세요'
+          title='혼자 풀어보는 상식 퀴즈'
         />
 
         <div className='flex flex-col gap-8'>
@@ -37,7 +41,7 @@ export default function SinglePage() {
 
         <QuizCategory value={category} onChange={setCategory} />
       </div>
-      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto py-20'>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto pt-30 pb-20'>
         <Button className='w-full rounded-2xl' onClick={handleStartQuiz}>
           퀴즈 시작하기
         </Button>

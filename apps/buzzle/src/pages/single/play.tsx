@@ -201,9 +201,11 @@ export default function SinglePlayPage() {
           className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'
         >
           {selectedAnswer !== null ? (
-            <p>{selectedAnswer === parseInt(currentQuiz.answer) - 1 ? '정답입니다' : '아쉽지만 오답이네요'}</p>
+            <p>
+              {selectedAnswer === parseInt(currentQuiz.answer) - 1 ? '빙고! 정답입니다 🎉' : '아쉽지만 오답이네요 😅'}
+            </p>
           ) : (
-            <p>시간 초과입니다</p>
+            <p>시간이 다 되었어요 ⏰</p>
           )}
         </motion.div>
       )}
