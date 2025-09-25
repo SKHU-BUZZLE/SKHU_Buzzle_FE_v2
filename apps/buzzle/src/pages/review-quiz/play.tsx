@@ -1,6 +1,9 @@
+import QuizLoading from '@assets/images/quiz-creation.webp';
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
 import { useChallengeQuiz, useSubmitChallengeAnswers } from '@hooks/useReview';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
+import { bounceLoop, fadeRiseIn } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +28,15 @@ export default function ReviewQuizPlayPage() {
   const [questionKey, setQuestionKey] = useState(0); // 타이머 리셋용
   const [guardEnabled, setGuardEnabled] = useState(true);
 
+  // 마지막 문제 인덱스 확인
+  const isLastQuestion = currentQuestionIndex === quizData?.quizzes.length - 1;
+  let resultMessage: string;
+  if (selectedAnswer !== null) {
+    resultMessage = isLastQuestion ? '결과를 확인해보세요 🎉' : '다음 문제로 넘어갑니다!';
+  } else {
+    resultMessage = '시간이 다 되었어요 ⏰';
+  }
+
   // 모든 답안 저장용
   const answersRef = useRef<{ quizResultId: number; userAnswerNumber: string }[]>([]);
 
@@ -39,8 +51,24 @@ export default function ReviewQuizPlayPage() {
 
   if (isLoading) {
     return (
-      <div className='flex min-h-full items-center justify-center'>
-        <p className='ds-text-muted text-center'>문제를 불러오는 중...</p>
+      <div
+        aria-busy='true'
+        aria-live='polite'
+        className='ds-theme-bg-backdrop fixed inset-0 z-10 flex h-screen w-screen items-center justify-center'
+      >
+        <div className='ds-theme-bg-base flex h-full w-full max-w-480 min-w-320 items-center justify-center'>
+          <div className='flex flex-col items-center justify-center gap-12'>
+            <motion.img
+              alt='Quiz Loading'
+              animate='animate'
+              className='mb-20 size-200 object-contain'
+              src={QuizLoading}
+              variants={bounceLoop}
+            />
+            <h1 className='ds-typ-title-1'>두근두근, 퀴즈 준비 중...</h1>
+            <p className='ds-typ-body-2 ds-text-caption'>곧 시작하니 잠시만 기다려주세요!</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -115,45 +143,42 @@ export default function ReviewQuizPlayPage() {
   };
 
   return (
-    <div className='flex min-h-full flex-col'>
+    <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
       <TimeProgressBar key={questionKey} duration={10} isPaused={isTimerPaused} onTimerEnd={handleTimerEnd} />
 
-      {/* 상단 문제 번호 */}
-      <div className='pt-90'>
-        <span className='ds-typ-body-3 text-white-700'>
-          <span className='text-primary-500 font-bold'>Q.{currentQuestionIndex + 1}</span> / {quizData.quizzes.length}
-        </span>
+      <div className='flex flex-col gap-4'>
+        {/* 상단 문제 번호 */}
+        <p className='ds-typ-body-2 ds-text-caption'>
+          <span className='text-primary-500'>Q. {currentQuestionIndex + 1}</span> / {quizData.quizzes.length}
+        </p>
+
+        {/* 문제 영역 */}
+        <h1 className='ds-typ-heading-2 ds-text-strong'>{currentQuiz.question}</h1>
       </div>
 
-      {/* 문제 영역 */}
-      <div className='flex-1'>
-        <h1 className='ds-typ-heading-1 text-black-600 dark:text-white-500 mb-90'>{currentQuiz.question}</h1>
-
-        {/* 선택지 */}
-        <div className='space-y-16'>
-          {options.map((option, index) => (
-            <QuizOption
-              key={`quiz-${currentQuestionIndex}-option-${option}`}
-              disabled={isAnswered}
-              index={index}
-              isSelected={selectedAnswer === index}
-              option={option}
-              onClick={handleOptionClick}
-            />
-          ))}
-        </div>
-
-        {/* 결과 메시지 */}
-        {showResult && (
-          <div className='ds-text-normal pt-100 text-center text-4xl font-bold'>
-            {selectedAnswer !== null ? (
-              <p>답안이 제출되었습니다!</p>
-            ) : (
-              <p className='text-error-red-500'>시간 초과입니다!</p>
-            )}
-          </div>
-        )}
+      {/* 선택지 */}
+      <div className='flex flex-col gap-12'>
+        {options.map((option, index) => (
+          <QuizOption
+            key={`quiz-${currentQuestionIndex}-option-${option}`}
+            disabled={isAnswered}
+            index={index}
+            isSelected={selectedAnswer === index}
+            option={option}
+            onClick={handleOptionClick}
+          />
+        ))}
       </div>
+
+      {/* 결과 메시지 */}
+      {showResult && (
+        <motion.div
+          {...fadeRiseIn}
+          className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'
+        >
+          <p>{resultMessage}</p>
+        </motion.div>
+      )}
     </div>
   );
 }

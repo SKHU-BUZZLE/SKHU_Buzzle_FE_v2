@@ -15,7 +15,7 @@ export default function CreateRoomPage() {
       <h1 className='ds-typ-heading-3 ds-text-strong'>어떻게 방을 만들까요?</h1>
 
       <div className='flex flex-col gap-12'>
-        <p className='ds-typ-title-2 ds-text-strong'>참여 인원</p>
+        <p className='ds-typ-title-2 ds-text-muted'>참여 인원</p>
         <div className='ds-theme-bg-muted w-full rounded-2xl p-24'>
           <Counter.Root count={maxPlayers} max={10} min={2} onChange={setMaxPlayers}>
             <div className='flex justify-between gap-12'>
@@ -32,23 +32,25 @@ export default function CreateRoomPage() {
 
       <QuizCategory value={category} onChange={setCategory} />
 
-      <Button
-        className='mt-auto w-full'
-        onClick={async () => {
-          try {
-            const res = await createMultiRoom({ maxPlayers, category, quizCount: 3 });
-            const room = res.data.data;
-            navigate(`/multi-room/${room.inviteCode}/lobby`, {
-              state: { entry: 'invite', room },
-              replace: true, // 뒤로가기 시 생성 페이지 안 보이게
-            });
-          } catch (err) {
-            console.error('[방 생성 실패]', err);
-          }
-        }}
-      >
-        방 생성하기
-      </Button>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-0 left-0 mx-auto pt-30 pb-20'>
+        <Button
+          className='mt-auto w-full'
+          onClick={async () => {
+            try {
+              const res = await createMultiRoom({ maxPlayers, category, quizCount: 3 });
+              const room = res.data.data;
+              navigate(`/multi-room/${room.inviteCode}/lobby`, {
+                state: { entry: 'invite', room },
+                replace: true, // 뒤로가기 시 생성 페이지 안 보이게
+              });
+            } catch (err) {
+              console.error('[방 생성 실패]', err);
+            }
+          }}
+        >
+          방 생성하기
+        </Button>
+      </div>
     </div>
   );
 }

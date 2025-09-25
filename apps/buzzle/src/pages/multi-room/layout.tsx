@@ -6,6 +6,8 @@ import { useLife, useRefreshLife } from '@hooks/useLife';
 import { Client, type IMessage } from '@stomp/stompjs';
 import { useAuthStore } from '@stores/auth';
 import { type Player, type Room, type RoomDetails, useRoomStore } from '@stores/room';
+import { bounceLoop } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
@@ -318,12 +320,20 @@ export default function MultiRoomBody() {
         <div
           aria-busy='true'
           aria-live='polite'
-          className='ds-theme-bg-base fixed inset-0 z-10 flex h-screen w-screen items-center justify-center'
+          className='ds-theme-bg-backdrop fixed inset-0 z-10 flex h-screen w-screen items-center justify-center'
         >
-          <div className='flex flex-col items-center justify-center gap-12'>
-            <img alt='Quiz Loading' className='mb-20 size-200 object-contain' src={QuizLoading} />
-            <h1 className='ds-typ-title-1'>게임을 준비하고 있어요</h1>
-            <p className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다…</p>
+          <div className='ds-theme-bg-base flex h-full w-full max-w-480 min-w-320 items-center justify-center'>
+            <div className='flex flex-col items-center justify-center gap-12'>
+              <motion.img
+                alt='Quiz Loading'
+                animate='animate'
+                className='mb-20 size-200 object-contain'
+                src={QuizLoading}
+                variants={bounceLoop}
+              />
+              <h1 className='ds-typ-title-1'>두근두근, 퀴즈 준비 중...</h1>
+              <p className='ds-typ-body-2 ds-text-caption'>곧 시작하니 잠시만 기다려주세요!</p>
+            </div>
           </div>
         </div>
       )}

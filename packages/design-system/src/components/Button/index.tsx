@@ -2,15 +2,16 @@ import { LoaderIcon } from '@components/icons';
 import getValidChildren from '@components/utils/getValidChildren';
 import isValidIcon from '@components/utils/isValidIcon';
 import { twm } from '@components/utils/twm';
+import { type HTMLMotionProps, motion } from 'motion/react';
 import { useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
 /** 버튼 스타일 맵 */
 const VARIANT_STYLES = {
   size: {
-    lg: 'w-370 py-16 ds-typ-body-1',
-    md: 'w-200 py-14 ds-typ-body-2 ',
-    sm: 'w-140 py-10 ds-typ-body-2',
+    lg: 'w-370 py-16 ds-typ-body-1 min-h-60',
+    md: 'w-200 py-14 ds-typ-body-2 min-h-52',
+    sm: 'w-140 py-10 ds-typ-body-2 min-h-44',
   },
   iconOnlySize: {
     lg: 'w-fit p-12',
@@ -43,7 +44,7 @@ const VARIANT_STYLES = {
   },
 };
 
-interface ButtonProps
+interface ButtonOwnProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick' | 'disabled' | 'className' | 'ref'> {
   /** 버튼 내부 콘텐츠 (문자열, span, p 태그만을 지원) */
   children?: React.ReactNode;
@@ -72,6 +73,10 @@ interface ButtonProps
   /** 아이콘 전용 버튼 */
   iconOnly?: boolean;
 }
+
+type MotionButtonProps = Omit<HTMLMotionProps<'button'>, 'type' | 'onClick' | 'disabled' | 'className' | 'children'>;
+
+type ButtonProps = ButtonOwnProps & MotionButtonProps;
 
 /**
  * Button 컴포넌트
@@ -170,19 +175,22 @@ export default function Button({
   const buttonClassNames = twJoin(
     'w-fit flex gap-8 flex-shrink-0 justify-center items-center leading-none cursor-pointer p-4',
     'disabled:cursor-not-allowed disabled:opacity-50',
-    'enabled:hover:opacity-85 enabled:active:brightness-80',
+    'enabled:hover:brightness-85 enabled:active:brightness-80',
     iconOnly ? VARIANT_STYLES.iconOnlySize[size] : VARIANT_STYLES.size[size],
     variant ? VARIANT_STYLES.variant[variant] : 'border-none',
     round ? VARIANT_STYLES.round[round] : '',
   );
 
   return (
-    <button
+    <motion.button
       ref={ref}
       aria-busy={loading || undefined}
       className={twm(buttonClassNames, className)}
       disabled={disabled || loading}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       type={type}
+      whileHover={{ scale: 0.96 }}
+      whileTap={{ scale: 0.92 }}
       onClick={handleClick}
       {...props}
     >
@@ -197,6 +205,6 @@ export default function Button({
       {!loading && ValidRightIcon && (
         <span className='flex shrink-0 items-center justify-center'>{ValidRightIcon}</span>
       )}
-    </button>
+    </motion.button>
   );
 }

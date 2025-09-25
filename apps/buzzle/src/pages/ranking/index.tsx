@@ -2,6 +2,7 @@ import { RankingItem, VictoryStand } from '@buzzle/design';
 import MyRankingCard from '@components/MyRankingCard';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import { useInfiniteRanking } from '@hooks/useRanking';
+import { motion } from 'motion/react';
 
 export default function RankingPage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useInfiniteRanking(10);
@@ -30,9 +31,9 @@ export default function RankingPage() {
   if (isLoading) {
     return (
       <section className='space-y-8'>
-        <h1 className='ds-typ-heading-2 ds-text-strong'>버즐 랭킹</h1>
+        <h1 className='ds-typ-heading-2 ds-text-strong'>실시간 랭킹</h1>
         <div className='flex justify-center py-40'>
-          <p className='ds-text-muted'>랭킹을 불러오는 중...</p>
+          <p className='ds-text-caption'>랭킹을 불러오는 중...</p>
         </div>
       </section>
     );
@@ -41,21 +42,21 @@ export default function RankingPage() {
   if (error) {
     return (
       <section className='space-y-8'>
-        <h1 className='ds-typ-heading-2 ds-text-strong'>버즐 랭킹</h1>
+        <h1 className='ds-typ-heading-2 ds-text-strong'>실시간 랭킹</h1>
         <div className='flex justify-center py-40'>
-          <p className='ds-text-muted'>랭킹을 불러오는데 실패했습니다.</p>
+          <p className='ds-text-caption'>랭킹을 불러오는데 실패했습니다.</p>
         </div>
       </section>
     );
   }
 
   return (
-    <div className='relative flex min-h-full flex-col pb-120'>
-      <p className='ds-typ-body-3 ds-text-caption mt-20 mb-10'>총 {totalMembers}명 참여중</p>
-      <h1 className='ds-typ-heading-2 ds-text-strong mb-10'>버즐 랭킹</h1>
+    <div className='relative flex min-h-full flex-col pb-140'>
+      <p className='ds-typ-body-3 ds-text-caption mt-12'>총 {totalMembers}명 참여중</p>
+      <h1 className='ds-typ-heading-2 ds-text-strong mb-24'>실시간 랭킹</h1>
 
       {topThree.first && topThree.second && topThree.third && (
-        <div className='bg-white-200 dark:bg-dm-black-700 pt-30 pb-30'>
+        <div className='bg-white-200 dark:bg-dm-black-700 rounded-3xl pt-30 pb-48'>
           <VictoryStand
             first={{
               rank: topThree.first.currentRanking,
@@ -79,17 +80,28 @@ export default function RankingPage() {
         </div>
       )}
 
-      <div className='mt-26 space-y-24'>
-        {rankings.map((user) => (
-          <RankingItem
+      {/* <div className='mt-36 space-y-28'> */}
+      <motion.ul className='mt-36 space-y-28'>
+        {rankings.map((user, i) => (
+          <motion.li
             key={user.email}
-            name={user.name}
-            rank={user.currentRanking}
-            score={user.streak}
-            src={user.picture}
-          />
+            initial={{ y: 16, opacity: 0 }}
+            style={{ willChange: 'transform' }}
+            transition={{ type: 'spring', stiffness: 200, damping: 30, mass: 0.6, delay: i * 0.08 }} // 살짝 딜레이
+            viewport={{ once: true, amount: 0.2 }} // 20% 보이면 트리거, 한 번만 재생
+            whileInView={{ y: 0, opacity: 1 }}
+          >
+            <RankingItem
+              key={user.email}
+              name={user.name}
+              rank={user.currentRanking}
+              score={user.streak}
+              src={user.picture}
+            />
+          </motion.li>
         ))}
-      </div>
+      </motion.ul>
+      {/* </div> */}
 
       {/* 무한 스크롤 트리거 */}
       <div ref={observerRef} className='h-1' />
