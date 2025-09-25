@@ -2,8 +2,15 @@ import { Button } from '@buzzle/design';
 import ReviewNoteItem from '@components/ReviewNoteItem';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import { useInfiniteIncorrectNotes } from '@hooks/useReview';
+import { motion } from 'motion/react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const cardMotion = {
+  transition: { type: 'spring', stiffness: 300, damping: 20 },
+  whileHover: { scale: 0.96 },
+  whileTap: { scale: 0.92 },
+} as const;
 
 export default function ReviewPage() {
   const navigate = useNavigate();
@@ -42,7 +49,9 @@ export default function ReviewPage() {
 
       <div className='space-y-2'>
         {notes.map((note) => (
-          <ReviewNoteItem key={note.id} id={note.id} question={note.question} onClick={handleNoteClick} />
+          <motion.div key={note.id} {...cardMotion}>
+            <ReviewNoteItem key={note.id} id={note.id} question={note.question} onClick={handleNoteClick} />
+          </motion.div>
         ))}
 
         {/* 무한 스크롤 트리거 */}

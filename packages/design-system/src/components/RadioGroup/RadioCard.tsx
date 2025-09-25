@@ -1,7 +1,17 @@
+import { type HTMLMotionProps, motion } from 'motion/react';
 import { twMerge } from 'tailwind-merge';
 
 import { useRadioGroupContext } from './RadioGroupContext';
 import type { RadioCardProps } from './types';
+
+const MotionLabel = motion.label;
+
+// 링크/카드에서 쓰던 모션 재사용 (리터럴 좁히기로 타입 오류 방지)
+const cardMotion = {
+  transition: { type: 'spring', stiffness: 300, damping: 20 },
+  whileHover: { scale: 0.96 },
+  whileTap: { scale: 0.92 },
+} satisfies Pick<HTMLMotionProps<'label'>, 'transition' | 'whileHover' | 'whileTap'>;
 
 /**
  * @component RadioCard
@@ -31,6 +41,9 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
   // disabled: 비활성화 상태
   const disabledCls = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';
 
+  // disabled일 땐 모션 제거
+  const motionProps = disabled ? {} : cardMotion;
+
   // content: 아이콘 + 라벨 세로 정렬
   const content = (
     <span className='flex flex-col items-center justify-center gap-4 text-center'>
@@ -44,7 +57,7 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
   );
 
   return (
-    <label className={twMerge(base, state, disabledCls, className)}>
+    <MotionLabel {...motionProps} className={twMerge(base, state, disabledCls, className)}>
       <input
         checked={isChecked}
         className='sr-only'
@@ -55,7 +68,7 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
         onChange={() => onChange(value)}
       />
       {content}
-    </label>
+    </MotionLabel>
   );
 }
 

@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from '@buzzle/design';
+import { Button, MoonIcon, SunIcon } from '@buzzle/design';
 import useTheme from '@stores/theme';
 import { useEffect } from 'react';
 
@@ -16,14 +16,27 @@ export default function ThemeToggleButton() {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
-  return (
-    <button
-      className='bg-white-400 dark:bg-dm-black-600 size-35 cursor-pointer rounded-full hover:opacity-80'
+  return theme === 'dark' ? (
+    <Button
+      iconOnly
+      aria-label='라이트 모드로 전환'
+      className='bg-white-400 dark:bg-dm-black-600 p-10'
+      leftIcon={<MoonIcon />}
+      round='circular'
+      size='md'
+      variant='outline'
       onClick={toggleTheme}
-    >
-      <span className='flex items-center justify-center'>
-        {theme === 'dark' ? <MoonIcon className='text-black-100' /> : <SunIcon className='text-black-200' />}
-      </span>
-    </button>
+    />
+  ) : (
+    <Button
+      iconOnly
+      aria-label='다크 모드로 전환'
+      className='bg-white-400 dark:bg-dm-black-600 p-10'
+      leftIcon={<SunIcon />}
+      round='circular'
+      size='md'
+      variant='outline'
+      onClick={toggleTheme}
+    />
   );
 }

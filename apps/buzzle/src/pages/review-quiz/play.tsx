@@ -2,6 +2,8 @@ import QuizLoading from '@assets/images/quiz-creation.webp';
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
 import { useChallengeQuiz, useSubmitChallengeAnswers } from '@hooks/useReview';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
+import { bounceLoop, fadeRiseIn } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +49,13 @@ export default function ReviewQuizPlayPage() {
       >
         <div className='ds-theme-bg-base flex h-full w-full max-w-480 min-w-320 items-center justify-center'>
           <div className='flex flex-col items-center justify-center gap-12'>
-            <img alt='Quiz Loading' className='mb-20 size-200 object-contain' src={QuizLoading} />
+            <motion.img
+              alt='Quiz Loading'
+              animate='animate'
+              className='mb-20 size-200 object-contain'
+              src={QuizLoading}
+              variants={bounceLoop}
+            />
             <h1 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h1>
             <p className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</p>
           </div>
@@ -155,9 +163,12 @@ export default function ReviewQuizPlayPage() {
 
       {/* 결과 메시지 */}
       {showResult && (
-        <div className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'>
+        <motion.div
+          {...fadeRiseIn}
+          className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'
+        >
           {selectedAnswer !== null ? <p>다음 문제를 준비하세요</p> : <p>시간 초과입니다!</p>}
-        </div>
+        </motion.div>
       )}
     </div>
   );

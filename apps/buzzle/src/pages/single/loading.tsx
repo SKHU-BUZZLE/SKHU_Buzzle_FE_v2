@@ -1,6 +1,8 @@
 import { createSingleQuiz } from '@apis/single';
 import QuizLoading from '@assets/images/quiz-creation.webp';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
+import { bounceLoop } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -67,7 +69,13 @@ export default function QuizLoadingPage() {
 
   return (
     <section className='min-h-inherit flex flex-1 flex-col items-center justify-center gap-36 text-center'>
-      <img alt='Quiz Loading' className='size-200 object-contain' src={QuizLoading} />
+      <motion.img
+        alt='Quiz Loading'
+        animate='animate'
+        className='size-200 object-contain'
+        src={QuizLoading}
+        variants={bounceLoop}
+      />
       <div className='flex flex-col gap-12'>
         <h2 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h2>
         <h3 className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</h3>

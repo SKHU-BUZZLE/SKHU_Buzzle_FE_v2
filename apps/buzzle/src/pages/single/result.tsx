@@ -1,5 +1,7 @@
 import SingleQuizResult from '@assets/images/single-quiz-result.webp';
 import { Button } from '@buzzle/design';
+import { fadeRiseIn, listStagger } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -31,13 +33,23 @@ export default function SingleResultPage() {
         <img alt='퀴즈 결과' className='w-200' src={SingleQuizResult} />
 
         <div className='flex flex-col gap-16'>
-          <h2 className='ds-typ-heading-2 text-black-600 dark:text-white-300'>
+          <motion.h2
+            animate='animate'
+            className='ds-typ-heading-2 text-black-600 dark:text-white-300'
+            initial='initial'
+            variants={fadeRiseIn}
+          >
             <span>{total}</span>개 중 <span className='text-primary-500'>{correct}</span>개 맞혔어요!
-          </h2>
-          <div className='ds-typ-body-2 ds-text-caption flex flex-col items-center gap-4'>
-            <p>멋져요! 좋은 기록을 세웠네요</p>
-            <p>계속 도전해서 더 높은 점수를 만들어보세요</p>
-          </div>
+          </motion.h2>
+          <motion.div
+            animate='animate'
+            className='ds-typ-body-2 ds-text-caption flex flex-col items-center gap-4'
+            initial='initial'
+            variants={listStagger}
+          >
+            <motion.p variants={fadeRiseIn}>멋져요! 좋은 기록을 세웠네요</motion.p>
+            <motion.p variants={fadeRiseIn}>계속 도전해서 더 높은 점수를 만들어보세요</motion.p>
+          </motion.div>
         </div>
       </div>
 

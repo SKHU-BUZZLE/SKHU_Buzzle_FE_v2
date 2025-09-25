@@ -5,8 +5,16 @@ import SingleQuiz from '@assets/images/single-quiz.webp';
 import { Button, CalendarIcon, LogoutIcon, MedalIcon, ProfileImage, UserStatusBadge } from '@buzzle/design';
 import { useLogout } from '@hooks/useLogout';
 import { useUserStore } from '@stores/user';
+import { motion } from 'motion/react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+const MotionLink = motion(Link);
+const cardMotion = {
+  transition: { type: 'spring', stiffness: 300, damping: 20 },
+  whileHover: { scale: 0.96 },
+  whileTap: { scale: 0.92 },
+} as const;
 
 export default function HomePage() {
   const { user } = useUserStore();
@@ -54,7 +62,8 @@ export default function HomePage() {
       </div>
 
       <div className='grid gap-12 md:auto-rows-[minmax(0,1fr)] md:grid-cols-2'>
-        <Link
+        <MotionLink
+          {...cardMotion}
           className='bg-white-50 dark:bg-dm-black-600 rounded-2xl p-24 py-16 hover:brightness-90 dark:hover:brightness-80'
           to='/single'
         >
@@ -63,8 +72,9 @@ export default function HomePage() {
             <p className='ds-text-caption ds-typ-body-3'>혼자서 도전해봐요</p>
           </div>
           <img className='mt-16 ml-auto h-auto w-[10vw] max-w-80 min-w-70' src={SingleQuiz} />
-        </Link>
-        <Link
+        </MotionLink>
+        <MotionLink
+          {...cardMotion}
           className='bg-white-50 dark:bg-dm-black-600 rounded-2xl p-24 py-16 hover:brightness-90 dark:hover:brightness-80'
           to='/multi'
         >
@@ -73,8 +83,9 @@ export default function HomePage() {
             <p className='ds-text-caption ds-typ-body-3'>친구랑 대결해봐요</p>
           </div>
           <img className='mt-16 ml-auto h-auto w-[10vw] max-w-80 min-w-70' src={MultiQuiz} />
-        </Link>
-        <Link
+        </MotionLink>
+        <MotionLink
+          {...cardMotion}
           className='bg-white-50 dark:bg-dm-black-600 col-start-1 col-end-3 rounded-2xl p-24 py-16 hover:brightness-90 dark:hover:brightness-80'
           to='/review'
         >
@@ -83,7 +94,7 @@ export default function HomePage() {
             <p className='ds-text-caption ds-typ-body-3'>틀린 문제로 다시 배워봐요</p>
           </div>
           <img className='ab mt-2 ml-auto h-auto w-[10vw] max-w-80 min-w-70' src={NoteQuiz} />
-        </Link>
+        </MotionLink>
       </div>
     </div>
   );

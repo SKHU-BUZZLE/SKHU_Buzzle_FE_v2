@@ -1,8 +1,16 @@
 import multiQuizGuide from '@assets/images/multi-quiz-guide.webp';
 import { CreateRoomIcon, EnterRoomIcon, Modal, QuickMatchIcon, QuizIntro } from '@buzzle/design';
 import { useLife } from '@hooks/useLife';
+import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+const MotionLink = motion(Link);
+const cardMotion = {
+  transition: { type: 'spring', stiffness: 300, damping: 20 },
+  whileHover: { scale: 0.96 },
+  whileTap: { scale: 0.92 },
+} as const;
 
 export default function MultiPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,30 +41,33 @@ export default function MultiPage() {
         <p className='ds-typ-body-1 ds-text-caption'>원하는 방식으로 시작하세요</p>
 
         <div className='flex gap-8'>
-          <Link
+          <MotionLink
+            {...cardMotion}
             className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
             to='/multi/random-matching'
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>랜덤 매칭하기</p>
             <QuickMatchIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-90' />
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
+            {...cardMotion}
             className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
             to='/multi/enter-room'
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>방 입장하기</p>
             <EnterRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-90' />
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
+            {...cardMotion}
             className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
             to='/multi/create-room'
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>방 만들기</p>
             <CreateRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-90' />
-          </Link>
+          </MotionLink>
         </div>
       </div>
 

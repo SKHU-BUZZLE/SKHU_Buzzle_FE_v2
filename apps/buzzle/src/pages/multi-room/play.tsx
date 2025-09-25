@@ -2,6 +2,8 @@ import { ProfileImage, QuizOption } from '@buzzle/design';
 import { useRefreshLife } from '@hooks/useLife';
 import { useRoomStore } from '@stores/room';
 import { useUserStore } from '@stores/user';
+import { fadeRiseIn } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -191,25 +193,25 @@ export default function MultiRoomPlay() {
       </div>
 
       {/* 안내 메시지 */}
-      <div className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'>
+      <div className='ds-typ-heading-3 ds-text-muted mt-auto pb-120'>
         {/* 정답일 때 */}
         {showResult && answerResult?.correct && (
-          <>
+          <motion.div {...fadeRiseIn} className='flex w-full flex-col items-center gap-4'>
             <h1>축하합니다!</h1>
             <h1>
               <span className='text-primary-500'>{answerResult.userName}</span>님이 정답을 맞혔어요
             </h1>
-          </>
+          </motion.div>
         )}
 
         {/* 오답일 때 (내 오답 + 패널티 중) */}
         {showPenaltyBanner && (
-          <>
+          <motion.div {...fadeRiseIn} className='flex w-full flex-col items-center gap-4'>
             <h1>아쉽지만 오답이에요</h1>
             <h1>
               <span className='text-error-red-500'>{penaltyRemaining}초</span> 뒤에 다시 시도해주세요
             </h1>
-          </>
+          </motion.div>
         )}
       </div>
     </div>

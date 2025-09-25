@@ -1,5 +1,7 @@
 import { MultiQuizRankingItem } from '@buzzle/design';
 import { useRoomStore } from '@stores/room';
+import { fadeRiseIn, listStagger, riseIn } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 
 export default function MultiRoomResult() {
   const leaderBoard = useRoomStore((s) => s.leaderBoard);
@@ -12,19 +14,33 @@ export default function MultiRoomResult() {
 
   return (
     <div className='relative flex min-h-0 flex-1 flex-col justify-evenly gap-36'>
-      <div className='flex flex-col gap-8 pb-240'>
+      <motion.ul
+        animate='animate'
+        className='flex flex-col gap-8 pb-240'
+        initial='initial'
+        style={{ willChange: 'transform' }}
+        variants={listStagger}
+      >
         {quizResult.rankings.map((rank) => (
-          <MultiQuizRankingItem
-            key={rank.email}
-            correctCount={rank.score ?? 0}
-            name={rank.name}
-            rank={rank.rank ?? 0}
-            src={rank.picture}
-          />
+          <motion.li key={rank.email} variants={riseIn}>
+            <MultiQuizRankingItem
+              key={rank.email}
+              correctCount={rank.score ?? 0}
+              name={rank.name}
+              rank={rank.rank ?? 0}
+              src={rank.picture}
+            />
+          </motion.li>
         ))}
-      </div>
+      </motion.ul>
 
-      <div className='to-white-50/0 dark:to-dm-black-800/0 via-white-50/90 dark:via-dm-black-800/90 from-white-50 dark:from-dm-black-800 fixed inset-x-0 bottom-0 flex flex-col items-center gap-4 bg-gradient-to-t py-120'>
+      <motion.div
+        animate='animate'
+        className='to-white-50/0 dark:to-dm-black-800/0 via-white-50/90 dark:via-dm-black-800/90 from-white-50 dark:from-dm-black-800 absolute inset-x-0 bottom-0 flex flex-col items-center gap-4 bg-gradient-to-t py-120'
+        exit='exit'
+        initial='initial'
+        variants={fadeRiseIn}
+      >
         <h1 className='ds-typ-heading-3 ds-text-muted'>축하합니다!</h1>
         <h1 className='ds-typ-heading-3 ds-text-muted'>
           <div className={`flex ${hasMultipleWinners ? 'gap-2' : ''}`}>
@@ -37,7 +53,7 @@ export default function MultiRoomResult() {
             &nbsp;님이 우승했어요 🎉
           </div>
         </h1>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
 import { useSubmitSingleAnswer } from '@hooks/useLife';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
+import { fadeRiseIn } from '@utils/motionUtils';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -194,13 +196,16 @@ export default function SinglePlayPage() {
 
       {/* 결과 메시지 */}
       {showResult && (
-        <div className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'>
+        <motion.div
+          {...fadeRiseIn}
+          className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'
+        >
           {selectedAnswer !== null ? (
             <p>{selectedAnswer === parseInt(currentQuiz.answer) - 1 ? '정답입니다' : '아쉽지만 오답이네요'}</p>
           ) : (
             <p>시간 초과입니다</p>
           )}
-        </div>
+        </motion.div>
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import { RankingItem, VictoryStand } from '@buzzle/design';
 import MyRankingCard from '@components/MyRankingCard';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import { useInfiniteRanking } from '@hooks/useRanking';
+import { motion } from 'motion/react';
 
 export default function RankingPage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useInfiniteRanking(10);
@@ -79,17 +80,28 @@ export default function RankingPage() {
         </div>
       )}
 
-      <div className='mt-36 space-y-28'>
-        {rankings.map((user) => (
-          <RankingItem
+      {/* <div className='mt-36 space-y-28'> */}
+      <motion.ul className='mt-36 space-y-28'>
+        {rankings.map((user, i) => (
+          <motion.li
             key={user.email}
-            name={user.name}
-            rank={user.currentRanking}
-            score={user.streak}
-            src={user.picture}
-          />
+            initial={{ y: 16, opacity: 0 }}
+            style={{ willChange: 'transform' }}
+            transition={{ type: 'spring', stiffness: 200, damping: 30, mass: 0.6, delay: i * 0.08 }} // 살짝 딜레이
+            viewport={{ once: true, amount: 0.2 }} // 20% 보이면 트리거, 한 번만 재생
+            whileInView={{ y: 0, opacity: 1 }}
+          >
+            <RankingItem
+              key={user.email}
+              name={user.name}
+              rank={user.currentRanking}
+              score={user.streak}
+              src={user.picture}
+            />
+          </motion.li>
         ))}
-      </div>
+      </motion.ul>
+      {/* </div> */}
 
       {/* 무한 스크롤 트리거 */}
       <div ref={observerRef} className='h-1' />
