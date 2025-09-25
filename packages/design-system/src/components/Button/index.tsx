@@ -8,9 +8,9 @@ import { twJoin, twMerge } from 'tailwind-merge';
 /** 버튼 스타일 맵 */
 const VARIANT_STYLES = {
   size: {
-    lg: 'w-370 py-16 ds-typ-body-1',
-    md: 'w-200 py-14 ds-typ-body-2 ',
-    sm: 'w-140 py-10 ds-typ-body-2',
+    lg: 'w-370 py-16 ds-typ-body-1 min-h-60',
+    md: 'w-200 py-14 ds-typ-body-2 min-h-52',
+    sm: 'w-140 py-10 ds-typ-body-2 min-h-44',
   },
   iconOnlySize: {
     lg: 'w-fit p-12',
