@@ -139,7 +139,12 @@
   }
 
   .ds-theme-bg-backdrop {
-    @apply bg-white-300 dark:md:bg-dm-black-900;
+    @apply bg-white-300 dark:bg-dm-black-900;
+  }
+
+  /* 아래 → 위 그라데이션 버전 */
+  .ds-theme-bg-base-gradient {
+    @apply from-white-50 dark:from-dm-black-800 bg-gradient-to-t to-transparent dark:to-transparent;
   }
 
   /* === Border === */
