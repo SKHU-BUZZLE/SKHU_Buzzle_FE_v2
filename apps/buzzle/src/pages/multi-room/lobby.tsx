@@ -95,9 +95,11 @@ export default function MultiRoomLobby() {
 
       {/* 방장이라면 시작 버튼 */}
       {isHost && (
-        <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
-          퀴즈 시작하기
-        </Button>
+        <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-0 left-0 mx-auto py-20'>
+          <Button className='sticky bottom-16 w-full' disabled={!roomDetails?.canStartGame} onClick={handleStartGame}>
+            퀴즈 시작하기
+          </Button>
+        </div>
       )}
     </div>
   );

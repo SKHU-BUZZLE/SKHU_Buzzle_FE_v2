@@ -157,7 +157,7 @@ export default function BackHeader({
       </nav>
 
       <Modal.Root open={isOpen} onClose={handleCancel} onConfirm={handleConfirm}>
-        <Modal.Content className='max-w-md'>
+        <Modal.Content className='max-w-360'>
           <Modal.Title>정말 페이지를 나가시겠어요?</Modal.Title>
           <Modal.Description>지금까지의 내용이 사라질 수 있어요</Modal.Description>
 

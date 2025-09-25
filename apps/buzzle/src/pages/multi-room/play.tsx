@@ -133,6 +133,7 @@ export default function MultiRoomPlay() {
   return (
     <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
       <div className='flex flex-col gap-12'>
+        {/* 타이머 */}
         <div className='dark:bg-dm-black-600 bg-white-200 relative h-10 w-full overflow-hidden rounded-full'>
           <div
             className={`h-full transition-all duration-1000 ease-linear ${color}`}
@@ -140,6 +141,7 @@ export default function MultiRoomPlay() {
           />
         </div>
 
+        {/* 참여 인원 */}
         <div className='ml-auto flex -space-x-10'>
           {roomDetails?.players.slice(0, 5).map((player, idx, arr) => (
             <ProfileImage
@@ -164,6 +166,7 @@ export default function MultiRoomPlay() {
         </div>
       </div>
 
+      {/* 문제 */}
       <div className='flex flex-col gap-4'>
         <p className='ds-typ-body-2 ds-text-caption'>
           <span className='text-primary-500'>Q. {question.questionIndex + 1}</span> / 5
@@ -171,6 +174,7 @@ export default function MultiRoomPlay() {
         <h1 className='ds-typ-heading-2 ds-text-strong'>{question.question}</h1>
       </div>
 
+      {/* 문제 선택지 */}
       <div className='flex flex-col gap-12'>
         {question.options.map((option, index) => (
           <QuizOption
@@ -186,6 +190,7 @@ export default function MultiRoomPlay() {
         ))}
       </div>
 
+      {/* 안내 메시지 */}
       <div className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'>
         {/* 정답일 때 */}
         {showResult && answerResult?.correct && (
