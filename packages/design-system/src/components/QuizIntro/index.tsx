@@ -33,7 +33,7 @@ export default function QuizIntro({ src, title, subtitle, guidelines }: QuizIntr
     <div className='flex flex-col gap-36'>
       <img
         alt={title ? `${title} 안내 이미지` : '퀴즈 안내 이미지'}
-        className='aspect-square size-58 object-cover'
+        className='aspect-square size-58 object-contain'
         src={src}
       />
 
