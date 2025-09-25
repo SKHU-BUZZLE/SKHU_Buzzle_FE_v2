@@ -1,6 +1,6 @@
 import { MultiQuizRankingItem } from '@buzzle/design';
 import { useRoomStore } from '@stores/room';
-import { fadeRiseIn, listStagger, riseIn } from '@utils/motionUtils';
+import { fadeRiseIn, listStagger } from '@utils/motionUtils';
 import { motion } from 'motion/react';
 
 export default function MultiRoomResult() {
@@ -22,7 +22,7 @@ export default function MultiRoomResult() {
         variants={listStagger}
       >
         {quizResult.rankings.map((rank) => (
-          <motion.li key={rank.email} variants={riseIn}>
+          <motion.li key={rank.email} variants={fadeRiseIn}>
             <MultiQuizRankingItem
               key={rank.email}
               correctCount={rank.score ?? 0}
@@ -35,11 +35,8 @@ export default function MultiRoomResult() {
       </motion.ul>
 
       <motion.div
-        animate='animate'
+        {...fadeRiseIn}
         className='to-white-50/0 dark:to-dm-black-800/0 via-white-50/90 dark:via-dm-black-800/90 from-white-50 dark:from-dm-black-800 absolute inset-x-0 bottom-0 flex flex-col items-center gap-4 bg-gradient-to-t py-120'
-        exit='exit'
-        initial='initial'
-        variants={fadeRiseIn}
       >
         <h1 className='ds-typ-heading-3 ds-text-muted'>축하합니다!</h1>
         <h1 className='ds-typ-heading-3 ds-text-muted'>
