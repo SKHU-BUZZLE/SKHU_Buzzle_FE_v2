@@ -139,7 +139,7 @@
   }
 
   .ds-theme-bg-backdrop {
-    @apply md:bg-white-300 dark:md:bg-dm-black-900;
+    @apply bg-white-300 dark:md:bg-dm-black-900;
   }
 
   /* === Border === */
@@ -153,7 +153,11 @@
 
   /* === Layout Constants === */
   .ds-layout-max-width {
-    @apply max-w-768;
+    @apply max-w-480;
+  }
+
+  .ds-layout-min-width {
+    @apply min-w-320;
   }
 
   .ds-layout-padding {

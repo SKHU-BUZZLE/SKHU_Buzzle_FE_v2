@@ -61,16 +61,31 @@ export const router = createBrowserRouter(
 
             // 뒤로가기 헤더 프레임: BackHeader 포함된 레이아웃
             {
-              element: <BackHeaderFrame />,
+              element: <BackHeaderFrame to='/home' />,
               children: [
                 // 뒤로가기 헤더가 포함된 페이지들
-                { path: 'ranking', element: <RankingPage /> },
-                { path: 'review/:id', element: <ReviewDetailPage /> },
-                // 대부분 퀴즈 진행중인 페이지들
+              ],
+            },
+            {
+              element: <BackHeaderFrame to='/multi' />,
+              children: [
+                // 뒤로가기 헤더가 포함된 페이지들
                 { path: 'multi/create-room', element: <CreateRoomPage /> },
                 { path: 'multi/random-matching', element: <RandomMatchingPage /> },
                 { path: 'multi/enter-room', element: <EnterRoomPage /> },
+              ],
+            },
+            {
+              element: <BackHeaderFrame to='/single' />,
+              children: [
+                // 뒤로가기 헤더가 포함된 페이지들
                 { path: 'single/play', element: <SinglePlayPage /> },
+              ],
+            },
+            {
+              element: <BackHeaderFrame to='/review-quiz' />,
+              children: [
+                // 뒤로가기 헤더가 포함된 페이지들
                 { path: 'review-quiz/play', element: <ReviewQuizPlayPage /> },
               ],
             },
@@ -80,7 +95,7 @@ export const router = createBrowserRouter(
               element: <BottomBarFrame />,
               children: [
                 // 바텀 네비게이션 바가 포함된 페이지들
-                // 생각보다 이 부분이 많지 않네요..? 최종때 사용 안하면 지우겠습니다.
+                { path: 'review/:id', element: <ReviewDetailPage /> },
               ],
             },
 
@@ -100,6 +115,7 @@ export const router = createBrowserRouter(
                 { path: 'review-quiz/result', element: <ReviewQuizResultPage /> },
                 // 퀴즈 결과 창페이지도 추가될 것 같습니다.
                 { path: 'single/result', element: <SingleResultPage /> },
+                { path: 'ranking', element: <RankingPage /> },
               ],
             },
 

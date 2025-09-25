@@ -15,7 +15,7 @@ interface MyRankingCardProps {
  */
 export default function MyRankingCard({ src, name, rank, score }: MyRankingCardProps) {
   return (
-    <div className='fixed inset-x-0 bottom-0 z-50'>
+    <div className='fixed inset-x-0 bottom-56 z-50'>
       {/* 안전영역 + 바깥 여백 */}
       <div className='ds-layout-max-width mx-auto'>
         {/* 카드 본체 */}
