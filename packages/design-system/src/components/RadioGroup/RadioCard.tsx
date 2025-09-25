@@ -21,12 +21,12 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
   // base: 카드 기본 상태
   const base =
     'relative flex items-center justify-center rounded-2xl px-16 py-14 ' + // 레이아웃, 모양
-    'bg-white-100 dark:bg-dm-black-600 text-black-200 dark:text-black-100 ' + // 기본 배경/텍스트
-    'hover:bg-primary-500/5 dark:hover:bg-[#0656D7]/20 ' + // hover 상태
-    'active:bg-primary-500/10 dark:active:bg-[#0656D7]/10 active:text-primary-500'; // active 상태
+    'bg-white-100 dark:bg-dm-black-600 text-black-200 dark:text-black-100 ds-typ-body-3 ' + // 기본 배경/텍스트
+    'hover:bg-primary-500/5 dark:hover:bg-[#0656D7]/10 ' + // hover 상태
+    'active:bg-primary-500/10 dark:active:bg-[#0656D7]/20 active:text-primary-500'; // active 상태
 
   // state: 선택(checked) 상태
-  const state = isChecked ? 'bg-primary-500/10 dark:bg-[#0656D7]/10 text-primary-500 dark:text-primary-500' : '';
+  const state = isChecked ? 'bg-primary-500/10 dark:bg-[#0656D7]/30 text-primary-500 dark:text-primary-500' : '';
 
   // disabled: 비활성화 상태
   const disabledCls = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';

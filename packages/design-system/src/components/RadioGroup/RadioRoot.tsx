@@ -57,7 +57,7 @@ function RadioRoot({ value, onChange, mode, name, className, ariaLabel, children
 
   return (
     <RadioGroupContext.Provider value={{ name: groupName, value, onChange, titleId, mode }}>
-      <div role='radiogroup' {...ariaProps} className={twMerge('flex flex-col gap-16', className)}>
+      <div role='radiogroup' {...ariaProps} className={twMerge('flex flex-col gap-8', className)}>
         {children}
       </div>
     </RadioGroupContext.Provider>
