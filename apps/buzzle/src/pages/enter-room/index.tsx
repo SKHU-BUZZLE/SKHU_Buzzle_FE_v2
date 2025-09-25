@@ -55,7 +55,7 @@ export default function EnterRoomPage() {
       </Button>
 
       <Modal.Root open={isOpen} onClose={() => setIsOpen(false)}>
-        <Modal.Content>
+        <Modal.Content className='max-w-360'>
           <Modal.Title>앗! 입장할 수 없어요</Modal.Title>
           <Modal.Description>{modalDescription}</Modal.Description>
 

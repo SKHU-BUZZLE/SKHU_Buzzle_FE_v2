@@ -139,7 +139,12 @@
   }
 
   .ds-theme-bg-backdrop {
-    @apply md:bg-white-300 dark:md:bg-dm-black-900;
+    @apply bg-white-300 dark:bg-dm-black-900;
+  }
+
+  /* 아래 → 위 그라데이션 버전 */
+  .ds-theme-bg-base-gradient {
+    @apply from-white-50/95 via-white-50/95 to-white-50/0 dark:from-dm-black-800/95 dark:via-dm-black-800/95 dark:to-dm-black-800/0 bg-gradient-to-t;
   }
 
   /* === Border === */
@@ -153,7 +158,11 @@
 
   /* === Layout Constants === */
   .ds-layout-max-width {
-    @apply max-w-768;
+    @apply max-w-480;
+  }
+
+  .ds-layout-min-width {
+    @apply min-w-320;
   }
 
   .ds-layout-padding {

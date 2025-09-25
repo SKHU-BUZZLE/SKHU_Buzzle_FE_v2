@@ -58,7 +58,7 @@ export default function TimeProgressBar({
   }, [ended, onStateChange]);
 
   return (
-    <div className='ds-theme-bg-muted h-8 w-full rounded-full'>
+    <div className='dark:bg-dm-black-600 bg-white-200 h-10 w-full rounded-full'>
       <div className='bg-black-300 dark:bg-white-300 h-full rounded-full' style={{ width: `${ratio * 100}%` }} />
     </div>
   );

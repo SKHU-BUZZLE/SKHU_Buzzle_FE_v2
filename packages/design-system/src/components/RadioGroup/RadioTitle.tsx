@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { twm } from '@components/utils/twm';
 
 import { useRadioGroupContext } from './RadioGroupContext';
 import type { RadioTitleProps } from './types';
@@ -17,7 +17,7 @@ function RadioTitle({ children, className }: RadioTitleProps) {
   const { titleId } = useRadioGroupContext();
 
   return (
-    <h2 className={twMerge('ds-typ-title-2 ds-text-strong', className)} id={titleId}>
+    <h2 className={twm('ds-typ-title-2 ds-text-muted', className)} id={titleId}>
       {children}
     </h2>
   );

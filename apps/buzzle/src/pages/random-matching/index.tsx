@@ -2,7 +2,9 @@ import { createMatchingStream, joinMatchingQueue } from '@apis/multi';
 import multiMatchingLoading from '@assets/images/multi-matching-loading.webp';
 import { Button } from '@buzzle/design';
 import { useAuthStore } from '@stores/auth';
+import { bounceLoop } from '@utils/motionUtils';
 import type { EventSourcePolyfill } from 'event-source-polyfill';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -85,7 +87,13 @@ export default function RandomMatchingPage() {
   return (
     <div className='flex min-h-0 flex-1 flex-col items-center gap-36'>
       <div className='flex flex-1 flex-col items-center justify-center gap-12'>
-        <img alt='랜덤 매칭 아이콘' className='mb-20 size-200 object-contain' src={multiMatchingLoading} />
+        <motion.img
+          alt='랜덤 매칭 아이콘'
+          animate='animate'
+          className='mb-20 size-200 object-contain'
+          src={multiMatchingLoading}
+          variants={bounceLoop}
+        />
         <h1 className='ds-typ-title-1'>{title}</h1>
         <p className='ds-typ-body-2 ds-text-caption'>{description}</p>
       </div>

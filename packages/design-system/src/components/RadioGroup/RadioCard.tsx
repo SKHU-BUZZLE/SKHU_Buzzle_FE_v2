@@ -1,7 +1,17 @@
+import { type HTMLMotionProps, motion } from 'motion/react';
 import { twMerge } from 'tailwind-merge';
 
 import { useRadioGroupContext } from './RadioGroupContext';
 import type { RadioCardProps } from './types';
+
+const MotionLabel = motion.label;
+
+// 링크/카드에서 쓰던 모션 재사용 (리터럴 좁히기로 타입 오류 방지)
+const cardMotion = {
+  transition: { type: 'spring', stiffness: 300, damping: 20 },
+  whileHover: { scale: 0.96 },
+  whileTap: { scale: 0.92 },
+} satisfies Pick<HTMLMotionProps<'label'>, 'transition' | 'whileHover' | 'whileTap'>;
 
 /**
  * @component RadioCard
@@ -21,15 +31,18 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
   // base: 카드 기본 상태
   const base =
     'relative flex items-center justify-center rounded-2xl px-16 py-14 ' + // 레이아웃, 모양
-    'bg-white-100 dark:bg-dm-black-600 text-black-200 dark:text-black-100 ' + // 기본 배경/텍스트
-    'hover:bg-primary-500/5 dark:hover:bg-[#0656D7]/20 ' + // hover 상태
-    'active:bg-primary-500/10 dark:active:bg-[#0656D7]/10 active:text-primary-500'; // active 상태
+    'bg-white-100 dark:bg-dm-black-600 text-black-200 dark:text-black-100 ds-typ-body-3 ' + // 기본 배경/텍스트
+    'hover:bg-primary-500/5 dark:hover:bg-[#0656D7]/10 ' + // hover 상태
+    'active:bg-primary-500/10 dark:active:bg-[#0656D7]/20 active:text-primary-500'; // active 상태
 
   // state: 선택(checked) 상태
-  const state = isChecked ? 'bg-primary-500/10 dark:bg-[#0656D7]/10 text-primary-500 dark:text-primary-500' : '';
+  const state = isChecked ? 'bg-primary-500/10 dark:bg-[#0656D7]/30 text-primary-500 dark:text-primary-500' : '';
 
   // disabled: 비활성화 상태
   const disabledCls = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';
+
+  // disabled일 땐 모션 제거
+  const motionProps = disabled ? {} : cardMotion;
 
   // content: 아이콘 + 라벨 세로 정렬
   const content = (
@@ -44,7 +57,7 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
   );
 
   return (
-    <label className={twMerge(base, state, disabledCls, className)}>
+    <MotionLabel {...motionProps} className={twMerge(base, state, disabledCls, className)}>
       <input
         checked={isChecked}
         className='sr-only'
@@ -55,7 +68,7 @@ function RadioCard({ value, icon, label, className, disabled }: RadioCardProps) 
         onChange={() => onChange(value)}
       />
       {content}
-    </label>
+    </MotionLabel>
   );
 }
 
