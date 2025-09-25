@@ -38,9 +38,9 @@ export default function ReviewDetailPage() {
   if (isLoading) {
     return (
       <div className='space-y-8'>
-        <BackHeader rightSlot={<span className='ds-typ-body-2 ds-text-muted'>삭제</span>} to='/review' />
+        <BackHeader rightSlot={<span className='ds-typ-body-2 ds-text-muted' />} to='/review' />
         <div className='py-40 text-center'>
-          <p className='ds-text-muted'>문제를 불러오는 중...</p>
+          <p className='ds-text-caption'>문제를 불러오는 중...</p>
         </div>
       </div>
     );
@@ -73,7 +73,8 @@ export default function ReviewDetailPage() {
           <Button
             iconOnly
             disabled={isDeleting}
-            leftIcon={<DeleteIcon />}
+            leftIcon={<DeleteIcon className='ds-text-caption' />}
+            size='sm'
             variant='ghost'
             onClick={handleDeleteClick}
           />
@@ -81,9 +82,12 @@ export default function ReviewDetailPage() {
         to='/review'
       />
 
-      <div className='mt-24 space-y-48'>
+      <div className='mt-24 space-y-36'>
         {/* 문제 */}
-        <h1 className='ds-typ-heading-2 ds-text-strong'>{detail.question}</h1>
+        <h1 className='ds-typ-heading-3 ds-text-strong'>
+          <span className='ds-text-caption'>Q. </span>
+          {detail.question}
+        </h1>
 
         {/* 선택지들 */}
         <div className='space-y-16'>
@@ -100,7 +104,7 @@ export default function ReviewDetailPage() {
 
       {/* 삭제 확인 모달 */}
       <Modal.Root open={isDeleteModalOpen} onClose={handleDeleteCancel} onConfirm={handleDeleteConfirm}>
-        <Modal.Content>
+        <Modal.Content className='max-w-360'>
           <Modal.Title>오답노트에서 문제를 삭제합니다</Modal.Title>
           <Modal.Description>삭제는 되돌릴 수 없어요</Modal.Description>
 
