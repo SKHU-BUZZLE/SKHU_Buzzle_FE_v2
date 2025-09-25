@@ -39,7 +39,7 @@ export default function MultiPage() {
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>랜덤 매칭하기</p>
-            <QuickMatchIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-120' />
+            <QuickMatchIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-90' />
           </Link>
           <Link
             className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
@@ -47,7 +47,7 @@ export default function MultiPage() {
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>방 입장하기</p>
-            <EnterRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-120' />
+            <EnterRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-90' />
           </Link>
           <Link
             className='ds-theme-bg-muted flex-1 rounded-2xl p-16 hover:brightness-95 dark:hover:brightness-85'
@@ -55,13 +55,13 @@ export default function MultiPage() {
             onClick={handleGuardedClick}
           >
             <p className='ds-typ-body-2 ds-text-normal'>방 만들기</p>
-            <CreateRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-120' />
+            <CreateRoomIcon className='text-primary-500 mt-24 ml-auto size-[16vw] h-auto max-w-90' />
           </Link>
         </div>
       </div>
 
       <Modal.Root open={isOpen} onClose={() => setIsOpen(false)}>
-        <Modal.Content>
+        <Modal.Content className='max-w-360'>
           <Modal.Title>하트가 조금 모자라요</Modal.Title>
           <Modal.Description>참여하려면 최소 5개 이상의 하트가 필요해요</Modal.Description>
 
