@@ -1,3 +1,4 @@
+import QuizLoading from '@assets/images/quiz-creation.webp';
 import { QuizOption, TimeProgressBar } from '@buzzle/design';
 import { useChallengeQuiz, useSubmitChallengeAnswers } from '@hooks/useReview';
 import { useRouteLeaveGuard } from '@hooks/useRouteLeaveGuard';
@@ -39,8 +40,18 @@ export default function ReviewQuizPlayPage() {
 
   if (isLoading) {
     return (
-      <div className='flex min-h-full items-center justify-center'>
-        <p className='ds-text-muted text-center'>문제를 불러오는 중...</p>
+      <div
+        aria-busy='true'
+        aria-live='polite'
+        className='ds-theme-bg-backdrop fixed inset-0 z-10 flex h-screen w-screen items-center justify-center'
+      >
+        <div className='ds-theme-bg-base flex h-full w-full max-w-480 min-w-320 items-center justify-center'>
+          <div className='flex flex-col items-center justify-center gap-12'>
+            <img alt='Quiz Loading' className='mb-20 size-200 object-contain' src={QuizLoading} />
+            <h1 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h1>
+            <p className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -115,45 +126,39 @@ export default function ReviewQuizPlayPage() {
   };
 
   return (
-    <div className='flex min-h-full flex-col'>
+    <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
       <TimeProgressBar key={questionKey} duration={10} isPaused={isTimerPaused} onTimerEnd={handleTimerEnd} />
 
-      {/* 상단 문제 번호 */}
-      <div className='pt-90'>
-        <span className='ds-typ-body-3 text-white-700'>
-          <span className='text-primary-500 font-bold'>Q.{currentQuestionIndex + 1}</span> / {quizData.quizzes.length}
-        </span>
+      <div className='flex flex-col gap-4'>
+        {/* 상단 문제 번호 */}
+        <p className='ds-typ-body-2 ds-text-caption'>
+          <span className='text-primary-500'>Q. {currentQuestionIndex + 1}</span> / {quizData.quizzes.length}
+        </p>
+
+        {/* 문제 영역 */}
+        <h1 className='ds-typ-heading-2 ds-text-strong'>{currentQuiz.question}</h1>
       </div>
 
-      {/* 문제 영역 */}
-      <div className='flex-1'>
-        <h1 className='ds-typ-heading-1 text-black-600 dark:text-white-500 mb-90'>{currentQuiz.question}</h1>
+      {/* 선택지 */}
+      <div className='flex flex-col gap-12'>
+        {options.map((option, index) => (
+          <QuizOption
+            key={`quiz-${currentQuestionIndex}-option-${option}`}
+            disabled={isAnswered}
+            index={index}
+            isSelected={selectedAnswer === index}
+            option={option}
+            onClick={handleOptionClick}
+          />
+        ))}
+      </div>
 
-        {/* 선택지 */}
-        <div className='space-y-16'>
-          {options.map((option, index) => (
-            <QuizOption
-              key={`quiz-${currentQuestionIndex}-option-${option}`}
-              disabled={isAnswered}
-              index={index}
-              isSelected={selectedAnswer === index}
-              option={option}
-              onClick={handleOptionClick}
-            />
-          ))}
+      {/* 결과 메시지 */}
+      {showResult && (
+        <div className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'>
+          {selectedAnswer !== null ? <p>다음 문제를 준비하세요</p> : <p>시간 초과입니다!</p>}
         </div>
-
-        {/* 결과 메시지 */}
-        {showResult && (
-          <div className='ds-text-normal pt-100 text-center text-4xl font-bold'>
-            {selectedAnswer !== null ? (
-              <p>답안이 제출되었습니다!</p>
-            ) : (
-              <p className='text-error-red-500'>시간 초과입니다!</p>
-            )}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }

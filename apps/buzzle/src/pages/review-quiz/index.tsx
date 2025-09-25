@@ -22,7 +22,7 @@ export default function ReviewQuizIntroPage() {
         title='다시 도전하는 오답 퀴즈'
       />
 
-      <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto py-20'>
         <Button className='w-full rounded-2xl' onClick={handleStartQuiz}>
           오답 퀴즈 도전하기
         </Button>
