@@ -170,7 +170,7 @@ export default function Button({
   const buttonClassNames = twJoin(
     'w-fit flex gap-8 flex-shrink-0 justify-center items-center leading-none cursor-pointer p-4',
     'disabled:cursor-not-allowed disabled:opacity-50',
-    'enabled:hover:opacity-85 enabled:active:brightness-80',
+    'enabled:hover:brightness-85 enabled:active:brightness-80',
     iconOnly ? VARIANT_STYLES.iconOnlySize[size] : VARIANT_STYLES.size[size],
     variant ? VARIANT_STYLES.variant[variant] : 'border-none',
     round ? VARIANT_STYLES.round[round] : '',
