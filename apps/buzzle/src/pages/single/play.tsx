@@ -160,49 +160,48 @@ export default function SinglePlayPage() {
   };
 
   return (
-    <div className='flex min-h-full flex-col'>
+    <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
       <TimeProgressBar key={questionKey} duration={10} isPaused={isTimerPaused} onTimerEnd={handleTimerEnd} />
-      {/* 상단 문제 번호 */}
-      <div className='pt-90'>
-        <span className='ds-typ-body-3 text-white-700'>
-          <span className='text-primary-500 font-bold'>Q.{currentQuestionIndex + 1}</span> / {state.quizzes.length}
-        </span>
+
+      <div className='flex flex-col gap-4'>
+        {/* 상단 문제 번호 */}
+        <p className='ds-typ-body-2 ds-text-caption'>
+          <span className='text-primary-500'>Q. {currentQuestionIndex + 1}</span> / {state.quizzes.length}
+        </p>
+
+        {/* 문제 영역 */}
+        <h1 className='ds-typ-heading-2 ds-text-strong'>{currentQuiz.question}</h1>
       </div>
 
-      {/* 문제 영역 */}
-      <div className='flex-1'>
-        <h1 className='ds-typ-heading-1 text-black-600 dark:text-white-500 mb-90'>{currentQuiz.question}</h1>
+      {/* 선택지 */}
+      <div className='flex flex-col gap-12'>
+        {options.map((option, index) => {
+          const correctIndex = parseInt(currentQuiz.answer) - 1;
+          return (
+            <QuizOption
+              key={`quiz-${currentQuestionIndex}-option-${option}`}
+              disabled={isAnswered}
+              index={index}
+              isCorrect={showResult && index === correctIndex}
+              isIncorrect={showResult && selectedAnswer === index && index !== correctIndex}
+              isSelected={!showResult && selectedAnswer === index}
+              option={option}
+              onClick={handleOptionClick}
+            />
+          );
+        })}
+      </div>
 
-        {/* 선택지 */}
-        <div className='space-y-16'>
-          {options.map((option, index) => {
-            const correctIndex = parseInt(currentQuiz.answer) - 1;
-            return (
-              <QuizOption
-                key={`quiz-${currentQuestionIndex}-option-${option}`}
-                disabled={isAnswered}
-                index={index}
-                isCorrect={showResult && index === correctIndex}
-                isIncorrect={showResult && selectedAnswer === index && index !== correctIndex}
-                isSelected={!showResult && selectedAnswer === index}
-                option={option}
-                onClick={handleOptionClick}
-              />
-            );
-          })}
+      {/* 결과 메시지 */}
+      {showResult && (
+        <div className='ds-typ-heading-3 ds-text-muted mt-auto flex w-full flex-col items-center gap-4 pb-120'>
+          {selectedAnswer !== null ? (
+            <p>{selectedAnswer === parseInt(currentQuiz.answer) - 1 ? '정답입니다' : '아쉽지만 오답이네요'}</p>
+          ) : (
+            <p>시간 초과입니다</p>
+          )}
         </div>
-
-        {/* 결과 메시지 */}
-        {showResult && (
-          <div className='ds-text-normal pt-100 text-center text-4xl font-bold'>
-            {selectedAnswer !== null ? (
-              <p>{selectedAnswer === parseInt(currentQuiz.answer) - 1 ? '정답입니다!' : '아쉽지만 오답이네요'}</p>
-            ) : (
-              <p className='text-error-red-500'>시간 초과입니다!</p>
-            )}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }

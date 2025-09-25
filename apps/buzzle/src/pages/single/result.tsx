@@ -28,20 +28,20 @@ export default function SingleResultPage() {
   return (
     <div className='relative flex min-h-0 flex-1 flex-col'>
       <div className='flex flex-1 flex-col items-center justify-center space-y-70 pb-100 text-center'>
-        <img alt='퀴즈 결과' className='w-280' src={SingleQuizResult} />
+        <img alt='퀴즈 결과' className='w-200' src={SingleQuizResult} />
 
-        <div className='flex flex-col gap-14'>
+        <div className='flex flex-col gap-16'>
           <h2 className='ds-typ-heading-2 text-black-600 dark:text-white-300'>
             <span>{total}</span>개 중 <span className='text-primary-500'>{correct}</span>개 맞혔어요!
           </h2>
-          <div className='ds-typ-body-2 text-white-800 dark:text-white-300'>
+          <div className='ds-typ-body-2 ds-text-caption flex flex-col items-center gap-4'>
             <p>멋져요! 좋은 기록을 세웠네요</p>
             <p>계속 도전해서 더 높은 점수를 만들어보세요</p>
           </div>
         </div>
       </div>
 
-      <div className='ds-layout-max-width ds-layout-padding fixed right-0 bottom-80 left-0 mx-auto'>
+      <div className='ds-layout-max-width ds-layout-padding ds-theme-bg-base-gradient fixed right-0 bottom-63 left-0 mx-auto py-20'>
         <Button className='w-full rounded-2xl' onClick={handleRetry}>
           다시 도전하기
         </Button>

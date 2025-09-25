@@ -66,11 +66,11 @@ export default function QuizLoadingPage() {
   }, [state, navigate]);
 
   return (
-    <section className='min-h-inherit flex flex-1 flex-col items-center justify-center gap-70 text-center'>
-      <img alt='Quiz Loading' className='w-266' src={QuizLoading} />
-      <div className='ds-typ-heading-2 text-black-600 dark:text-white-300 flex flex-col gap-8'>
-        <h2>열심히 퀴즈를 만들고 있어요.</h2>
-        <h2>잠시만 기다려주세요!</h2>
+    <section className='min-h-inherit flex flex-1 flex-col items-center justify-center gap-36 text-center'>
+      <img alt='Quiz Loading' className='size-200 object-contain' src={QuizLoading} />
+      <div className='flex flex-col gap-12'>
+        <h2 className='ds-typ-title-1'>열심히 퀴즈를 만들고 있어요</h2>
+        <h3 className='ds-typ-body-2 ds-text-caption'>곧 문제가 시작됩니다...</h3>
       </div>
     </section>
   );
