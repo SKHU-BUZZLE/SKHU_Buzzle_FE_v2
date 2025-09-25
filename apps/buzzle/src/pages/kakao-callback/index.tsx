@@ -5,8 +5,8 @@ export default function KakaoCallback() {
   const { error } = useKakaoOAuth();
 
   return (
-    <div className='flex h-screen w-screen items-center justify-center'>
-      <LoaderIcon className='size-100 animate-spin' color='#E5F3FF' />
+    <div className='flex flex-1 items-center justify-center'>
+      <LoaderIcon className='size-100 animate-spin' color='rgba(6, 86, 215, 0.15)' />
       {/* 접근성용 에러 텍스트만 숨겨서 유지 */}
       {error && <p className='sr-only'>로그인 실패: {String(error)}</p>}
     </div>
