@@ -5,11 +5,17 @@ import SingleQuiz from '@assets/images/single-quiz.webp';
 import { Button, CalendarIcon, LogoutIcon, MedalIcon, ProfileImage, UserStatusBadge } from '@buzzle/design';
 import { useLogout } from '@hooks/useLogout';
 import { useUserStore } from '@stores/user';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const { user } = useUserStore();
   const logout = useLogout();
+
+  useEffect(() => {
+    // 홈 화면에 들어오면 랭킹 쿼리만 invalidate
+    useUserStore.getState().invalidateRankingQueries();
+  }, []);
 
   return (
     <div className='flex min-h-0 flex-1 flex-col gap-16'>
@@ -44,39 +50,39 @@ export default function HomePage() {
           />
         </div>
 
-        <img className='absolute right-12 bottom-10 h-auto w-[28vw] max-w-200 min-w-120' src={BuzzleCharacter} />
+        <img className='absolute right-12 bottom-10 h-auto w-[28vw] max-w-160 min-w-120' src={BuzzleCharacter} />
       </div>
 
       <div className='grid gap-12 md:auto-rows-[minmax(0,1fr)] md:grid-cols-2'>
         <Link
-          className='bg-white-50 dark:bg-dm-black-600 rounded-2xl p-24 pb-12 hover:brightness-90 dark:hover:brightness-80'
+          className='bg-white-50 dark:bg-dm-black-600 rounded-2xl p-24 py-16 hover:brightness-90 dark:hover:brightness-80'
           to='/single'
         >
           <div className='flex flex-col gap-4'>
             <h2 className='text-primary-500 ds-typ-title-1'>싱글 퀴즈</h2>
             <p className='ds-text-caption ds-typ-body-3'>혼자서 도전해봐요</p>
           </div>
-          <img className='mt-16 ml-auto h-auto w-[10vw] max-w-100 min-w-80' src={SingleQuiz} />
+          <img className='mt-16 ml-auto h-auto w-[10vw] max-w-80 min-w-70' src={SingleQuiz} />
         </Link>
         <Link
-          className='bg-white-50 dark:bg-dm-black-600 rounded-2xl p-24 pb-12 hover:brightness-90 dark:hover:brightness-80'
+          className='bg-white-50 dark:bg-dm-black-600 rounded-2xl p-24 py-16 hover:brightness-90 dark:hover:brightness-80'
           to='/multi'
         >
           <div className='flex flex-col gap-4'>
             <h2 className='text-primary-500 ds-typ-title-2'>멀티 퀴즈</h2>
             <p className='ds-text-caption ds-typ-body-3'>친구랑 대결해봐요</p>
           </div>
-          <img className='mt-16 ml-auto h-auto w-[10vw] max-w-100 min-w-80' src={MultiQuiz} />
+          <img className='mt-16 ml-auto h-auto w-[10vw] max-w-80 min-w-70' src={MultiQuiz} />
         </Link>
         <Link
-          className='bg-white-50 dark:bg-dm-black-600 col-start-1 col-end-3 rounded-2xl p-24 pb-24 hover:brightness-90 dark:hover:brightness-80'
+          className='bg-white-50 dark:bg-dm-black-600 col-start-1 col-end-3 rounded-2xl p-24 py-16 hover:brightness-90 dark:hover:brightness-80'
           to='/review'
         >
           <div className='flex flex-col gap-4'>
             <h2 className='text-primary-500 ds-typ-title-2'>오답 노트</h2>
             <p className='ds-text-caption ds-typ-body-3'>틀린 문제로 다시 배워봐요</p>
           </div>
-          <img className='ab mt-2 ml-auto h-auto w-[10vw] max-w-100 min-w-80' src={NoteQuiz} />
+          <img className='ab mt-2 ml-auto h-auto w-[10vw] max-w-80 min-w-70' src={NoteQuiz} />
         </Link>
       </div>
     </div>
