@@ -83,12 +83,14 @@ axiosInstance.interceptors.response.use(
 
     // 원래 요청 객체 (재시도 시 필요)
     const originalRequest = (error.config ?? {}) as RetryableRequest;
+
     // HTTP 상태코드
     const status = error.response?.status;
 
+    // 401, 500 에러만 재발급 시도(401에러 대신 500에러로 넘어옴)
     const shouldTryRefresh = status === HttpStatusCode.Unauthorized || status === HttpStatusCode.InternalServerError;
 
-    // 401 이외 에러는 메시지 표준화 후 바로 반환
+    // 401, 500 이외 에러는 메시지 표준화 후 바로 반환
     if (!shouldTryRefresh) {
       return Promise.reject(new Error(getErrorMessage(error)));
     }
