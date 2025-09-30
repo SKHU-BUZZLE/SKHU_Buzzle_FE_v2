@@ -86,8 +86,10 @@ axiosInstance.interceptors.response.use(
     // HTTP 상태코드
     const status = error.response?.status;
 
+    const shouldTryRefresh = status === HttpStatusCode.Unauthorized || status === HttpStatusCode.InternalServerError;
+
     // 401 이외 에러는 메시지 표준화 후 바로 반환
-    if (status !== HttpStatusCode.Unauthorized) {
+    if (!shouldTryRefresh) {
       return Promise.reject(new Error(getErrorMessage(error)));
     }
 
