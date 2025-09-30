@@ -5,7 +5,31 @@ import type { WithAsChild } from '@components/Slot';
  * - 원본 ButtonHTMLAttributes에서 onClick만 제거(Omit) 후,
  *   HTMLElement 기반의 mouse 이벤트 시그니처로 재정의합니다.
  */
-type ButtonLikeAttributes = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
+type ButtonLikeAttributes = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  | 'onClick'
+  // Motion/Animation 관련 속성들 제외
+  | 'onDrag'
+  | 'onDragEnd'
+  | 'onDragStart'
+  | 'onDragCapture'
+  | 'onDragEndCapture'
+  | 'onDragStartCapture'
+  | 'onAnimationStart'
+  | 'onAnimationEnd'
+  | 'onAnimationIteration'
+  | 'onAnimationStartCapture'
+  | 'onAnimationEndCapture'
+  | 'onAnimationIterationCapture'
+  | 'onTransitionEnd'
+  | 'onTransitionStart'
+  | 'onTransitionRun'
+  | 'onTransitionCancel'
+  | 'onTransitionEndCapture'
+  | 'onTransitionStartCapture'
+  | 'onTransitionRunCapture'
+  | 'onTransitionCancelCapture'
+> & {
   onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
