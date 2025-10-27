@@ -37,7 +37,7 @@ export default function CreateRoomPage() {
           className='mt-auto w-full'
           onClick={async () => {
             try {
-              const res = await createMultiRoom({ maxPlayers, category, quizCount: 3 });
+              const res = await createMultiRoom({ maxPlayers, category, quizCount: 5 });
               const room = res.data.data;
               navigate(`/multi-room/${room.inviteCode}/lobby`, {
                 state: { entry: 'invite', room },
