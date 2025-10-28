@@ -113,6 +113,11 @@ export default function MultiRoomBody() {
           // console.log('📢 ============= 알립니다 ============= 📢', body);
 
           switch (body.type) {
+            case 'JOINED_ROOM': {
+              const initialRoomDetails: RoomDetails = body.data;
+              setRoomDetails(initialRoomDetails);
+              break;
+            }
             case 'PLAYER_JOINED': {
               setRoomDetails((prev) => {
                 if (!prev) return prev;
