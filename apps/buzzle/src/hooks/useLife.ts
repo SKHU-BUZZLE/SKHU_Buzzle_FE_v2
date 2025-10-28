@@ -2,6 +2,8 @@ import { submitSingleAnswer, type SubmitSingleAnswerBody } from '@apis/single';
 import { getMyLife } from '@apis/user';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { reviewQueryKeys } from './useReview';
+
 /** 라이프 쿼리 키 */
 export const LIFE_QUERY_KEY = ['user', 'life'] as const;
 
@@ -33,11 +35,15 @@ export const useSubmitSingleAnswer = () => {
     onSuccess: () => {
       // 답안 제출 성공 시 라이프 쿼리 무효화하여 최신 데이터 가져오기
       queryClient.invalidateQueries({ queryKey: LIFE_QUERY_KEY });
+      // 오답노트 관련 쿼리도 무효화하여 틀린 문제가 즉시 반영되도록 함
+      queryClient.invalidateQueries({ queryKey: reviewQueryKeys.all });
     },
     onError: (error) => {
       console.error('답안 제출 실패:', error);
       // 에러 발생 시에도 라이프 상태 확인을 위해 리패치
       queryClient.invalidateQueries({ queryKey: LIFE_QUERY_KEY });
+      // 에러 발생 시에도 오답노트 쿼리 무효화 (네트워크 에러 시 fallback 로직 때문에)
+      queryClient.invalidateQueries({ queryKey: reviewQueryKeys.all });
     },
   });
 };

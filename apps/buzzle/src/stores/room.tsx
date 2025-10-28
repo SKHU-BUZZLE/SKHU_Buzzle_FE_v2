@@ -23,13 +23,13 @@ export interface Player {
 
 /** 초기 방 정보 */
 export interface RoomDetails {
-  canStartGame: boolean;
+  canStartGame?: boolean;
   category: string;
   currentPlayers: number;
-  gameStarted: boolean;
-  hostName: string;
-  inviteCode: string;
-  maxPlayers: number;
+  gameStarted?: boolean;
+  hostName?: string;
+  inviteCode?: string;
+  maxPlayers?: number;
   players: Player[];
   quizCount: number;
   roomId: string;

@@ -162,7 +162,7 @@ export default function SinglePlayPage() {
   };
 
   return (
-    <div className='relative flex min-h-0 flex-1 flex-col gap-36'>
+    <div className='relative flex min-h-0 flex-1 flex-col gap-36 overflow-hidden'>
       <TimeProgressBar key={questionKey} duration={10} isPaused={isTimerPaused} onTimerEnd={handleTimerEnd} />
 
       <div className='flex flex-col gap-4'>
