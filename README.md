@@ -70,6 +70,8 @@ Buzzle은 주요 기능은 4가지입니다.
 
 ### 자체 디자인 시스템
 
+> [🎨 디자인 시스템 바로가기](https://docs.buzzle.online/docs)
+
 ![디자인 시스템](./apps/buzzle/src/assets/images/readme/16-design-system.gif)
 
 ### 배포 및 Preview 자동화
